@@ -41,22 +41,22 @@ public class ComputerService {
 		return computer;
 	}
 
-	public void createComputer(String name) {
+	public void createComputer(String name, String date) {
 		if (name.isEmpty()) {
 			log.warn("Name empty");
-			computerDAO.addComputer("computer");
+			computerDAO.addComputer("computer", date);
 			log.info("Computer ( with default name : computer )added");
 		} else {
-			computerDAO.addComputer(name.trim());
+			computerDAO.addComputer(name.trim(), date);
 			log.info("Computer " + name + " added");
 		}
 	}
 
-	public void updateComputer(int id, String newValue) {
+	public void updateComputer(int id, String newValue,String newIntroduced) {
 		try {
-			computerDAO.updateComputer(id, newValue);
+			computerDAO.updateComputer(id, newValue,newIntroduced);
 			log.info("Computer id :" + id + " modified");
-			
+
 		} catch (DAOException e) {
 			log.error("Can't update the computer-Reason:");
 			log.error(e.getMessage());

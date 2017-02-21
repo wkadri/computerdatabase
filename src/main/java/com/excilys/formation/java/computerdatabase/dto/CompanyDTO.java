@@ -2,12 +2,14 @@ package com.excilys.formation.java.computerdatabase.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author Walid KADRI
  */
+@XmlRootElement(name = "company")
 public class CompanyDTO implements Serializable {
 
-	private static final long serialVersionUID = 7651173031312306304L;
 	private String id;
 	private String name;
 
@@ -30,6 +32,7 @@ public class CompanyDTO implements Serializable {
 	public void setId(String string) {
 		this.id = string;
 	}
+
 	@Override
 	public String toString() {
 		return "Company ID: " + id + "  name: " + name;

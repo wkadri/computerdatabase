@@ -28,7 +28,7 @@ public class SQLEvaluator {
 	private void initConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String url = "jdbc:mysql://localhost:3306/computer-database-db";
+			String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
 			conn = DriverManager.getConnection(url, "admincdb", "qwerty1234");
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -74,7 +74,8 @@ public class SQLEvaluator {
 
 			} // else the statement return no results(like for update,delete and
 				// create statements)
-		} catch (SQLException ex) {ex.printStackTrace();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		} finally {
 			// it is a good idea to release
 			// resources in a finally{} block

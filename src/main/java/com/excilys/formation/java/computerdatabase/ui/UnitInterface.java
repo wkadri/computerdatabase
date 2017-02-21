@@ -20,8 +20,8 @@ public class UnitInterface {
 				System.out.println(" ");
 				System.out.println("Bienvenue sur Computer DataBase");
 				System.out.println("Tapez la commande de votre choix :");
-				System.out.println("1 . Recuperer l'ensemble des noms et id des ordinateurs dans la base de donnée");
-				System.out.println("2 . Recuperer l'ensemble des noms et id  compagnies ans la base de donnée");
+				System.out.println("1 . Recuperer l'ensemble des ordinateurs présent dans la base de donnée");
+				System.out.println("2 . Recuperer l'ensemble des compagnies de la base de donnée");
 				System.out.println("3 . Recuperer les informations d'un ordinateur en fonction de son id");
 				System.out.println("4 . Ajouter un ordinateur à la base de donnée (avec seulement le nom)");
 				System.out.println("5 . Modifier le nom d'un ordinateur");
@@ -45,17 +45,24 @@ public class UnitInterface {
 					System.out.println("Saisissez le nom du nouvel ordinateur");
 					sc.nextLine();
 					name = sc.nextLine();
-					computerService.createComputer(name);
+					System.out.println("Saisissez la date d'introduction(facultatif format yyyy-mm-dd)");
+					String date = sc.nextLine();
+					computerService.createComputer(name, date);
 					break;
 				}
 				case 5: {
+					String newIntroduced = "";
 					System.out.println("Saisissez l'id de l'ordinateur à modifier");
 					id = sc.nextInt();
 					System.out.println("Saisissez le nouveau nom de l'ordinateur");
 					while (name.isEmpty()) {
 						name = sc.nextLine();
 					}
-					computerService.updateComputer(id, name);
+					System.out.println("Saisissez la nouvelle date d'introduction");
+					while (newIntroduced.isEmpty()) {
+						newIntroduced = sc.nextLine();
+					}
+					computerService.updateComputer(id, name, newIntroduced);
 					break;
 				}
 				case 6:

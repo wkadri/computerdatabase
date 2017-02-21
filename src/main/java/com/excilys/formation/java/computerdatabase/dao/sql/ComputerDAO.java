@@ -1,9 +1,13 @@
 package com.excilys.formation.java.computerdatabase.dao.sql;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.util.DateUtil;
 
 /**
  * 
@@ -19,12 +23,16 @@ public class ComputerDAO implements IComputerDAO {
 
 	@Override
 	public ArrayList<ComputerDTO> getComputers() {
-		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator.evaluate("SELECT * FROM computer", "id", "name");
+		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator.evaluate("SELECT * FROM computer", "id", "name",
+				"introduced");
 		ArrayList<ComputerDTO> computers = new ArrayList<>();
 		for (ArrayList<String> list : stringComputers) {
 			ComputerDTO computer = new ComputerDTO();
 			computer.setId(list.get(0));
 			computer.setName(list.get(1));
+			if (list.get(2) != null) {
+				computer.setIntroduced(DateUtil.format(list.get(2)));
+			}
 			computers.add(computer);
 		}
 		return computers;
@@ -33,33 +41,31 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public ComputerDTO getByID(int id) throws DAOException {
 		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator
-				.evaluate("SELECT * FROM computer WHERE id=" + id + ";", "id", "name");
+				.evaluate("SELECT * FROM computer WHERE id=" + id + ";", "id", "name", "introduced");
 		if (stringComputers.isEmpty()) {
 			throw new DAOException("wrong id");
 		}
-		System.out.println(stringComputers.get(0).get(0) + "name  :" + stringComputers.get(0).get(1));
 		ComputerDTO computer = new ComputerDTO();
 		computer.setId(stringComputers.get(0).get(0));
 		computer.setName(stringComputers.get(0).get(1));
-
+		if (stringComputers.get(0).get(2) != null) {
+			computer.setIntroduced(DateUtil.format(stringComputers.get(0).get(2)));
+		} else {
+			computer.setIntroduced(null);
+		}
 		return computer;
 	}
 
 	@Override
-	public ComputerDTO getByName(int String) {
-		// TODO Auto-generated method stub
-		return null;
+	public void addComputer(String name, String introduced) {
+		sqlEvaluator.evaluate(
+				"INSERT INTO computer (name,introduced) values  ('" + name + "','" + introduced + "');");
 	}
 
 	@Override
-	public void addComputer(String name) {
-		sqlEvaluator.evaluate("INSERT INTO computer (name) values  ('" + name + "');");
-	}
-
-	@Override
-	public void updateComputer(int id, String newName) throws DAOException {
+	public void updateComputer(int id, String newName,String newIntroduced) throws DAOException {
 		getByID(id);// check if the id is not wrong
-		sqlEvaluator.evaluate("UPDATE computer SET name = '" + newName + "' WHERE id = +" + id + ";");
+		sqlEvaluator.evaluate("UPDATE computer SET name = '" + newName + "' introduced='"+newIntroduced+"' WHERE id = +" + id + ";");
 	}
 
 	@Override

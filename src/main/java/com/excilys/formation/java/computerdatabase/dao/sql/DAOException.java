@@ -1,5 +1,8 @@
 package com.excilys.formation.java.computerdatabase.dao.sql;
 
+/**
+ * Class that manage exceptions in DAOs
+ */
 public class DAOException extends Exception {
 	/**
 	 * Specific Message
