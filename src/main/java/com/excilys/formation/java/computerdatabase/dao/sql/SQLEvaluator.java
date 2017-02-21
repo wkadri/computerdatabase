@@ -74,11 +74,7 @@ public class SQLEvaluator {
 
 			} // else the statement return no results(like for update,delete and
 				// create statements)
-		} catch (
-
-		SQLException ex) {
-			// handle any errors
-			// ex.printStackTrace();
+		} catch (SQLException ex) {ex.printStackTrace();
 		} finally {
 			// it is a good idea to release
 			// resources in a finally{} block

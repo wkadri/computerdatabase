@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 
+/**
+ * 
+ * @author Walid KADRI
+ *
+ */
 public class CompanyDAO implements ICompanyDAO {
 	private SQLEvaluator sqlEvaluator;
 

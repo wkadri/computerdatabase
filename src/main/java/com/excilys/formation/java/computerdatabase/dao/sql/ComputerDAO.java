@@ -6,10 +6,11 @@ import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 /**
+ * 
  * @author Walid KADRI
  */
 public class ComputerDAO implements IComputerDAO {
-
+	/** SQL engine */
 	private SQLEvaluator sqlEvaluator;
 
 	public ComputerDAO() {
@@ -31,11 +32,12 @@ public class ComputerDAO implements IComputerDAO {
 
 	@Override
 	public ComputerDTO getByID(int id) throws DAOException {
-		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator.evaluate(
-				"SELECT * FROM computer WHERE id=" + id + ";", "id", "name", "introduced", "discontinued",
-				"company_id");
-		if (stringComputers.isEmpty())
-			{throw new DAOException("wrong id");}
+		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator
+				.evaluate("SELECT * FROM computer WHERE id=" + id + ";", "id", "name");
+		if (stringComputers.isEmpty()) {
+			throw new DAOException("wrong id");
+		}
+		System.out.println(stringComputers.get(0).get(0) + "name  :" + stringComputers.get(0).get(1));
 		ComputerDTO computer = new ComputerDTO();
 		computer.setId(stringComputers.get(0).get(0));
 		computer.setName(stringComputers.get(0).get(1));
@@ -56,15 +58,14 @@ public class ComputerDAO implements IComputerDAO {
 
 	@Override
 	public void updateComputer(int id, String newName) throws DAOException {
-		getByID(id);//check if the id is not wrong
-		sqlEvaluator.evaluate("UPDATE computer SET name = '" + newName + "'WHERE id = +" + id + ";");
+		getByID(id);// check if the id is not wrong
+		sqlEvaluator.evaluate("UPDATE computer SET name = '" + newName + "' WHERE id = +" + id + ";");
 	}
 
 	@Override
 	public void deleteComputer(int id) throws DAOException {
-		getByID(id);//check if the id is not wrong
+		getByID(id);// check if the id is not wrong
 		sqlEvaluator.evaluate("DELETE FROM computer " + "WHERE id = +" + id + ";");
 	}
-	
-	
+
 }

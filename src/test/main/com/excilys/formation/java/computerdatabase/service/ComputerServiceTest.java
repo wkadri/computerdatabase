@@ -6,7 +6,9 @@ import org.junit.Test;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
-public class ComputerSeviceTest {
+/**
+ * @author Walid Kadri*/
+public class ComputerServiceTest {
 
 	ComputerService service = new ComputerService();
 

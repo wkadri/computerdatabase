@@ -6,6 +6,11 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.CompanyDAO;
 
+/**
+ * 
+ * 
+ * @author Walid Kadri
+ */
 public class CompanyService {
 
 	private ICompanyDAO companyDAO;

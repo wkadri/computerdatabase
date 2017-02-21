@@ -1,12 +1,6 @@
 package com.excilys.formation.java.computerdatabase.dao.sql;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class DAOException extends Exception {
-
-	Logger log = LoggerFactory.getLogger(DAOException.class);
-
 	/**
 	 * Specific Message
 	 */
@@ -18,7 +12,7 @@ public class DAOException extends Exception {
 	}
 
 	/**
-	 * Get the message of the ExecutorException.
+	 * Get the message of the DAOException.
 	 * 
 	 * @return String, the specific message plus exception message
 	 */

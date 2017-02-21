@@ -14,7 +14,7 @@ import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
  * @author Walid KADRI
  */
 public class ComputerService {
-
+	/** Computer DAO */
 	private IComputerDAO computerDAO;
 	private Logger log;
 
@@ -35,8 +35,8 @@ public class ComputerService {
 			computer = computerDAO.getByID(id);
 			log.info(computer.toString());
 		} catch (DAOException e) {
-			log.warn("Computer not in the database - Reason:");
-			log.warn(e.getMessage());
+			log.error("Computer not in the database - Reason:");
+			log.error(e.getMessage());
 		}
 		return computer;
 	}
@@ -52,22 +52,23 @@ public class ComputerService {
 		}
 	}
 
-	public void updateComputer(int id, String newValue){
+	public void updateComputer(int id, String newValue) {
 		try {
 			computerDAO.updateComputer(id, newValue);
-		} catch (DAOException e) {
+			log.info("Computer id :" + id + " modified");
 			
-			log.warn("Can't update the computer-Reason:");
-			log.warn(e.getMessage());
+		} catch (DAOException e) {
+			log.error("Can't update the computer-Reason:");
+			log.error(e.getMessage());
 		}
 	}
 
-	public void deleteComputer(int i)  {
+	public void deleteComputer(int i) {
 		try {
 			computerDAO.deleteComputer(i);
 		} catch (DAOException e) {
-			log.warn("Can't delete the computer-Reason:");
-			log.warn(e.getMessage());
+			log.error("Can't delete the computer-Reason:");
+			log.error(e.getMessage());
 		}
 
 	}
