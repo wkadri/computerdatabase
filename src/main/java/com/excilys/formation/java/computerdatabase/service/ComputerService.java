@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.ComputerDAO;
+import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 /**
@@ -29,21 +30,45 @@ public class ComputerService {
 	}
 
 	public ComputerDTO describeComputerByID(int id) {
-		ComputerDTO computer = computerDAO.getByID(id);
-		log.info(computer.toString());
+		ComputerDTO computer = null;
+		try {
+			computer = computerDAO.getByID(id);
+			log.info(computer.toString());
+		} catch (DAOException e) {
+			log.warn("Computer not in the database - Reason:");
+			log.warn(e.getMessage());
+		}
 		return computer;
 	}
 
 	public void createComputer(String name) {
-		 computerDAO.addComputer(name);
+		if (name.isEmpty()) {
+			log.warn("Name empty");
+			computerDAO.addComputer("computer");
+			log.info("Computer ( with default name : computer )added");
+		} else {
+			computerDAO.addComputer(name.trim());
+			log.info("Computer " + name + " added");
+		}
 	}
 
-	public void updateComputer(int id, String newValue) {
-		computerDAO.updateComputer(id, newValue);
+	public void updateComputer(int id, String newValue){
+		try {
+			computerDAO.updateComputer(id, newValue);
+		} catch (DAOException e) {
+			
+			log.warn("Can't update the computer-Reason:");
+			log.warn(e.getMessage());
+		}
 	}
 
-	public void deleteComputer(int i) {
+	public void deleteComputer(int i)  {
+		try {
+			computerDAO.deleteComputer(i);
+		} catch (DAOException e) {
+			log.warn("Can't delete the computer-Reason:");
+			log.warn(e.getMessage());
+		}
 
-		computerDAO.deleteComputer(i);
 	}
 }

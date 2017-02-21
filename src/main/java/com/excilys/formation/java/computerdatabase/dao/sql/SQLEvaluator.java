@@ -104,9 +104,4 @@ public class SQLEvaluator {
 		}
 		return results;
 	}
-
-	public static void main(String[] args) {
-		(new SQLEvaluator()).initConnection();
-		(new SQLEvaluator()).evaluate("query", "id", "name", "introduced");
-	}
 }

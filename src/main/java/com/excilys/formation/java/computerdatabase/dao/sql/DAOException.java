@@ -1,16 +1,34 @@
 package com.excilys.formation.java.computerdatabase.dao.sql;
 
-public class DAOException extends RuntimeException {
-   
-    public DAOException( String message ) {
-        super( message );
-    }
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    public DAOException( String message, Throwable cause ) {
-        super( message, cause );
-    }
+public class DAOException extends Exception {
 
-    public DAOException( Throwable cause ) {
-        super( cause );
-    }
+	Logger log = LoggerFactory.getLogger(DAOException.class);
+
+	/**
+	 * Specific Message
+	 */
+	private String messEx;
+
+	public DAOException(final String string) {
+		super();
+		messEx = string;
+	}
+
+	/**
+	 * Get the message of the ExecutorException.
+	 * 
+	 * @return String, the specific message plus exception message
+	 */
+	@Override
+	public String getMessage() {
+		if (super.getMessage() != null) {
+			return messEx + "  because " + super.getMessage();
+		} else {
+			return messEx;
+		}
+
+	}
 }

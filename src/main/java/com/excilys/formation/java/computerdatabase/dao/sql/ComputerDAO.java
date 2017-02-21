@@ -30,10 +30,12 @@ public class ComputerDAO implements IComputerDAO {
 	}
 
 	@Override
-	public ComputerDTO getByID(int id) {
+	public ComputerDTO getByID(int id) throws DAOException {
 		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator.evaluate(
 				"SELECT * FROM computer WHERE id=" + id + ";", "id", "name", "introduced", "discontinued",
 				"company_id");
+		if (stringComputers.isEmpty())
+			{throw new DAOException("wrong id");}
 		ComputerDTO computer = new ComputerDTO();
 		computer.setId(stringComputers.get(0).get(0));
 		computer.setName(stringComputers.get(0).get(1));
@@ -49,19 +51,20 @@ public class ComputerDAO implements IComputerDAO {
 
 	@Override
 	public void addComputer(String name) {
-
 		sqlEvaluator.evaluate("INSERT INTO computer (name) values  ('" + name + "');");
 	}
 
 	@Override
-	public void updateComputer(int id, String newName) {
+	public void updateComputer(int id, String newName) throws DAOException {
+		getByID(id);//check if the id is not wrong
 		sqlEvaluator.evaluate("UPDATE computer SET name = '" + newName + "'WHERE id = +" + id + ";");
 	}
 
 	@Override
-	public void deleteComputer(int id) {
-
+	public void deleteComputer(int id) throws DAOException {
+		getByID(id);//check if the id is not wrong
 		sqlEvaluator.evaluate("DELETE FROM computer " + "WHERE id = +" + id + ";");
 	}
-
+	
+	
 }
