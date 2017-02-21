@@ -25,7 +25,7 @@ public class ComputerService {
 
 	public ArrayList<ComputerDTO> getComputers() {
 		ArrayList<ComputerDTO> computers = computerDAO.getComputers();
-		computers.forEach(t -> log.info(t.toString()));
+		//computers.forEach(t -> log.info(t.toString()));using pages
 		return computers;
 	}
 

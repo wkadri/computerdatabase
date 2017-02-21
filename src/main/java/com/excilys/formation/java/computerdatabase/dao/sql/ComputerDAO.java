@@ -1,9 +1,6 @@
 package com.excilys.formation.java.computerdatabase.dao.sql;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
@@ -16,6 +13,8 @@ import com.excilys.formation.java.computerdatabase.util.DateUtil;
 public class ComputerDAO implements IComputerDAO {
 	/** SQL engine */
 	private SQLEvaluator sqlEvaluator;
+	/** Max number of instances */
+	final static int LIMIT_INSTANCES_NUMBER = 500;
 
 	public ComputerDAO() {
 		sqlEvaluator = SQLEvaluator.getInstance();
@@ -23,8 +22,8 @@ public class ComputerDAO implements IComputerDAO {
 
 	@Override
 	public ArrayList<ComputerDTO> getComputers() {
-		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator.evaluate("SELECT * FROM computer", "id", "name",
-				"introduced");
+		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator
+				.evaluate("SELECT * FROM computer LIMIT" + LIMIT_INSTANCES_NUMBER, "id", "name", "introduced");
 		ArrayList<ComputerDTO> computers = new ArrayList<>();
 		for (ArrayList<String> list : stringComputers) {
 			ComputerDTO computer = new ComputerDTO();
@@ -58,14 +57,14 @@ public class ComputerDAO implements IComputerDAO {
 
 	@Override
 	public void addComputer(String name, String introduced) {
-		sqlEvaluator.evaluate(
-				"INSERT INTO computer (name,introduced) values  ('" + name + "','" + introduced + "');");
+		sqlEvaluator.evaluate("INSERT INTO computer (name,introduced) values  ('" + name + "','" + introduced + "');");
 	}
 
 	@Override
-	public void updateComputer(int id, String newName,String newIntroduced) throws DAOException {
+	public void updateComputer(int id, String newName, String newIntroduced) throws DAOException {
 		getByID(id);// check if the id is not wrong
-		sqlEvaluator.evaluate("UPDATE computer SET name = '" + newName + "' introduced='"+newIntroduced+"' WHERE id = +" + id + ";");
+		sqlEvaluator.evaluate("UPDATE computer SET name = '" + newName + "' introduced='" + newIntroduced
+				+ "' WHERE id = +" + id + ";");
 	}
 
 	@Override
