@@ -3,6 +3,7 @@ package com.excilys.formation.java.computerdatabase.dao.sql;
 import java.util.ArrayList;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
+import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.util.DateUtil;
 
@@ -29,8 +30,8 @@ public class ComputerDAO implements IComputerDAO {
 	 */
 	@Override
 	public ArrayList<ComputerDTO> getComputers() {
-		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator
-				.evaluate("SELECT * FROM computer LIMIT" + LIMIT_INSTANCES_NUMBER, "id", "name", "introduced");
+		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator.evaluate(
+				"SELECT * FROM computer LIMIT" + LIMIT_INSTANCES_NUMBER, "id", "name", "introduced", "company_id");
 		ArrayList<ComputerDTO> computers = new ArrayList<>();
 		for (ArrayList<String> list : stringComputers) {
 			ComputerDTO computer = new ComputerDTO();
@@ -38,6 +39,9 @@ public class ComputerDAO implements IComputerDAO {
 			computer.setName(list.get(1));
 			if (list.get(2) != null) {
 				computer.setIntroduced(DateUtil.format(list.get(2)));
+			}
+			if (list.get(3) != null) {
+				computer.setCompany(new Company());
 			}
 			computers.add(computer);
 		}

@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.excilys.formation.java.computerdatabase.domain.Company;
+
 /**
  * @author Walid KADRI
  */
@@ -15,6 +17,7 @@ public class ComputerDTO implements Serializable {
 	/** ID string */
 	private String id;
 	private Date introduced;
+	private Company company;
 
 	public ComputerDTO() {
 
@@ -50,5 +53,13 @@ public class ComputerDTO implements Serializable {
 
 	public void setIntroduced(Date introduced) {
 		this.introduced = introduced;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }
