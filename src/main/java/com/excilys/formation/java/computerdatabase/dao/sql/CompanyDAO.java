@@ -17,6 +17,9 @@ public class CompanyDAO implements ICompanyDAO {
 		sqlEvaluator = SQLEvaluator.getInstance();
 	}
 
+	/**
+	 * Return the list of companies
+	 */
 	@Override
 	public ArrayList<CompanyDTO> getCompanies() {
 		ArrayList<ArrayList<String>> stringCompanys = sqlEvaluator.evaluate("SELECT * FROM company", "id", "name");

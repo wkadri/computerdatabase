@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 
 /**
- * DAO interface for the companies
+ * Interface for the companies
  * 
  * Allow to get the exhausted list of company
  * 
  * @author Walid KADRI
  */
 public interface ICompanyDAO {
-
+	/** Methode to return the list of companies */
 	public ArrayList<CompanyDTO> getCompanies();
 }

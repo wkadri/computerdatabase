@@ -7,6 +7,7 @@ import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.util.DateUtil;
 
 /**
+ * Access to the table Computers
  * 
  * @author Walid KADRI
  */
@@ -16,10 +17,16 @@ public class ComputerDAO implements IComputerDAO {
 	/** Max number of instances */
 	final static int LIMIT_INSTANCES_NUMBER = 500;
 
+	/**
+	 * Constructor
+	 */
 	public ComputerDAO() {
 		sqlEvaluator = SQLEvaluator.getInstance();
 	}
 
+	/**
+	 * Return the complete list of computers
+	 */
 	@Override
 	public ArrayList<ComputerDTO> getComputers() {
 		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator
@@ -37,6 +44,12 @@ public class ComputerDAO implements IComputerDAO {
 		return computers;
 	}
 
+	/**
+	 * return the computer with the specified id
+	 * 
+	 * @param id
+	 *            of the computer
+	 */
 	@Override
 	public ComputerDTO getByID(int id) throws DAOException {
 		ArrayList<ArrayList<String>> stringComputers = sqlEvaluator
@@ -55,11 +68,29 @@ public class ComputerDAO implements IComputerDAO {
 		return computer;
 	}
 
+	/**
+	 * Add a computer to the table
+	 * 
+	 * @param String
+	 *            name of the computer
+	 * @param introduced
+	 *            string corresponding of the date introduced
+	 */
 	@Override
 	public void addComputer(String name, String introduced) {
 		sqlEvaluator.evaluate("INSERT INTO computer (name,introduced) values  ('" + name + "','" + introduced + "');");
 	}
 
+	/**
+	 * Update a computer
+	 * 
+	 * @param id
+	 *            of the computer
+	 * @param newName
+	 *            new name
+	 * @param newIntroduced
+	 *            new date introduced
+	 */
 	@Override
 	public void updateComputer(int id, String newName, String newIntroduced) throws DAOException {
 		getByID(id);// check if the id is not wrong
@@ -67,6 +98,12 @@ public class ComputerDAO implements IComputerDAO {
 				+ "' WHERE id = +" + id + ";");
 	}
 
+	/**
+	 * Delete a computer by ID
+	 * 
+	 * @param id
+	 *            of the computer
+	 */
 	@Override
 	public void deleteComputer(int id) throws DAOException {
 		getByID(id);// check if the id is not wrong

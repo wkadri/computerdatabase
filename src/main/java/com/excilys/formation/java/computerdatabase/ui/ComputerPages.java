@@ -5,22 +5,19 @@ import java.util.Scanner;
 
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
-public class PagesComputer {
+/**
+ * Computer Page
+ * 
+ * @author Walid KADRI
+ *
+ */
+public class ComputerPages {
 
 	private ArrayList<ArrayList<ComputerDTO>> ens = new ArrayList<>();
 	private int current_page;
-
-	public ArrayList<ArrayList<ComputerDTO>> getEns() {
-		return ens;
-	}
-
-	public void setEns(ArrayList<ArrayList<ComputerDTO>> ens) {
-		this.ens = ens;
-	}
-
 	private int pageMax = 10;
 
-	public PagesComputer(ArrayList<ComputerDTO> entree, Scanner sc) {
+	public ComputerPages(ArrayList<ComputerDTO> entree, Scanner sc) {
 		int i = 0;
 		while (i < entree.size() - 10) {
 			ArrayList<ComputerDTO> list = new ArrayList<>();
@@ -33,7 +30,7 @@ public class PagesComputer {
 		current_page = 0;
 		display();
 		String c = "";
-		do {
+		while (c != "q") {
 			System.out.println("Commande : n page suivante;p page précedente;q quitter");
 			c = sc.nextLine();
 			switch (c) {
@@ -44,10 +41,18 @@ public class PagesComputer {
 				nextPage();
 				break;
 			case "q":
-				break;
+				c = "q";
 			}
-			c = sc.nextLine();		
-		} while (c == "q");
+
+		}
+	}
+
+	public ArrayList<ArrayList<ComputerDTO>> getEns() {
+		return ens;
+	}
+
+	public void setEns(ArrayList<ArrayList<ComputerDTO>> ens) {
+		this.ens = ens;
 	}
 
 	void display() {

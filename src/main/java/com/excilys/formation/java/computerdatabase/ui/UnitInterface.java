@@ -31,7 +31,7 @@ public class UnitInterface {
 				String name = "";
 				switch (i) {
 				case 1:
-					PagesComputer pages = new PagesComputer(computerService.getComputers(), sc);
+					ComputerPages pages = new ComputerPages(computerService.getComputers(), sc);
 					break;
 				case 2:
 					companyService.getCompanies();
