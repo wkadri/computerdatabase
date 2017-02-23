@@ -7,24 +7,22 @@ import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.CompanyDAO;
 
 /**
- * 
- * 
  * @author Walid Kadri
  */
 public class CompanyService {
-
-	private ICompanyDAO companyDAO;
-	private Logger log = LoggerFactory.getLogger(CompanyService.class);
-
+	
+	private final ICompanyDAO companyDAO;
+	private final Logger log = LoggerFactory.getLogger(CompanyService.class);
+	
 	public CompanyService() {
 		companyDAO = new CompanyDAO();
 	}
-
+	
 	public void getCompanies() {
 		companyDAO.getCompanies().forEach(t -> log.info(t.toString()));
 	}
-
-	public static void main(String[] args) {
+	
+	public static void main(final String[] args) {
 		(new CompanyService()).getCompanies();
 	}
 }

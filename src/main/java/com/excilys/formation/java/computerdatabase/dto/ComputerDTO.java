@@ -1,65 +1,65 @@
 package com.excilys.formation.java.computerdatabase.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.excilys.formation.java.computerdatabase.domain.Company;
 
 /**
  * @author Walid KADRI
  */
 @XmlRootElement(name = "computer")
 public class ComputerDTO implements Serializable {
-
+	
 	private String name;
 	/** ID string */
-	private String id;
-	private Date introduced;
-	private Company company;
-
+	private long id;
+	private LocalDate introduced;
+	private CompanyDTO company;
+	
 	public ComputerDTO() {
-
+		
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
-	public void setName(String name) {
+	
+	public void setName(final String name) {
 		this.name = name;
 	}
-
-	public String getId() {
+	
+	public long getId() {
 		return id;
 	}
-
-	public void setId(String string) {
-		this.id = string;
+	
+	public void setId(final long id) {
+		this.id = id;
 	}
-
+	
 	@Override
 	public String toString() {
 		if (introduced != null) {
 			return "Computer ID: " + id + "  name: " + name + "  introduced the " + introduced;
+		} else if (company != null) {
+			return "Computer ID: " + id + "  name: " + name + " made by  " + company.getName();
 		} else
 			return "Computer ID: " + id + "  name: " + name;
 	}
-
-	public Date getIntroduced() {
+	
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
-
-	public void setIntroduced(Date introduced) {
+	
+	public void setIntroduced(final LocalDate introduced) {
 		this.introduced = introduced;
 	}
-
-	public Company getCompany() {
+	
+	public CompanyDTO getCompany() {
 		return company;
 	}
-
-	public void setCompany(Company company) {
-		this.company = company;
+	
+	public void setCompany(final CompanyDTO companyDTO) {
+		company = companyDTO;
 	}
 }

@@ -9,30 +9,34 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "company")
 public class CompanyDTO implements Serializable {
-
-	private String id;
+	
+	private long id;
 	private String name;
-
+	
 	public CompanyDTO() {
-
+		
 	}
-
+	
+	public CompanyDTO(final String name) {
+		this.name = name;
+	}
+	
 	public String getName() {
 		return name;
 	}
-
-	public void setName(String name) {
+	
+	public void setName(final String name) {
 		this.name = name;
 	}
-
-	public String getId() {
+	
+	public long getId() {
 		return id;
 	}
-
-	public void setId(String string) {
-		this.id = string;
+	
+	public void setId(final long id) {
+		this.id = id;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Company ID: " + id + "  name: " + name;

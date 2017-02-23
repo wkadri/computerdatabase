@@ -15,61 +15,66 @@ import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
  */
 public class ComputerService {
 	/** Computer DAO */
-	private IComputerDAO computerDAO;
-	private Logger log;
-
+	private final IComputerDAO computerDAO;
+	private final Logger log;
+	
 	public ComputerService() {
 		computerDAO = new ComputerDAO();
 		log = LoggerFactory.getLogger(ComputerService.class);
 	}
-
+	
 	public ArrayList<ComputerDTO> getComputers() {
-		ArrayList<ComputerDTO> computers = computerDAO.getComputers();
-		//computers.forEach(t -> log.info(t.toString()));using pages
+		final ArrayList<ComputerDTO> computers = computerDAO.getComputers();
+		//computers.forEach(t -> log.info(t.toString()));
 		return computers;
 	}
-
-	public ComputerDTO describeComputerByID(int id) {
+	
+	public ComputerDTO describeComputerByID(final int id) {
 		ComputerDTO computer = null;
 		try {
 			computer = computerDAO.getByID(id);
 			log.info(computer.toString());
-		} catch (DAOException e) {
+		} catch (final DAOException e) {
 			log.error("Computer not in the database - Reason:");
 			log.error(e.getMessage());
 		}
 		return computer;
 	}
-
-	public void createComputer(String name, String date) {
-		if (name.isEmpty()) {
-			log.warn("Name empty");
-			computerDAO.addComputer("computer", date);
-			log.info("Computer ( with default name : computer )added");
-		} else {
-			computerDAO.addComputer(name.trim(), date);
-			log.info("Computer " + name + " added");
+	
+	public void createComputer(final String name, final String... entries) {
+		try {
+			if (name.isEmpty()) {
+				log.warn("Name empty");
+				computerDAO.addComputer("computer", entries[0], entries[1]);
+				log.info("Computer ( with default name : computer )added");
+			} else {
+				System.out.println(name);
+				final ComputerDTO computer = computerDAO.addComputer(name.trim(), entries[0], entries[1]);
+				log.info("Computer " + computer + " added");
+			}
+		} catch (final DAOException e) {
+			log.error("Can't create the computer-Reason:");
+			log.error(e.getMessage());
 		}
 	}
-
-	public void updateComputer(int id, String newValue,String newIntroduced) {
+	
+	public void updateComputer(final int id, final String newValue, final String newIntroduced) {
 		try {
-			computerDAO.updateComputer(id, newValue,newIntroduced);
+			computerDAO.updateComputer(id, newValue, newIntroduced);
 			log.info("Computer id :" + id + " modified");
-
-		} catch (DAOException e) {
+		} catch (final DAOException e) {
 			log.error("Can't update the computer-Reason:");
 			log.error(e.getMessage());
 		}
 	}
-
-	public void deleteComputer(int i) {
+	
+	public void deleteComputer(final long l) {
 		try {
-			computerDAO.deleteComputer(i);
-		} catch (DAOException e) {
+			computerDAO.deleteComputer(l);
+		} catch (final DAOException e) {
 			log.error("Can't delete the computer-Reason:");
 			log.error(e.getMessage());
 		}
-
+		
 	}
 }

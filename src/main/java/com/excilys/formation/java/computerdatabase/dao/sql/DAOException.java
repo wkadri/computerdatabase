@@ -7,13 +7,13 @@ public class DAOException extends Exception {
 	/**
 	 * Specific Message
 	 */
-	private String messEx;
-
+	private final String messEx;
+	
 	public DAOException(final String string) {
 		super();
 		messEx = string;
 	}
-
+	
 	/**
 	 * Get the message of the DAOException.
 	 * 
@@ -26,6 +26,6 @@ public class DAOException extends Exception {
 		} else {
 			return messEx;
 		}
-
+		
 	}
 }
