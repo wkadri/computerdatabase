@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
@@ -34,9 +35,9 @@ public class ComputerDAO implements IComputerDAO {
 			conn = daoUtil.getConnection();
 			stmt = daoUtil.initialisationRequetePreparee(conn, "select * from computer  LEFT JOIN company on computer.company_id=company.id", false);
 			rs = stmt.executeQuery();
-			
+			rs.next();
 			while (rs.next()) {
-				computers.add(Mapper.mapComputerDTO(rs));
+			computers.add(Mapper.mapComputerDTO(rs));
 			}
 		} catch (final SQLException e) {
 			e.printStackTrace();
@@ -52,7 +53,7 @@ public class ComputerDAO implements IComputerDAO {
 	 *            of the computer
 	 */
 	@Override
-	public ComputerDTO getByID(final long id) throws DAOException {
+	public Optional<ComputerDTO> getByID(final long id) {
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -63,9 +64,7 @@ public class ComputerDAO implements IComputerDAO {
 			stmt = daoUtil.initialisationRequetePreparee(conn, "SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id WHERE computer.id= ? ;", false);
 			stmt.setLong(1, id);
 			rs = stmt.executeQuery();
-			if (rs == null) {
-				throw new DAOException("wrong id");
-			}
+			
 			while (rs.next()) {
 				computer = Mapper.mapComputerDTO(rs);
 			}
@@ -75,7 +74,7 @@ public class ComputerDAO implements IComputerDAO {
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
-		return computer;
+		return Optional.of(computer);
 	}
 	
 	/**
@@ -88,7 +87,7 @@ public class ComputerDAO implements IComputerDAO {
 	 * @throws DAOException
 	 */
 	@Override
-	public ComputerDTO addComputer(final String name, final String... entries) throws DAOException {
+	public Optional<ComputerDTO> addComputer(final String name, final String... entries) throws DAOException {
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -109,7 +108,7 @@ public class ComputerDAO implements IComputerDAO {
 			e.printStackTrace();
 		}
 		
-		return computer;
+		return Optional.of(computer);
 	}
 	
 	/**

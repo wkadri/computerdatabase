@@ -25,18 +25,22 @@ public class ComputerService {
 	
 	public ArrayList<ComputerDTO> getComputers() {
 		final ArrayList<ComputerDTO> computers = computerDAO.getComputers();
-		//computers.forEach(t -> log.info(t.toString()));
+		computers.forEach(t -> log.info(t.toString()));
 		return computers;
 	}
 	
 	public ComputerDTO describeComputerByID(final int id) {
 		ComputerDTO computer = null;
 		try {
-			computer = computerDAO.getByID(id);
-			log.info(computer.toString());
-		} catch (final DAOException e) {
-			log.error("Computer not in the database - Reason:");
-			log.error(e.getMessage());
+			if (computerDAO.getByID(id).isPresent()) {
+				computer = (computerDAO.getByID(id)).get();
+				log.info(computer.toString());
+			} else {
+				log.error("Computer not in the database - Reason:");
+			}
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return computer;
 	}
@@ -49,7 +53,7 @@ public class ComputerService {
 				log.info("Computer ( with default name : computer )added");
 			} else {
 				System.out.println(name);
-				final ComputerDTO computer = computerDAO.addComputer(name.trim(), entries[0], entries[1]);
+				final ComputerDTO computer = (computerDAO.addComputer(name.trim(), entries[0], entries[1])).get();
 				log.info("Computer " + computer + " added");
 			}
 		} catch (final DAOException e) {

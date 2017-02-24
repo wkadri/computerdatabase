@@ -1,7 +1,8 @@
 package com.excilys.formation.java.computerdatabase.dao.sql;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public enum DAOUtil {
 	 * Instantiates a new DAO util.
 	 */
 	
-	private static final String FILE_PROPERTIES = "/resources/dao";
+	private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/dao.properties";
 	private static final String PROPERTY_URL = "url";
 	private static final String PROPERTY_DRIVER = "driver";
 	private static final String PROPERTY_USERNAME = "username";
@@ -32,19 +33,12 @@ public enum DAOUtil {
 	private String driver = "com.mysql.jdbc.Driver";
 	private String password = "qwerty1234";
 	
-	//TODO property file
 	private void setProperties() throws DAOException {
 		try {
 			final Properties properties = new Properties();
-			final ClassLoader classLoader = DAOUtil.class.getClassLoader();
-			System.out.println(classLoader.getResource(FILE_PROPERTIES));
-			InputStream fichierProperties = classLoader.getResource(FILE_PROPERTIES).openStream();
-			
-			if (fichierProperties == null) {
-				throw new DAOException("the properties file " + FILE_PROPERTIES + " not found.");
-			}
-			
-			properties.load(fichierProperties);
+			File file = new File(FILE_PROPERTIES);
+			FileInputStream fileStream = new FileInputStream(file);
+			properties.load(fileStream);
 			url = properties.getProperty(PROPERTY_URL);
 			driver = properties.getProperty(PROPERTY_DRIVER);
 			username = properties.getProperty(PROPERTY_USERNAME);
@@ -54,8 +48,10 @@ public enum DAOUtil {
 		}
 	}
 	
-	public void initConection() throws DAOException {
+	public void initConnection() throws DAOException {
+		
 		try {
+			setProperties();
 			Class.forName(driver);
 		} catch (final ClassNotFoundException e) {
 			throw new DAOException("The driver not find in the classpath.");
@@ -64,20 +60,18 @@ public enum DAOUtil {
 	
 	public Connection getConnection() throws SQLException {
 		try {
-			initConection();
+			initConnection();
 		} catch (final DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.getMessage();
 		}
 		return DriverManager.getConnection(url, username, password);
 	}
 	
 	/**
-	 * Fermeture silencieuse.
-	 *
+	 * Close
+	 * 
 	 * @param resultSet the result set
 	 */
-	/* Fermeture silencieuse du resultset */
 	public void close(final ResultSet resultSet) {
 		if (resultSet != null) {
 			try {
@@ -89,11 +83,10 @@ public enum DAOUtil {
 	}
 	
 	/**
-	 * Fermeture silencieuse.
-	 *
+	 * Close
+	 * 
 	 * @param statement the statement
 	 */
-	/* Fermeture silencieuse du statement */
 	public void close(final Statement statement) {
 		if (statement != null) {
 			try {
@@ -105,11 +98,10 @@ public enum DAOUtil {
 	}
 	
 	/**
-	 * Fermeture silencieuse.
-	 *
+	 * Close the connection
+	 * 
 	 * @param connexion the connexion
 	 */
-	/* Fermeture silencieuse de la connexion */
 	public void close(final Connection connexion) {
 		if (connexion != null) {
 			try {
@@ -121,25 +113,25 @@ public enum DAOUtil {
 	}
 	
 	/**
-	 * Fermetures silencieuses.
-	 *
-	 * @param statement the statement
-	 * @param connexion the connexion
+	 * Close the statement and the connexion
+	 * 
+	 * @param statement
+	 * @param connexion
 	 */
-	/* Fermetures silencieuses du statement et de la connexion */
+	
 	public void close(final Statement statement, final Connection connexion) {
 		close(statement);
 		close(connexion);
 	}
 	
 	/**
-	 * Fermetures silencieuses.
+	 * Close
 	 *
 	 * @param resultSet the result set
 	 * @param statement the statement
 	 * @param connexion the connexion
 	 */
-	/* Fermetures silencieuses du resultset, du statement et de la connexion */
+	
 	public void close(final ResultSet resultSet, final Statement statement, final Connection connexion) {
 		close(resultSet);
 		close(statement);
@@ -156,10 +148,7 @@ public enum DAOUtil {
 	 * @return the prepared statement
 	 * @throws SQLException the SQL exception
 	 */
-	/*
-	 * Initialise la requête préparée basée sur la connexion passée en argument,
-	 * avec la requête SQL et les objets donnés.
-	 */
+	
 	public PreparedStatement initialisationRequetePreparee(final Connection connexion, final String sql, final boolean returnGeneratedKeys, final Object... objets) throws SQLException {
 		final PreparedStatement preparedStatement = connexion.prepareStatement(sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
 		for (int i = 0; i < objets.length; i++) {
