@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.dao;
+package com.excilys.formation.java.computerdatabase.service;
 
 import org.junit.Test;
 
