@@ -56,7 +56,7 @@ public class ComputerDAO implements IComputerDAO {
    * @return the by id
    */
   @Override
-  public Optional<ComputerDTO> getById(final long id) {
+  public Optional<ComputerDTO> getById( long id) {
     
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -67,12 +67,14 @@ public class ComputerDAO implements IComputerDAO {
       stmt = daoUtil.initialisationRequetePreparee(conn, "SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id WHERE computer.id= ? ;", false);
       stmt.setLong(1, id);
       rs = stmt.executeQuery();
-      
-      while (rs.next()) {
+      System.out.println(rs.first());
+      rs.beforeFirst();
+      if(rs.next())
+      {
         computer = Mapper.mapComputerDTO(rs);
-      }
-      
-      daoUtil.close(rs, stmt, conn);
+        System.out.println("OUI" + computer+rs);
+      }else{System.out.println("EROOR");}
+     
       
     } catch (final SQLException e) {
       e.printStackTrace();
@@ -89,8 +91,7 @@ public class ComputerDAO implements IComputerDAO {
    * @throws DAOException if wrong id
    */
   @Override
-  public Optional<ComputerDTO> addComputer(final String name, 
-      final String... entries) throws DAOException {
+  public Optional<ComputerDTO> addComputer(final String name, final String... entries) throws DAOException {
     
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -131,9 +132,10 @@ public class ComputerDAO implements IComputerDAO {
     final ResultSet rs = null;
     try {
       conn = daoUtil.getConnection();
-      stmt = daoUtil.initialisationRequetePreparee(conn, "UPDATE computer SET name = ? WHERE id = ?;", false);
-      stmt.setLong(2, id);
+      stmt = daoUtil.initialisationRequetePreparee(conn, "UPDATE computer SET name = ?, introduced= ? WHERE id = ?;", false);  
       stmt.setString(1, newName);
+      stmt.setString(2, newIntroduced);
+      stmt.setLong(3, id);
       stmt.executeUpdate();
       
     } catch (final SQLException e) {
@@ -155,7 +157,7 @@ public class ComputerDAO implements IComputerDAO {
     PreparedStatement stmt = null;
     try {
       conn = daoUtil.getConnection();
-      stmt = daoUtil.initialisationRequetePreparee(conn, "DELETE FROM computer " + "WHERE id = ?;", false);
+      stmt = daoUtil.initialisationRequetePreparee(conn, "DELETE FROM computer WHERE id = ?;", false);
       stmt.setLong(1, id);
       stmt.executeUpdate();
     } catch (final SQLException e) {

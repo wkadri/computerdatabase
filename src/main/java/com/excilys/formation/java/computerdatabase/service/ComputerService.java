@@ -33,8 +33,11 @@ public class ComputerService {
     ComputerDTO computer = null;
     try {
       if (computerDAO.getById(id).isPresent()) {
+        System.out.println("11"+computer);
         computer = (computerDAO.getById(id)).get();
+        System.out.println("22"+computer);
         log.info(computer.toString());
+        
       } else {
         log.error("Computer not in the database - Reason:");
       }
@@ -42,6 +45,7 @@ public class ComputerService {
       
       e.printStackTrace();
     }
+    System.out.println(computer);
     return computer;
   }
   
