@@ -196,7 +196,7 @@
     <property name="checkFormat" value="JavadocMethod"/>
   </module>
   <module name="SuppressionFilter">
-    <property name="file" value="suppressions.xml"/>
+    <property name="file" value="/home/excilys/Documents/Cdb/computerdatabase/config/checkstyle/suppressions.xml"/>
   </module>
 
 

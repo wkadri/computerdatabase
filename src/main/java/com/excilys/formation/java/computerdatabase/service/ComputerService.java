@@ -10,45 +10,62 @@ import com.excilys.formation.java.computerdatabase.dao.sql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ComputerService.
  * @author Walid KADRI
  */
 public class ComputerService {
-  /** Computer DAO */
+  /** Computer DAO.*/
   private final IComputerDAO computerDAO;
+  /** The log. */
   private final Logger log;
-  
+
+  /**
+   * Instantiates a new computer service.
+   */
   public ComputerService() {
     computerDAO = new ComputerDAO();
     log = LoggerFactory.getLogger(ComputerService.class);
   }
-  
+
+  /**
+   * Gets the computers.
+   * @return the computers
+   */
   public ArrayList<ComputerDTO> getComputers() {
     final ArrayList<ComputerDTO> computers = computerDAO.getComputers();
     //computers.forEach(t -> log.info(t.toString()));
     return computers;
   }
-  
+
+  /**
+   * Describe computer by ID.
+   * @param id the id
+   * @return the computer DTO
+   */
   public ComputerDTO describeComputerByID(final int id) {
     ComputerDTO computer = null;
     try {
       if (computerDAO.getById(id).isPresent()) {
-        System.out.println("11"+computer);
         computer = (computerDAO.getById(id)).get();
-        System.out.println("22"+computer);
         log.info(computer.toString());
-        
       } else {
         log.error("Computer not in the database - Reason:");
       }
     } catch (final DAOException e) {
-      
+
       e.printStackTrace();
     }
     System.out.println(computer);
     return computer;
   }
-  
+
+  /**
+   * Creates the computer.
+   * @param name the name
+   * @param entries the entries
+   */
   public void createComputer(final String name, final String... entries) {
     try {
       if (name.isEmpty()) {
@@ -56,8 +73,7 @@ public class ComputerService {
         computerDAO.addComputer("computer", entries[0], entries[1]);
         log.info("Computer ( with default name : computer )added");
       } else {
-        System.out.println(name);
-        final ComputerDTO computer = (computerDAO.addComputer(name.trim(), entries[0], entries[1])).get();
+        final ComputerDTO computer = (computerDAO.addComputer(name.trim(), entries)).get();
         log.info("Computer " + computer + " added");
       }
     } catch (final DAOException e) {
@@ -65,7 +81,13 @@ public class ComputerService {
       log.error(e.getMessage());
     }
   }
-  
+
+  /**
+   * Update computer.
+   * @param id the id
+   * @param newValue the new value
+   * @param newIntroduced the new introduced
+   */
   public void updateComputer(final int id, final String newValue, final String newIntroduced) {
     try {
       computerDAO.updateComputer(id, newValue, newIntroduced);
@@ -75,7 +97,11 @@ public class ComputerService {
       log.error(e.getMessage());
     }
   }
-  
+
+  /**
+   * Delete computer.
+   * @param l the l
+   */
   public void deleteComputer(final long l) {
     try {
       computerDAO.deleteComputer(l);
@@ -83,6 +109,6 @@ public class ComputerService {
       log.error("Can't delete the computer-Reason:");
       log.error(e.getMessage());
     }
-    
+
   }
 }

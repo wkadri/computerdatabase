@@ -5,10 +5,8 @@ import java.util.Scanner;
 
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
-
 /**
  * Computer Page.
- *
  * @author Walid KADRI
  */
 public class ComputerPages {
@@ -18,10 +16,9 @@ public class ComputerPages {
   private int currentPage;
   /** The page max. */
   private final int pageMax = 10;
-  
+
   /**
    * Instantiates a new computer pages.
-   *
    * @param entree the entree
    * @param sc the sc
    */
@@ -56,42 +53,39 @@ public class ComputerPages {
       }
     }
   }
-  
+
   /**
    * Gets the ens.
-   *
    * @return the ens
    */
   public ArrayList<ArrayList<ComputerDTO>> getEns() {
     return ens;
   }
-  
+
   /**
    * Sets the ens.
-   *
    * @param ens the new ens
    */
   public void setEns(final ArrayList<ArrayList<ComputerDTO>> ens) {
     this.ens = ens;
   }
-  
+
   /**
    * Display.
    */
   void display() {
     ens.get(currentPage).forEach(t -> System.out.println(t.toString()));
   }
-  
+
   /**
    * Display page.
-   *
    * @param num the num
    */
   public void displayPage(final int num) {
     currentPage = num;
     display();
   }
-  
+
   /**
    * Next page.
    */
@@ -99,7 +93,7 @@ public class ComputerPages {
     currentPage++;
     display();
   }
-  
+
   /**
    * Previous page.
    */

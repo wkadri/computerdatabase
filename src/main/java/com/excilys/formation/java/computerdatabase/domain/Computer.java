@@ -5,5 +5,5 @@ package com.excilys.formation.java.computerdatabase.domain;
  * Class where the intelligence'll be implemented.
  */
 public class Computer {
-  
+
 }

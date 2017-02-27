@@ -11,13 +11,12 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
  * The Class UnitInterface.
  */
 public class UnitInterface {
-  
+
   /**
    * The main method.
-   *
    * @param args the arguments
    * @throws InterruptedException the interrupted exception
-   * @throws DAOException
+   * @throws DAOException exception
    */
   public static void main(final String[] args) throws InterruptedException, DAOException {
     final CompanyService companyService = new CompanyService();
@@ -49,7 +48,7 @@ public class UnitInterface {
             id = sc.nextInt();
             computerService.describeComputerByID(id);
             break;
-          case 4: {
+          case 4:
             System.out.println("Saisissez le nom du nouvel ordinateur");
             sc.nextLine();
             name = sc.nextLine();
@@ -57,8 +56,7 @@ public class UnitInterface {
             final String date = sc.nextLine();
             computerService.createComputer(name, date);
             break;
-          }
-          case 5: {
+          case 5:
             String newIntroduced = "";
             System.out.println("Saisissez l'id de l'ordinateur à modifier");
             id = sc.nextInt();
@@ -72,7 +70,6 @@ public class UnitInterface {
             }
             computerService.updateComputer(id, name, newIntroduced);
             break;
-          }
           case 6:
             System.out.println("Saisissez l'id de l'ordinateur à supprimer");
             id = sc.nextInt();

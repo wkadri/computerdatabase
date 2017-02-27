@@ -15,15 +15,18 @@ import com.excilys.formation.java.computerdatabase.mapper.Mapper;
  * The Class CompanyDAO.
  */
 public class CompanyDAO implements ICompanyDAO {
-  
+
   /** The sql. */
   private final String sql = "Select * from company";
-  
+
   /** The dao util. */
   private final DAOUtil daoUtil = DAOUtil.INSTANCE;
-  
-  @Override
-  public ArrayList<CompanyDTO> getCompanies() {
+
+  /**
+   * Return companies.
+   * @return ArrayList<CompanyDTO> the list of companies.
+   */
+  @Override public ArrayList<CompanyDTO> getCompanies() {
     Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
@@ -38,8 +41,8 @@ public class CompanyDAO implements ICompanyDAO {
     } catch (final SQLException e) {
       e.printStackTrace();
     }
-    
+
     return companies;
   }
-  
+
 }
