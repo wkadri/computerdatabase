@@ -56,6 +56,40 @@
 			<artifactId>powermock-module-junit4</artifactId>
 			<version>1.6.6</version>
 		</dependency>
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>maven-taglib</groupId>
+			<artifactId>maven-taglib-plugin</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.2.0</version>
+		</dependency>
 
 	</dependencies>
 	<build>
@@ -96,6 +130,10 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -126,14 +164,12 @@
 				</reportSets>
 			</plugin>
 
-			<!--&lt;!&ndash; Permet d'ajouter des liens vers le code source dans le 
-				rapport -->
+			<!-- Permet d'ajouter des liens vers le code source dans le rapport -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>${maven-jxr-plugin.version}</version>
 			</plugin>
-			<!--&ndash;&gt; -->
 
 			<!-- Ajout de la javadoc -->
 			<plugin>
