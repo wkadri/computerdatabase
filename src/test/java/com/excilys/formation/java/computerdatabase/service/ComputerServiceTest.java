@@ -1,21 +1,36 @@
 package com.excilys.formation.java.computerdatabase.service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.excilys.formation.java.computerdatabase.dao.sql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ComputerServiceTest.
  */
-public class ComputerServiceTest {
+@RunWith(PowerMockRunner.class) @PrepareForTest({ ComputerDAO.class }) public class ComputerServiceTest {
   /** The service. */
   private final ComputerService service = new ComputerService();
+  ComputerDAO computerDAO = Mockito.mock(ComputerDAO.class);
+
+  /**
+   * Instantiate the mock.
+   * @throws DAOException exception
+   */
+  @Before public void mockInit() throws DAOException {
+    Mockito.when(computerDAO.addComputer("ordi", "", "")).thenReturn(Optional.of(new ComputerDTO()));
+  }
 
   /**
    * Creates the test.

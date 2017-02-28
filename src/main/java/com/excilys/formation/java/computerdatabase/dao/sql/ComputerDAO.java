@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
-import com.excilys.formation.java.computerdatabase.mapper.Mapper;
+import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
 /**
  * Access to the table Computers.
@@ -36,7 +36,7 @@ public class ComputerDAO implements IComputerDAO {
       rs = stmt.executeQuery();
       rs.next();
       while (rs.next()) {
-        computers.add(Mapper.mapComputerDTO(rs));
+        computers.add(MapperDAO.mapComputerDTO(rs));
       }
     } catch (final SQLException e) {
       e.printStackTrace();
@@ -63,7 +63,7 @@ public class ComputerDAO implements IComputerDAO {
       rs = stmt.executeQuery();
       rs.beforeFirst();
       if (rs.next()) {
-        computer = Mapper.mapComputerDTO(rs);
+        computer = MapperDAO.mapComputerDTO(rs);
         computer.toString();
       } else {
         System.out.println("Error: Wrong ID");

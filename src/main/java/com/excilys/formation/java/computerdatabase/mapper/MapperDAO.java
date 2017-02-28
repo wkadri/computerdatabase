@@ -9,9 +9,9 @@ import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Mapper.
+ * The Class MapperDAO.
  */
-public class Mapper {
+public class MapperDAO {
 
   /**
    * Map computer DTO.

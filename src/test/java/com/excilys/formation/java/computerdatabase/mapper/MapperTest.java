@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOUtil;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MapperTest.
  * @author Kadri Walid
@@ -63,7 +62,7 @@ public class MapperTest {
 
     Mockito.when(resultSet.getLong(COLUMN_COMPANY_ID)).thenReturn((long) 15);
     Mockito.when(resultSet.getString(COLUMN_COMPANY_NAME)).thenReturn("Name Company");
-    ComputerDTO computer = Mapper.mapComputerDTO(resultSet);
+    final ComputerDTO computer = MapperDAO.mapComputerDTO(resultSet);
     if (computer != null) {
       Assert.assertEquals(computer.getId(), 2);
       Assert.assertEquals(computer.getName(), "Name");

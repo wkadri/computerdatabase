@@ -15,8 +15,9 @@ import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
  * The Class ComputerService.
  * @author Walid KADRI
  */
+
 public class ComputerService {
-  /** Computer DAO.*/
+  /** Computer DAO. */
   private final IComputerDAO computerDAO;
   /** The log. */
   private final Logger log;

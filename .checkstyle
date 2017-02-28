@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
-  <local-check-config name="Local" location="/home/excilys/Documents/Cdb/computerdatabase/checkstyle.xml" type="external" description="">
-    <additional-data name="protect-config-file" value="false"/>
-  </local-check-config>
-  <local-check-config name="Local2" location="internal_config_1488204084365.xml" type="internal" description=""/>
   <local-check-config name="LocalCheckStyle" location="/home/excilys/Documents/Cdb/computerdatabase/config/checkstyle/checkstyle.xml" type="external" description="">
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>

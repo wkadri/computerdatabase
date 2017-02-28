@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
-import com.excilys.formation.java.computerdatabase.mapper.Mapper;
+import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -36,7 +36,7 @@ public class CompanyDAO implements ICompanyDAO {
       stmt = daoUtil.initialisationRequetePreparee(conn, sql, false);
       rs = stmt.executeQuery();
       while (rs.next()) {
-        companies.add(Mapper.mapCompanyDTO(rs));
+        companies.add(MapperDAO.mapCompanyDTO(rs));
       }
     } catch (final SQLException e) {
       e.printStackTrace();
