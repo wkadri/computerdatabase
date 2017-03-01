@@ -19,7 +19,7 @@ import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 /**
  * The Class ComputerServiceTest.
  */
-@RunWith(PowerMockRunner.class) @PrepareForTest({ ComputerDAO.class }) public class ComputerServiceTest {
+public class ComputerServiceTest {
   /** The service. */
   private final ComputerService service = new ComputerService();
   ComputerDAO computerDAO = Mockito.mock(ComputerDAO.class);

@@ -1,10 +1,13 @@
 package com.excilys.formation.java.computerdatabase.service;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.CompanyDAO;
+import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,8 +32,9 @@ public class CompanyService {
   /**
    * Gets the companies.
    */
-  public void getCompanies() {
-    companyDAO.getCompanies().forEach(t -> log.info(t.toString()));
+  public ArrayList<CompanyDTO> getCompanies() {
+   // companyDAO.getCompanies().forEach(t -> log.info(t.toString()));
+    return companyDAO.getCompanies();
   }
 
   /**

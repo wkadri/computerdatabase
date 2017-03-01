@@ -39,10 +39,24 @@ public class ComputerDAO implements IComputerDAO {
         computers.add(MapperDAO.mapComputerDTO(rs));
       }
     } catch (final SQLException e) {
+      rollbackConnection(conn);
       e.printStackTrace();
     }
+
     daoUtil.close(rs, stmt, conn);
     return computers;
+  }
+
+  /**
+   * Rollback the connection.
+   * @param conn the conn
+   */
+  private void rollbackConnection(Connection conn) {
+    try {
+      conn.rollback();
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    }
   }
 
   /**
@@ -69,6 +83,7 @@ public class ComputerDAO implements IComputerDAO {
         System.out.println("Error: Wrong ID");
       }
     } catch (final SQLException e) {
+      rollbackConnection(conn);
       e.printStackTrace();
     }
     return Optional.of(computer);
@@ -108,6 +123,7 @@ public class ComputerDAO implements IComputerDAO {
         computer.setName(name);
       }
     } catch (final SQLException e) {
+      rollbackConnection(conn);
       e.printStackTrace();
     }
 
@@ -122,7 +138,7 @@ public class ComputerDAO implements IComputerDAO {
    * @throws DAOException the DAO exception
    */
   //TODO add company to update
-  @Override public void updateComputer(final int id, final String newName, final String newIntroduced) throws DAOException {
+  @Override public void updateComputer(final long id, final String newName, final String newIntroduced) throws DAOException {
     getById(id); // check if the id is not wrong
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -137,6 +153,7 @@ public class ComputerDAO implements IComputerDAO {
       stmt.executeUpdate();
 
     } catch (final SQLException e) {
+      rollbackConnection(conn);
       e.printStackTrace();
     }
     daoUtil.close(rs, stmt, conn);

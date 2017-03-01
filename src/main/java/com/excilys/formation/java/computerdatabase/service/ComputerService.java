@@ -45,7 +45,7 @@ public class ComputerService {
    * @param id the id
    * @return the computer DTO
    */
-  public ComputerDTO describeComputerByID(final int id) {
+  public ComputerDTO describeComputerByID(final long id) {
     ComputerDTO computer = null;
     try {
       if (computerDAO.getById(id).isPresent()) {
@@ -89,7 +89,7 @@ public class ComputerService {
    * @param newValue the new value
    * @param newIntroduced the new introduced
    */
-  public void updateComputer(final int id, final String newValue, final String newIntroduced) {
+  public void updateComputer(final long id, final String newValue, final String newIntroduced) {
     try {
       computerDAO.updateComputer(id, newValue, newIntroduced);
       log.info("Computer id :" + id + " modified");

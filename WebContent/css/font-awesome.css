@@ -113,37 +113,77 @@
 -webkit-transform
 
 
+
+
+
+
+
+
 :
 
+
+
+
  
+
+
+
 
 rotate
 
 
+
+
+
+
+
+
 (359
 deg
+
+
+
+
+
+
 );
-
-
-    
-
 transform
 
 
+
+
+
+
+
+
 :
 
+
+
+
  
+
+
+
 
 rotate
 
 
+
+
+
+
+
+
 (359
 deg
+
+
+
+
+
+
 );
-
-
-  
-
 }
 }
 @
@@ -157,37 +197,77 @@ keyframes fa-spin { 0% {
 -webkit-transform
 
 
+
+
+
+
+
+
 :
 
+
+
+
  
+
+
+
 
 rotate
 
 
+
+
+
+
+
+
 (359
 deg
+
+
+
+
+
+
 );
-
-
-    
-
 transform
 
 
+
+
+
+
+
+
 :
 
+
+
+
  
+
+
+
 
 rotate
 
 
+
+
+
+
+
+
 (359
 deg
+
+
+
+
+
+
 );
-
-
-  
-
 }
 }
 .fa-rotate-90 {

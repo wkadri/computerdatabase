@@ -19,7 +19,7 @@ public class Company {
    * Sets the id.
    * @param id the new id
    */
-  public void setId(int id) {
+  public void setId(final int id) {
     this.id = id;
   }
 
@@ -27,7 +27,7 @@ public class Company {
    * Sets the name.
    * @param name the new name
    */
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
@@ -36,9 +36,9 @@ public class Company {
    * @param l the id
    * @param name the name
    */
-  public Company(long l, String name) {
+  public Company(final long l, final String name) {
     super();
-    this.id = l;
+    id = l;
     this.name = name;
   }
 

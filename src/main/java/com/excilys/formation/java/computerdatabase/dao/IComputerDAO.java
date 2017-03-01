@@ -34,7 +34,7 @@ public interface IComputerDAO {
    * @param newIntroduced the new introduced
    * @throws DAOException the DAO exception
    */
-  void updateComputer(int id, String newName, String newIntroduced) throws DAOException;
+  void updateComputer(long id, String newName, String newIntroduced) throws DAOException;
 
   /**
    * Delete computer.

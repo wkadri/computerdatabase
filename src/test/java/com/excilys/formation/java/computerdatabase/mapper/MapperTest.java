@@ -27,9 +27,6 @@ public class MapperTest {
   /** The Constant COLUMN_INTRODUCED. */
   private static final String COLUMN_INTRODUCED = "introduced";
 
-  /** The Constant COLUMN_DISCONTINUED. */
-  private static final String COLUMN_DISCONTINUED = "discontinued";
-
   /** The Constant COLUMN_COMPANY_ID. */
   private static final String COLUMN_COMPANY_ID = "company_id";
 
@@ -43,10 +40,16 @@ public class MapperTest {
 
   /**
    * Inits the before each test.
+   * @throws SQLException
    */
-  @Before public void initBeforeEachTest() {
+  @Before public void initBeforeEachTest() throws SQLException {
     resultSet = Mockito.mock(ResultSet.class);
-    dao = Mockito.mock(DAOUtil.class);
+    Mockito.when(resultSet.getLong(COLUMN_ID)).thenReturn((long) 2);
+    Mockito.when(resultSet.getString(COLUMN_NAME)).thenReturn("Name");
+    Mockito.when(resultSet.getString(COLUMN_INTRODUCED)).thenReturn("2010-05-02");
+
+    Mockito.when(resultSet.getLong(COLUMN_COMPANY_ID)).thenReturn((long) 15);
+    Mockito.when(resultSet.getString(COLUMN_COMPANY_NAME)).thenReturn("Name Company");
   }
 
   /**
@@ -54,21 +57,24 @@ public class MapperTest {
    * @throws SQLException the SQL exception
    */
   @Test public void resultSetToComputer() throws SQLException {
-    Mockito.when(resultSet.getLong(COLUMN_ID)).thenReturn((long) 2);
-    Mockito.when(resultSet.getString(COLUMN_NAME)).thenReturn("Name");
-    Mockito.when(dao.getConnection());
-    Mockito.when(resultSet.getObject(COLUMN_INTRODUCED)).thenReturn(LocalDate.parse("2010-05-02"));
-    Mockito.when(resultSet.getObject(COLUMN_DISCONTINUED)).thenReturn(LocalDate.parse("2013-05-02"));
 
-    Mockito.when(resultSet.getLong(COLUMN_COMPANY_ID)).thenReturn((long) 15);
-    Mockito.when(resultSet.getString(COLUMN_COMPANY_NAME)).thenReturn("Name Company");
+    final ComputerDTO computer = MapperDAO.mapComputerDTO(resultSet);
+    if (computer != null) {
+      Assert.assertEquals(2, computer.getId());
+      Assert.assertEquals("Name", computer.getName());
+      Assert.assertEquals(LocalDate.parse("2010-05-02"), computer.getIntroduced());
+
+    }
+  }
+
+  @Test public void introducedNullMap() throws SQLException {
+    Mockito.when(resultSet.getString(COLUMN_INTRODUCED)).thenReturn("0000-00-00");
     final ComputerDTO computer = MapperDAO.mapComputerDTO(resultSet);
     if (computer != null) {
       Assert.assertEquals(computer.getId(), 2);
       Assert.assertEquals(computer.getName(), "Name");
       Assert.assertEquals(computer.getIntroduced(), null);
-      // Assert.assertEquals(computer.getCompany().getId(), 15);
-      //    Assert.assertEquals(computer.getCompany().getName(), "Name Company");
+
     }
   }
 }
