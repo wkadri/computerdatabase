@@ -6,10 +6,7 @@ import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.excilys.formation.java.computerdatabase.dao.sql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;

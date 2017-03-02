@@ -9,7 +9,6 @@ import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.CompanyDAO;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CompanyService.
  * @author Walid Kadri
@@ -31,17 +30,10 @@ public class CompanyService {
 
   /**
    * Gets the companies.
+   * @return the companies
    */
   public ArrayList<CompanyDTO> getCompanies() {
-   // companyDAO.getCompanies().forEach(t -> log.info(t.toString()));
+    //companyDAO.getCompanies().forEach(t -> log.info(t.toString()));
     return companyDAO.getCompanies();
-  }
-
-  /**
-   * The main method.
-   * @param args the arguments
-   */
-  public static void main(final String[] args) {
-    (new CompanyService()).getCompanies();
   }
 }

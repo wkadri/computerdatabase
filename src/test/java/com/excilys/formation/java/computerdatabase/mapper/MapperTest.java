@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.excilys.formation.java.computerdatabase.dao.sql.DAOUtil;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 /**
@@ -36,11 +35,10 @@ public class MapperTest {
   /** The result set. */
   private ResultSet resultSet;
 
-  private DAOUtil dao;
 
   /**
    * Inits the before each test.
-   * @throws SQLException
+   * @throws SQLException the SQL exception
    */
   @Before public void initBeforeEachTest() throws SQLException {
     resultSet = Mockito.mock(ResultSet.class);
@@ -67,6 +65,10 @@ public class MapperTest {
     }
   }
 
+  /**
+   * Introduced null map.
+   * @throws SQLException the SQL exception
+   */
   @Test public void introducedNullMap() throws SQLException {
     Mockito.when(resultSet.getString(COLUMN_INTRODUCED)).thenReturn("0000-00-00");
     final ComputerDTO computer = MapperDAO.mapComputerDTO(resultSet);

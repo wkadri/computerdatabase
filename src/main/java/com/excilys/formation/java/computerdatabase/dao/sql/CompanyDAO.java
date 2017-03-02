@@ -10,7 +10,6 @@ import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CompanyDAO.
  */

@@ -22,7 +22,7 @@
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${nbInstances}Computers found</h1>
+		<h1 id="homeTitle">${nbInstances}Computersfound</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" method="GET" class="form-inline">
@@ -95,12 +95,10 @@
 			<li><a href="Servlet?id=${precedent}&&nb=${nb}"
 				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 			</a></li>
+			<c:forEach items="${allPages}" var="page">
+				<li><a href="Servlet?id=${page}&&nb=${nb}">${page+1}</a></li>
 
-			<li><a href="Servlet?id=1&&nb=${nb}">1</a></li>
-			<li><a href="Servlet?id=2&&nb=${nb}">2</a></li>
-			<li><a href="Servlet?id=3&&nb=${nb}">3</a></li>
-			<li><a href="Servlet?id=4&&nb=${nb}">4</a></li>
-			<li><a href="Servlet?id=5&&nb=${nb}">5</a></li>
+			</c:forEach>
 			<li><a href="Servlet?id=${suivant}&&nb=${nb}" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 			</a></li>

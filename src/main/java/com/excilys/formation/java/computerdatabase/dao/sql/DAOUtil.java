@@ -1,8 +1,7 @@
 package com.excilys.formation.java.computerdatabase.dao.sql;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DAOUtil.
  */
@@ -22,7 +20,7 @@ public enum DAOUtil {
    * Instantiates a new DAO util.
    */
 
-  private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/src/main/resources/dao.properties";
+  private static final String FILE_PROPERTIES = "dao.properties";
   private static final String PROPERTY_URL = "url";
   private static final String PROPERTY_DRIVER = "driver";
   private static final String PROPERTY_USERNAME = "username";
@@ -48,8 +46,8 @@ public enum DAOUtil {
   private static void setProperties() throws DAOException {
     try {
       final Properties properties = new Properties();
-      final File file = new File(FILE_PROPERTIES);
-      final FileInputStream fileStream = new FileInputStream(file);
+      // final File file = new File(FILE_PROPERTIES);
+      final InputStream fileStream = DAOUtil.class.getClassLoader().getResourceAsStream(FILE_PROPERTIES);
       properties.load(fileStream);
       url = properties.getProperty(PROPERTY_URL);
       driver = properties.getProperty(PROPERTY_DRIVER);

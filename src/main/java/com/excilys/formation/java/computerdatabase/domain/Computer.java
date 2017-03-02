@@ -2,7 +2,6 @@ package com.excilys.formation.java.computerdatabase.domain;
 
 import java.time.LocalDate;
 
-// TODO: Auto-generated Javadoc
 /**
  * Business Class representing a computer.
  * Class where the intelligence'll be implemented.

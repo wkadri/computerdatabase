@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MapperDAO.
  */

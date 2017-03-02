@@ -6,7 +6,6 @@ import java.util.Optional;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
-// TODO: Auto-generated Javadoc
 /**
  * DAO interface for computers.
  * @author Walid KADRI

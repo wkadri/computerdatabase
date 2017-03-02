@@ -10,7 +10,6 @@ import com.excilys.formation.java.computerdatabase.dao.sql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ComputerService.
  * @author Walid KADRI

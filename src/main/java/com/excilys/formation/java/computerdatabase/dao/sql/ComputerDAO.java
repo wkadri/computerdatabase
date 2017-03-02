@@ -53,7 +53,9 @@ public class ComputerDAO implements IComputerDAO {
    */
   private void rollbackConnection(Connection conn) {
     try {
+      conn.setAutoCommit(false); //Can't rollback when autocommit=true;
       conn.rollback();
+      conn.setAutoCommit(true);
     } catch (SQLException e1) {
       e1.printStackTrace();
     }

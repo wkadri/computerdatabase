@@ -2,17 +2,37 @@ package com.excilys.formation.java.computerdatabase.dto;
 
 import java.util.ArrayList;
 
+/**
+ * The Class Pages.
+ */
 public class Pages {
 
   /** The ens. */
   private ArrayList<ArrayList<ComputerDTO>> ens = new ArrayList<>();
+
+  public ArrayList<ArrayList<ComputerDTO>> getEns() {
+    return ens;
+  }
+
+  public void setEns(ArrayList<ArrayList<ComputerDTO>> ens) {
+    this.ens = ens;
+  }
+
   /** The current page. */
   private int currentPage;
 
+  /**
+   * Gets the current page.
+   * @return the current page
+   */
   public int getCurrentPage() {
     return currentPage;
   }
 
+  /**
+   * Sets the current page.
+   * @param currentPage the new current page
+   */
   public void setCurrentPage(int currentPage) {
     System.out.println("MAXSIZE" + pageMaxSize);
     this.currentPage = currentPage;
@@ -21,14 +41,27 @@ public class Pages {
   /** The page max. */
   private static int pageMaxSize = 10;
 
+  /**
+   * Sets the page max size.
+   * @param max the new page max size
+   */
   public static void setPageMaxSize(int max) {
     pageMaxSize = max;
   }
 
+  /**
+   * Gets the page max size.
+   * @return the page max size
+   */
   public int getPageMaxSize() {
     return pageMaxSize;
   }
 
+  /**
+   * Instantiates a new pages.
+   * @param entree the entree
+   * @param max the max
+   */
   public Pages(final ArrayList<ComputerDTO> entree, int max) {
     int i = 0;
     currentPage = 0;
@@ -45,8 +78,8 @@ public class Pages {
 
   /**
    * Current Page with param.
-   * @param id
-   * @return
+   * @param id the id
+   * @return the array list
    */
   public ArrayList<ComputerDTO> currentPage(int id) {
     currentPage = id % (ens.size());
@@ -55,8 +88,7 @@ public class Pages {
 
   /**
    * Current Page without param.
-   * @param id
-   * @return
+   * @return the array list
    */
   public ArrayList<ComputerDTO> currentPage() {
     return ens.get(currentPage);
@@ -64,7 +96,7 @@ public class Pages {
 
   /**
    * Next page.
-   * @return
+   * @return the array list
    */
   public ArrayList<ComputerDTO> nextPage() {
     currentPage++;
@@ -73,7 +105,7 @@ public class Pages {
 
   /**
    * Previous page.
-   * @return
+   * @return the array list
    */
   public ArrayList<ComputerDTO> previousPage() {
     currentPage--;
