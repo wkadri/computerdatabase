@@ -21,6 +21,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
   private static final long serialVersionUID = 1L;
   /** The service. */
   ComputerService service = new ComputerService();
+  private Pages pages = new Pages(new ArrayList<>());
 
   /**
    * Inits the.
@@ -54,19 +55,24 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
     if (idStr != null && !idStr.equals("")) {
       id = Integer.parseInt(idStr);
     }
-    Pages.setPageMaxSize(nb);
-    Pages pages = new Pages(service.getComputers(), nb);
-    if (id < 0) {
-      id = pages.getEns().size();
+    int nbrpage = (int) (service.getNumberInstances() / nb) + 1;
+    System.out.println("NBR PAGe" + nbrpage);
+    if (0 < id && id <= nbrpage) {
+      pages.getEns().add(service.getComputersPage((long) (id * nb - nb), nb));
+    } else if (id <= 0) {
+      id = 1;
+      pages.getEns().set(0, service.getComputersPage((long) (id * nb - nb), nb));
+    } else {
+      System.out.println("OK");
+      id = id % nbrpage;
     }
-    int sum = service.getComputers().size();
+    System.out.println("id" + id);
     req.setAttribute("suivant", id + 1);
     req.setAttribute("precedent", id - 1);
     req.setAttribute("nb", nb);
     req.setAttribute("id", id);
-    req.setAttribute("nbInstances", sum);
-    pages.currentPage(id);
-    req.setAttribute("allComputers", pages.currentPage());
+    req.setAttribute("nbInstances", service.getNumberInstances());
+    req.setAttribute("allComputers", pages.getEns().get(pages.getEns().size() - 1));
     ArrayList<Integer> numPage = new ArrayList<>();
     for (int i = -3; i < 3; i++) {
       numPage.add(id % pages.getEns().size() + i);

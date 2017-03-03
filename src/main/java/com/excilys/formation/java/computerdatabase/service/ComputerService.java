@@ -10,6 +10,7 @@ import com.excilys.formation.java.computerdatabase.dao.sql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ComputerService.
  * @author Walid KADRI
@@ -57,7 +58,6 @@ public class ComputerService {
 
       e.printStackTrace();
     }
-    System.out.println(computer);
     return computer;
   }
 
@@ -110,5 +110,26 @@ public class ComputerService {
       log.error(e.getMessage());
     }
 
+  }
+
+  /**
+   * Gets the computers page.
+   * @param l the l
+   * @param nb the nb
+   * @return the computers page
+   */
+  public ArrayList<ComputerDTO> getComputersPage(long l, int nb) {
+    try {
+      return computerDAO.getComputersPage(l, nb);
+    } catch (DAOException e) {
+      log.error("Can't get the computer page-Reason:");
+      log.error(e.getMessage());
+    }
+    return null;
+  }
+
+  public int getNumberInstances() {
+
+    return computerDAO.getNumberInstances();
   }
 }

@@ -39,13 +39,13 @@ public class Pages {
   }
 
   /** The page max. */
-  private static int pageMaxSize = 10;
+  private int pageMaxSize = 10;
 
   /**
    * Sets the page max size.
    * @param max the new page max size
    */
-  public static void setPageMaxSize(int max) {
+  public void setPageMaxSize(int max) {
     pageMaxSize = max;
   }
 
@@ -77,12 +77,22 @@ public class Pages {
   }
 
   /**
+   * Instantiates a new pages.
+   * @param computersPage the computers page
+   */
+  public Pages(ArrayList<ComputerDTO> computersPage) {
+    currentPage = 0;
+    //pageMaxSize = computersPage.size() + 1;
+    ens.add(computersPage);
+  }
+
+  /**
    * Current Page with param.
    * @param id the id
    * @return the array list
    */
   public ArrayList<ComputerDTO> currentPage(int id) {
-    currentPage = id % (ens.size());
+    currentPage = id;
     return ens.get(currentPage);
   }
 
@@ -96,19 +106,23 @@ public class Pages {
 
   /**
    * Next page.
+   * @param computersPage the computers page
    * @return the array list
    */
-  public ArrayList<ComputerDTO> nextPage() {
+  public ArrayList<ComputerDTO> nextPage(ArrayList<ComputerDTO> computersPage) {
     currentPage++;
+    ens.add(currentPage, computersPage);
     return currentPage();
   }
 
   /**
    * Previous page.
+   * @param computersPage the computers page
    * @return the array list
    */
-  public ArrayList<ComputerDTO> previousPage() {
+  public ArrayList<ComputerDTO> previousPage(ArrayList<ComputerDTO> computersPage) {
     currentPage--;
+    ens.add(currentPage, computersPage);
     return currentPage();
   }
 }

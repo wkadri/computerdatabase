@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
+// TODO: Auto-generated Javadoc
 /**
  * DAO interface for computers.
  * @author Walid KADRI
@@ -50,5 +51,20 @@ public interface IComputerDAO {
    * @throws DAOException the DAO exception
    */
   Optional<ComputerDTO> addComputer(String name, String... introduced) throws DAOException;
+
+  /**
+   * Gets the computers page.
+   * @param offset the offset
+   * @param limit the limit
+   * @return the computers page
+   * @throws DAOException the DAO exception
+   */
+  ArrayList<ComputerDTO> getComputersPage(long offset, int limit) throws DAOException;
+
+  /**
+   * Gets the number instances.
+   * @return the number instances
+   */
+  int getNumberInstances();
 
 }

@@ -5,6 +5,8 @@
 	<artifactId>computerdatabase</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Test Maven</name>
+
+	<packaging>war</packaging>
 	<!-- Properties -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,6 +18,7 @@
 		<maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
 		<maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
+		<maven-war-version>3.0.0</maven-war-version>
 	</properties>
 	<!-- Dependencies -->
 	<dependencies>
@@ -97,7 +100,11 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven-war-version}</version>
+			</plugin>
 			<!-- Générateur de Rapport -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -164,7 +171,6 @@
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>${maven-jxr-plugin.version}</version>
 			</plugin>
-
 			<!-- Ajout de la javadoc -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
