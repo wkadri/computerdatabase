@@ -3,7 +3,7 @@ package com.excilys.formation.java.computerdatabase.dao;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
+import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
@@ -26,15 +26,6 @@ public interface IComputerDAO {
    * @throws DAOException the DAO exception
    */
   Optional<ComputerDTO> getById(long id) throws DAOException;
-
-  /**
-   * Update computer.
-   * @param id the id
-   * @param newName the new name
-   * @param newIntroduced the new introduced
-   * @throws DAOException the DAO exception
-   */
-  void updateComputer(long id, String newName, String newIntroduced) throws DAOException;
 
   /**
    * Delete computer.
@@ -67,4 +58,22 @@ public interface IComputerDAO {
    */
   int getNumberInstances();
 
+  /**
+   * Update computer.
+   * @param id the id
+   * @param newName the new name
+   * @param newIntroduced the new introduced
+   * @param companyId the company id
+   * @throws DAOException the DAO exception
+   */
+  void updateComputer(long id, String newName, String newIntroduced, String companyId) throws DAOException;
+
+  /**
+   * Filter.
+   * @param string the string
+   * @param offset the offset
+   * @param limit the limit
+   * @return the array list
+   */
+  ArrayList<ComputerDTO> filter(String string, final long offset, final int limit);
 }

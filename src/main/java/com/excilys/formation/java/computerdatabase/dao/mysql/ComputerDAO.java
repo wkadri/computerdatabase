@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.dao.sql;
+package com.excilys.formation.java.computerdatabase.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +14,7 @@ import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
+// TODO: Auto-generated Javadoc
 /**
  * Access to the table Computers.
  * @author Walid KADRI
@@ -22,6 +23,8 @@ public class ComputerDAO implements IComputerDAO {
 
   /** Max number of instances. */
   private final DAOUtil daoUtil = DAOUtil.INSTANCE;
+
+  /** The log. */
   private Logger log = LoggerFactory.getLogger(CompanyDAO.class);
 
   /**
@@ -57,7 +60,6 @@ public class ComputerDAO implements IComputerDAO {
   private void rollbackConnection(Connection conn) {
     try {
       conn.rollback();
-      conn.setAutoCommit(true);
     } catch (SQLException e1) {
       e1.printStackTrace();
     }
@@ -85,8 +87,8 @@ public class ComputerDAO implements IComputerDAO {
       } else {
         log.error("Error: Wrong ID");
       }
+      daoUtil.close(rs, stmt, conn);
     } catch (final SQLException e) {
-
       e.printStackTrace();
     }
     return Optional.of(computer);
@@ -108,7 +110,7 @@ public class ComputerDAO implements IComputerDAO {
     final ComputerDTO computer = new ComputerDTO();
     try {
       conn = daoUtil.getConnection();
-      conn.setAutoCommit(false);
+
       stmt = daoUtil.initialisationRequetePreparee(conn, "INSERT INTO computer (name,introduced,company_id) values  (  ?,?,? );", false);
       stmt.setString(1, name);
       if (entries.length == 2) {
@@ -125,7 +127,8 @@ public class ComputerDAO implements IComputerDAO {
         computer.setId(lastid);
         computer.setName(name);
       }
-      conn.setAutoCommit(true);
+      conn.commit();
+      daoUtil.close(stmt, conn);
     } catch (final SQLException e) {
       rollbackConnection(conn);
       e.printStackTrace();
@@ -139,23 +142,25 @@ public class ComputerDAO implements IComputerDAO {
    * @param id of the computer
    * @param newName new name
    * @param newIntroduced new date introduced
+   * @param companyId the company id
    * @throws DAOException the DAO exception
    */
   //TODO add company to update
-  @Override public void updateComputer(final long id, final String newName, final String newIntroduced) throws DAOException {
+  @Override public void updateComputer(final long id, final String newName, final String newIntroduced, final String companyId) throws DAOException {
     getById(id); // check if the id is not wrong
     Connection conn = null;
     PreparedStatement stmt = null;
     final ResultSet rs = null;
     try {
       conn = daoUtil.getConnection();
-      conn.setAutoCommit(false);
-      stmt = daoUtil.initialisationRequetePreparee(conn, "UPDATE computer SET name = ?, introduced= ? WHERE id = ? ", false);
+      stmt = daoUtil.initialisationRequetePreparee(conn, "UPDATE computer SET name = ?, introduced= ? , company_id=? WHERE id = ? ", false);
       stmt.setString(1, newName);
       stmt.setString(2, newIntroduced);
-      stmt.setLong(3, id);
+      stmt.setString(3, companyId);
+      stmt.setLong(4, id);
       stmt.executeUpdate();
-      conn.setAutoCommit(true);
+      conn.commit();
+
     } catch (final SQLException e) {
       rollbackConnection(conn);
       e.printStackTrace();
@@ -177,6 +182,8 @@ public class ComputerDAO implements IComputerDAO {
       stmt = daoUtil.initialisationRequetePreparee(conn, "DELETE FROM computer WHERE id = ?;", false);
       stmt.setLong(1, id);
       stmt.executeUpdate();
+      conn.commit();
+      daoUtil.close(stmt, conn);
     } catch (final SQLException e) {
       e.printStackTrace();
     }
@@ -205,6 +212,7 @@ public class ComputerDAO implements IComputerDAO {
       while (rs.next()) {
         computers.add(MapperDAO.mapComputerDTO(rs));
       }
+      daoUtil.close(rs, stmt, conn);
       return computers;
     } catch (final SQLException e) {
       e.printStackTrace();
@@ -236,4 +244,34 @@ public class ComputerDAO implements IComputerDAO {
     return 0;
   }
 
+  /**
+   * Filter.
+   * @param string the string
+   * @param offset the offset
+   * @param limit the limit
+   * @return the array list
+   */
+  public ArrayList<ComputerDTO> filter(String string, final long offset, final int limit) {
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    final ArrayList<ComputerDTO> computers = new ArrayList<>();
+    try {
+      conn = daoUtil.getConnection();
+      stmt = daoUtil.initialisationRequetePreparee(conn, "SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id WHERE computer.name LIKE ?  LIMIT ? OFFSET ? ;", false);
+      stmt.setString(1, "%" + string + "%");
+      stmt.setInt(2, limit);
+      stmt.setLong(3, offset);
+      rs = stmt.executeQuery();
+      rs.next();
+      while (rs.next()) {
+        computers.add(MapperDAO.mapComputerDTO(rs));
+      }
+      daoUtil.close(rs, stmt, conn);
+      return computers;
+    } catch (final SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }

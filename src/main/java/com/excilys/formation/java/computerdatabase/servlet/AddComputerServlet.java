@@ -16,7 +16,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
  */
 @WebServlet("/ServletComputer")
 
-public class ServletComputer extends HttpServlet {
+public class AddComputerServlet extends HttpServlet {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;

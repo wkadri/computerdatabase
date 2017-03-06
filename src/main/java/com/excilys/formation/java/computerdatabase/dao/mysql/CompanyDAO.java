@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.dao.sql;
+package com.excilys.formation.java.computerdatabase.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

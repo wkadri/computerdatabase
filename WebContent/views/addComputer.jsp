@@ -14,8 +14,8 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="dashboard.jsp"> Application -
-			Computer Database </a>
+		<a class="navbar-brand" href="Servlet"> Application - Computer
+			Database </a>
 	</div>
 	</header>
 
@@ -66,5 +66,4 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dashboard.js"></script>
-<script src="js/addComputer.js"></script>
 </html>

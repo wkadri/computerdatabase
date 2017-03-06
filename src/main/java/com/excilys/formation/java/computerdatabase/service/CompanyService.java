@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
-import com.excilys.formation.java.computerdatabase.dao.sql.CompanyDAO;
+import com.excilys.formation.java.computerdatabase.dao.mysql.CompanyDAO;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 
 /**

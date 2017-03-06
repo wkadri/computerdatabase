@@ -15,33 +15,33 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="index.jsp"> Application - Computer
+		<a class="navbar-brand" href="Servlet"> Application - Computer
 			Database </a>
 	</div>
 	</header>
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle"> ${nbInstances}  Computers found </h1>
+		<h1 id="homeTitle">${nbInstances}Computersfound</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" method="GET" class="form-inline">
 
 					<input type="search" id="searchbox" name="search"
 						class="form-control" placeholder="Search name" /> <input
-						type="submit" id="searchsubmit" value="Filter by name"
+						type="submit" name="action" id="searchsubmit" value="Filter"
 						class="btn btn-primary" />
 				</form>
 			</div>
 			<div class="pull-right">
 				<a class="btn btn-success" id="addComputer" href="ServletComputer">Add
-					Computer</a> <a class="btn btn-default" id="editComputer" href="#"
+					Computer</a> <a class="btn btn-default" id="editComputer"
 					onclick="$.fn.toggleEditMode();">Edit</a>
 			</div>
 		</div>
 	</div>
 
-	<form id="deleteForm" method="POST">
+	<form id="deleteForm">
 		<input type="hidden" name="selection" value="">
 	</form>
 
@@ -53,9 +53,9 @@
 					<!-- Table header for Computer Name -->
 
 					<th class="editMode" style="width: 60px; height: 22px;"><input
-						type="checkbox" id="selectall" /> <span
-						style="vertical-align: top;"> - <a href="#"
-							id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
+						type="checkbox" id="selectall" name="action" value="delete" /> <span
+						style="vertical-align: top;"> - <a id="deleteSelected"
+							onclick="$.fn.deleteSelected();"> <i
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
@@ -74,10 +74,12 @@
 
 				<c:forEach items="${allComputers}" var="computer">
 					<tr>
-						<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value="0"></td>
-						<td>${computer.id}</td>
-						<td><a href="editComputer.jsp" onclick="">${computer.name}</a></td>
+						<td class="editMode"><input type="checkbox" class="cb" /><a
+							href="Servlet?computerID=${computer.id}" onclick=""></a></td>
+						<td><a href="EditComputerServlet?id=${computer.id}"
+							onclick="">${computer.id}</a></td>
+						<td><a href="EditComputerServlet?id=${computer.id}"
+							onclick="">${computer.name}</a></td>
 						<td>${computer.introduced}</td>
 						<td></td>
 						<td>${computer.company.name}</td>

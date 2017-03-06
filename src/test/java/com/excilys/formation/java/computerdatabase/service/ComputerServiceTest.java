@@ -8,10 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.excilys.formation.java.computerdatabase.dao.sql.ComputerDAO;
-import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
+import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
+import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
-import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 
 /**
  * The Class ComputerServiceTest.
@@ -58,7 +57,7 @@ public class ComputerServiceTest {
   @Test public void updateTest() throws DAOException {
     final int id = 88; // or Integer.valueOf((int) (Math.random()*500)); but dirty for the db
     final ComputerDTO before = service.describeComputerByID(id);
-    service.updateComputer(id, "MacInTouch" + id, "1991-10-10");
+    service.updateComputer(id, "MacInTouch" + id, "1991-10-10", "12");
     service.describeComputerByID(id);
     Assert.assertNotEquals(before, service.describeComputerByID(id));
   }
@@ -68,7 +67,7 @@ public class ComputerServiceTest {
    */
   @Test public void updateWrongIDTest() {
     service.deleteComputer(13);
-    service.updateComputer(15, "oui", "oui");
+    service.updateComputer(15, "oui", "oui", null);
     service.describeComputerByID(15);
   }
 
@@ -76,7 +75,7 @@ public class ComputerServiceTest {
    * Gets the ID test.
    */
   @Test public void getIDTest() {
-    service.updateComputer(55, "oui", "1991-10-11");
+    service.updateComputer(55, "oui", "1991-10-11", null);
     System.out.println("DATE" + service.describeComputerByID(55).getIntroduced());
     Assert.assertEquals(LocalDate.of(1991, 10, 11), service.describeComputerByID(55).getIntroduced());
     Assert.assertEquals("oui", service.describeComputerByID(55).getName());
@@ -87,9 +86,8 @@ public class ComputerServiceTest {
    */
   @Test public void wrongTypeDateUpdateTest() {
     try {
-      service.updateComputer(15, "oui", "oui");
+      service.updateComputer(15, "oui", "oui", null);
     } catch (final Exception e) {
-      Assert.assertTrue(e instanceof MysqlDataTruncation);
       Assert.assertTrue(e.getMessage().contains("Incorrect datetime value"));
     }
   }

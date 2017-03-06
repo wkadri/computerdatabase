@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.formation.java.computerdatabase.dto.Pages;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
+// TODO: Auto-generated Javadoc
 /**
  * Servlet implementation.
  */
@@ -21,6 +22,8 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
   private static final long serialVersionUID = 1L;
   /** The service. */
   ComputerService service = new ComputerService();
+
+  /** The pages. */
   private Pages pages = new Pages(new ArrayList<>());
 
   /**
@@ -47,39 +50,76 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
     System.out.println("appel doGet de la servlet Servlet");
     int id = 0;
     int nb = 10;
-    String idStr = req.getParameter("id");
-    String nbPageStr = req.getParameter("nb");
-    if (nbPageStr != null && !nbPageStr.equals("")) {
-      nb = Integer.parseInt(nbPageStr);
+
+    id = getParameterInt(req.getParameter("id"), req);
+    nb = getParameterInt(req.getParameter("nb"), req);
+    //nb = getParameterInt("nb", req);
+    pagination(id, nb, req);
+
+    String action = req.getParameter("action");
+    if (action != null && action.contains("delete")) {
+      System.out.println("DELETE");
+      long computerID = (long) getParameterInt("computerID", req);
+      service.deleteComputer(computerID);
+    } else if (action != null && action.contains("Filter")) {
+      filter(req);
+    } else {
+      req.setAttribute("nbInstances", service.getNumberInstances());
+      req.setAttribute("allComputers", pages.getEns().get(pages.getEns().size() - 1));
     }
-    if (idStr != null && !idStr.equals("")) {
-      id = Integer.parseInt(idStr);
-    }
+
+    req.getRequestDispatcher("views/index.jsp").forward(req, res);
+  }
+
+  /**
+   * Pagination.
+   * @param id the id
+   * @param nb the nb
+   * @param req the req
+   */
+  private void pagination(int id, int nb, HttpServletRequest req) {
     int nbrpage = (int) (service.getNumberInstances() / nb) + 1;
-    System.out.println("NBR PAGe" + nbrpage);
     if (0 < id && id <= nbrpage) {
       pages.getEns().add(service.getComputersPage((long) (id * nb - nb), nb));
     } else if (id <= 0) {
       id = 1;
       pages.getEns().set(0, service.getComputersPage((long) (id * nb - nb), nb));
     } else {
-      System.out.println("OK");
       id = id % nbrpage;
     }
-    System.out.println("id" + id);
     req.setAttribute("suivant", id + 1);
     req.setAttribute("precedent", id - 1);
     req.setAttribute("nb", nb);
     req.setAttribute("id", id);
-    req.setAttribute("nbInstances", service.getNumberInstances());
-    req.setAttribute("allComputers", pages.getEns().get(pages.getEns().size() - 1));
     ArrayList<Integer> numPage = new ArrayList<>();
     for (int i = -3; i < 3; i++) {
       numPage.add(id % pages.getEns().size() + i);
     }
     numPage.removeIf(t -> t < 0);
     req.setAttribute("allPages", numPage);
-    req.getRequestDispatcher("views/index.jsp").forward(req, res);
   }
 
+  /**
+   * Filter.
+   * @param req the req
+   */
+  private void filter(HttpServletRequest req) {
+    String filtre = req.getParameter("search");
+    req.setAttribute("allComputers", service.filter(filtre, 0, 200));
+    req.setAttribute("nbInstances", service.filter(filtre, 0, 200).size());
+  }
+
+  /**
+   * Gets the parameter int.
+   * @param value the value
+   * @param req the req
+   * @return the parameter int
+   */
+  private int getParameterInt(String value, HttpServletRequest req) {
+    int id = 10;
+    if (value != null && !value.equals("")) {
+      id = Integer.parseInt(value);
+    }
+    return id;
+  }
 }

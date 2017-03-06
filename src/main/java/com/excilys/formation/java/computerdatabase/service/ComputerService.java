@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
-import com.excilys.formation.java.computerdatabase.dao.sql.ComputerDAO;
-import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
+import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
+import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
@@ -87,10 +87,11 @@ public class ComputerService {
    * @param id the id
    * @param newValue the new value
    * @param newIntroduced the new introduced
+   * @param companyID the company ID
    */
-  public void updateComputer(final long id, final String newValue, final String newIntroduced) {
+  public void updateComputer(final long id, final String newValue, final String newIntroduced, String companyID) {
     try {
-      computerDAO.updateComputer(id, newValue, newIntroduced);
+      computerDAO.updateComputer(id, newValue, newIntroduced, companyID);
       log.info("Computer id :" + id + " modified");
     } catch (final DAOException e) {
       log.error("Can't update the computer-Reason:");
@@ -128,8 +129,23 @@ public class ComputerService {
     return null;
   }
 
+  /**
+   * Gets the number instances.
+   * @return the number instances
+   */
   public int getNumberInstances() {
 
     return computerDAO.getNumberInstances();
+  }
+
+  /**
+   * Filter.
+   * @param filtre the filtre
+   * @param offset the offset
+   * @param limit the limit
+   * @return the array list
+   */
+  public ArrayList<ComputerDTO> filter(String filtre, long offset, int limit) {
+    return computerDAO.filter(filtre, offset, limit);
   }
 }

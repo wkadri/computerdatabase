@@ -1,14 +1,16 @@
-package com.excilys.formation.java.computerdatabase.dao.sql;
+package com.excilys.formation.java.computerdatabase.dao.mysql;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * The Class DAOUtil.
@@ -20,7 +22,7 @@ public enum DAOUtil {
    * Instantiates a new DAO util.
    */
 
-  private static final String FILE_PROPERTIES = "dao.properties";
+  private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/src/main/resources/hikari.properties";
   private static final String PROPERTY_URL = "url";
   private static final String PROPERTY_DRIVER = "driver";
   private static final String PROPERTY_USERNAME = "username";
@@ -30,13 +32,18 @@ public enum DAOUtil {
   private static String username = "admincdb";
   private static String driver = "com.mysql.jdbc.Driver";
   private static String password = "qwerty1234";
+  private static HikariConfig config;
+  private static HikariDataSource ds;
   static {
-    try {
-      setProperties();
-      Class.forName(driver);
-    } catch (DAOException | ClassNotFoundException e) {
-      e.printStackTrace();
-    }
+//    try {
+    config = new HikariConfig(FILE_PROPERTIES);
+    ds = new HikariDataSource(config);
+    ds.setMaximumPoolSize(10);
+    //setProperties();
+    //Class.forName(driver);
+//   } catch (ClassNotFoundException e) {
+//      e.printStackTrace();
+//    }
   }
 
   /**
@@ -46,6 +53,7 @@ public enum DAOUtil {
   private static void setProperties() throws DAOException {
     try {
       final Properties properties = new Properties();
+      //HikariConfig balabla = new HikariConfig();
       // final File file = new File(FILE_PROPERTIES);
       final InputStream fileStream = DAOUtil.class.getClassLoader().getResourceAsStream(FILE_PROPERTIES);
       properties.load(fileStream);
@@ -64,8 +72,9 @@ public enum DAOUtil {
    * @throws SQLException the SQL exception
    */
   public Connection getConnection() throws SQLException {
-
-    return DriverManager.getConnection(url, username, password);
+    Connection conn = ds.getConnection();
+    conn.setAutoCommit(false);
+    return conn;
   }
 
   /**
@@ -150,5 +159,4 @@ public enum DAOUtil {
     }
     return preparedStatement;
   }
-
 }

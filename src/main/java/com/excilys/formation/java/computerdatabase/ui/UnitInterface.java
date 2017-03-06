@@ -3,7 +3,7 @@ package com.excilys.formation.java.computerdatabase.ui;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.excilys.formation.java.computerdatabase.dao.sql.DAOException;
+import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
@@ -68,7 +68,7 @@ public class UnitInterface {
             while (newIntroduced.isEmpty()) {
               newIntroduced = sc.nextLine();
             }
-            computerService.updateComputer(id, name, newIntroduced);
+            computerService.updateComputer(id, name, newIntroduced, null);
             break;
           case 6:
             System.out.println("Saisissez l'id de l'ordinateur à supprimer");
