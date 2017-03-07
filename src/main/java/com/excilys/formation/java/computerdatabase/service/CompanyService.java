@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.CompanyDAO;
+import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 
 /**
@@ -32,7 +33,7 @@ public class CompanyService {
    * Gets the companies.
    * @return the companies
    */
-  public ArrayList<CompanyDTO> getCompanies() {
+  public ArrayList<Company> getCompanies() {
     //companyDAO.getCompanies().forEach(t -> log.info(t.toString()));
     return companyDAO.getCompanies();
   }

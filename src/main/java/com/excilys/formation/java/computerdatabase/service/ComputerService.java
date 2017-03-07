@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
+import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
@@ -34,8 +35,8 @@ public class ComputerService {
    * Gets the computers.
    * @return the computers
    */
-  public ArrayList<ComputerDTO> getComputers() {
-    final ArrayList<ComputerDTO> computers = computerDAO.getComputers();
+  public ArrayList<Computer> getComputers() {
+    final ArrayList<Computer> computers = computerDAO.getComputers();
     //computers.forEach(t -> log.info(t.toString()));
     return computers;
   }
@@ -45,8 +46,8 @@ public class ComputerService {
    * @param id the id
    * @return the computer DTO
    */
-  public ComputerDTO describeComputerByID(final long id) {
-    ComputerDTO computer = null;
+  public Computer describeComputerByID(final long id) {
+    Computer computer = null;
     try {
       if (computerDAO.getById(id).isPresent()) {
         computer = (computerDAO.getById(id)).get();
@@ -66,14 +67,19 @@ public class ComputerService {
    * @param name the name
    * @param entries the entries
    */
-  public void createComputer(final String name, final String... entries) {
+  public void createComputer(Computer computer) {
+
+    final String name = computer.getName();
+    //TODO refactoring
+    final String[] entries = { String.valueOf(computer.getIntroduced()), String.valueOf(computer.getCompany().getId()) };
+
     try {
       if (name.isEmpty()) {
         log.warn("Name empty");
         computerDAO.addComputer("computer", entries[0], entries[1]);
         log.info("Computer ( with default name : computer )added");
       } else {
-        final ComputerDTO computer = (computerDAO.addComputer(name.trim(), entries)).get();
+        computer = (computerDAO.addComputer(name.trim(), entries)).get();
         log.info("Computer " + computer + " added");
       }
     } catch (final DAOException e) {
@@ -119,7 +125,7 @@ public class ComputerService {
    * @param nb the nb
    * @return the computers page
    */
-  public ArrayList<ComputerDTO> getComputersPage(long l, int nb) {
+  public ArrayList<Computer> getComputersPage(long l, int nb) {
     try {
       return computerDAO.getComputersPage(l, nb);
     } catch (DAOException e) {
@@ -145,7 +151,7 @@ public class ComputerService {
    * @param limit the limit
    * @return the array list
    */
-  public ArrayList<ComputerDTO> filter(String filtre, long offset, int limit) {
+  public ArrayList<Computer> filter(String filtre, long offset, int limit) {
     return computerDAO.filter(filtre, offset, limit);
   }
 }

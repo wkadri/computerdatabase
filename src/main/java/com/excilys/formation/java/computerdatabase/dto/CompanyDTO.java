@@ -31,6 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     this.name = name;
   }
 
+  public CompanyDTO(long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
+
   /**
    * Gets the name.
    * @return the name

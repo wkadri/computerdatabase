@@ -41,7 +41,7 @@
 		</div>
 	</div>
 
-	<form id="deleteForm">
+	<form id="deleteForm" method="POST">
 		<input type="hidden" name="selection" value="">
 	</form>
 
@@ -53,7 +53,7 @@
 					<!-- Table header for Computer Name -->
 
 					<th class="editMode" style="width: 60px; height: 22px;" ><input
-						type="checkbox" id="selectall" name="action" value="delete"
+						type="checkbox" id="selectall" method="post" name="action" value="delete"
 						 /> <span style="vertical-align: top;"> - <a
 							id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
 								class="fa fa-trash-o fa-lg"></i>

@@ -22,22 +22,25 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
-				<div class="label label-default pull-right">id: 0</div>
+				<div class="label label-default pull-right">id:
+					${computeur.id}</div>
 				<h1>Edit Computer</h1>
 
 				<form method="POST">
-					<input type="hidden" value="0" id="id" />
+					<input type="hidden" value="${computeur.id}" id="id" />
 					<!-- TODO: Change this value with the computer id -->
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
 								type="text" class="form-control" name="computerName"
-								id="computerName" placeholder="Computer name">
+								id="computerName" placeholder="Computer name"
+								value="${computeur.name}">
 						</div>
 						<div class="form-group">
 							<label for="introduced">Introduced date</label> <input
 								name="introduced" type="date" class="form-control"
-								id="introduced" placeholder="Introduced date">
+								id="introduced" placeholder="Introduced date"
+								value="${computeur.introduced}">
 						</div>
 						<div class="form-group">
 							<label for="discontinued">Discontinued date</label> <input
@@ -47,7 +50,7 @@
 						<div class="form-group">
 							<label for="companyId">Company</label> <select
 								class="form-control" id="companyId" name="companyID">
-
+								<option selected="selected" value="${computeur.company.id}">${computeur.company.name}</option>
 								<c:forEach items="${companies}" var="company">
 									<option value="${company.id}">${company.name}</option>
 								</c:forEach>
@@ -56,8 +59,8 @@
 						</div>
 					</fieldset>
 					<div class="actions pull-right">
-						<input type="submit" name="action" value="Edit"
-							class="btn btn-primary"> or <a href="Servlet"
+						<a href="Servlet"><input type="submit" name="action"
+							value="Edit" class="btn btn-primary"></a>or <a href="Servlet"
 							class="btn btn-default">Cancel</a>
 					</div>
 				</form>

@@ -1,12 +1,16 @@
 package com.excilys.formation.java.computerdatabase.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.formation.java.computerdatabase.domain.Computer;
+import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
@@ -31,7 +35,6 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    */
   public EditComputerServlet() {
     super();
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -43,24 +46,27 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String name = request.getParameter("computerName");
-    String introduced = request.getParameter("introduced");
     String idStr = request.getParameter("id");
     int id = 0;
-    if (introduced == "") {
-      introduced = null;
-    }
     if (idStr != null && !idStr.equals("")) {
       id = Integer.parseInt(idStr);
     }
-    System.out.println("ID+ " + id);
-    String companyID = request.getParameter("companyID");
-    String action = request.getParameter("action");
-    if (action != null && action.contains("Edit")) {
-      System.out.println("UPDATE" + name + introduced);
-      serviceComputer.updateComputer(id, name, introduced, companyID);
+    Computer computer = serviceComputer.describeComputerByID(id);
+
+    ComputerDTO computerDTO = MapperDTO.map(computer);
+    //TODO
+
+    request.setAttribute("computerName", computer.getName());
+    if (computer.getIntroduced() != null) {
+
+      request.setAttribute("introduced", computer.getIntroduced().toString());
+    }
+
+    if (computer.getCompany() != null) {
+      request.setAttribute("companyID", computer.getCompany().getId());
     }
     request.setAttribute("companies", companyService.getCompanies());
+    request.setAttribute("computeur", computerDTO);
     request.getRequestDispatcher("views/editComputer.jsp").forward(request, response);
   }
 
@@ -73,8 +79,26 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String name = request.getParameter("computerName");
+    String introduced = request.getParameter("introduced");
+    String idStr = request.getParameter("id");
+    int id = 0;
+    if (introduced == "") {
+      introduced = null;
+    }
+    if (idStr != null && !idStr.equals("")) {
+      id = Integer.parseInt(idStr);
+    }
+    String companyID = request.getParameter("companyID");
+    String action = request.getParameter("action");
+    if (action != null && action.contains("Edit")) {
+      //TODO
+      serviceComputer.updateComputer(id, name, introduced, companyID);
 
-    doGet(request, response);
+      response.sendRedirect("/computerdatabase/Servlet");
+    } else {
+      doGet(request, response);
+    }
   }
 
 }

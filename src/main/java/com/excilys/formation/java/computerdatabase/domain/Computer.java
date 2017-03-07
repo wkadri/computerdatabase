@@ -10,14 +10,14 @@ import java.time.LocalDate;
 public class Computer {
 
   /** The id. */
-  private int id;
+  private long id;
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(final int id) {
-    this.id = id;
+  public void setId(final long l) {
+    this.id = l;
   }
 
   public String getName() {
@@ -28,12 +28,12 @@ public class Computer {
     this.name = name;
   }
 
-  public LocalDate getIntoduced() {
-    return intoduced;
+  public LocalDate getIntroduced() {
+    return introduced;
   }
 
-  public void setIntoduced(final LocalDate intoduced) {
-    this.intoduced = intoduced;
+  public void setIntroduced(final LocalDate intoduced) {
+    this.introduced = intoduced;
   }
 
   public LocalDate getDiscontinued() {
@@ -56,7 +56,7 @@ public class Computer {
   private String name;
 
   /** The intoduced. */
-  private LocalDate intoduced;
+  private LocalDate introduced;
 
   /** The discontinued. */
   private LocalDate discontinued;
@@ -72,7 +72,7 @@ public class Computer {
 
     id = builder.id;
     name = builder.name;
-    intoduced = builder.introduced;
+    introduced = builder.introduced;
     discontinued = builder.discontinued;
     company = builder.company;
 
@@ -143,4 +143,7 @@ public class Computer {
       return new Computer(this);
     }
   }
+
+ 
+
 }

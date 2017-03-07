@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
+import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
@@ -31,19 +32,19 @@ public class ComputerDAO implements IComputerDAO {
    * Return the complete list of computers.
    * @return the computers
    */
-  @Override public ArrayList<ComputerDTO> getComputers() {
+  @Override public ArrayList<Computer> getComputers() {
 
     Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    final ArrayList<ComputerDTO> computers = new ArrayList<>();
+    final ArrayList<Computer> computers = new ArrayList<>();
     try {
       conn = daoUtil.getConnection();
       stmt = daoUtil.initialisationRequetePreparee(conn, "select * from computer  LEFT JOIN company on computer.company_id=company.id", false);
       rs = stmt.executeQuery();
       rs.next();
       while (rs.next()) {
-        computers.add(MapperDAO.mapComputerDTO(rs));
+        computers.add(MapperDAO.mapComputer(rs));
       }
     } catch (final SQLException e) {
       e.printStackTrace();
@@ -70,11 +71,11 @@ public class ComputerDAO implements IComputerDAO {
    * @param id of the computer
    * @return the by id
    */
-  @Override public Optional<ComputerDTO> getById(final long id) {
+  @Override public Optional<Computer> getById(final long id) {
     Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    ComputerDTO computer = new ComputerDTO();
+    Computer computer = null;
     try {
       conn = daoUtil.getConnection();
       stmt = daoUtil.initialisationRequetePreparee(conn, "SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id WHERE computer.id= ? ;", false);
@@ -82,7 +83,7 @@ public class ComputerDAO implements IComputerDAO {
       rs = stmt.executeQuery();
       rs.beforeFirst();
       if (rs.next()) {
-        computer = MapperDAO.mapComputerDTO(rs);
+        computer = MapperDAO.mapComputer(rs);
         computer.toString();
       } else {
         log.error("Error: Wrong ID");
@@ -103,11 +104,11 @@ public class ComputerDAO implements IComputerDAO {
    * @return the optional
    * @throws DAOException if wrong id
    */
-  @Override public Optional<ComputerDTO> addComputer(final String name, final String... entries) throws DAOException {
+  @Override public Optional<Computer> addComputer(final String name, final String... entries) throws DAOException {
 
     Connection conn = null;
     PreparedStatement stmt = null;
-    final ComputerDTO computer = new ComputerDTO();
+    final Computer computer = new Computer.ComputerBuilder("computer").build();
     try {
       conn = daoUtil.getConnection();
 
@@ -196,12 +197,12 @@ public class ComputerDAO implements IComputerDAO {
    * @return the computers page
    * @throws DAOException the DAO exception
    */
-  @Override public ArrayList<ComputerDTO> getComputersPage(final long offset, final int limit) throws DAOException {
+  @Override public ArrayList<Computer> getComputersPage(final long offset, final int limit) throws DAOException {
     // check if the id is not wrong
     Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    final ArrayList<ComputerDTO> computers = new ArrayList<>();
+    final ArrayList<Computer> computers = new ArrayList<>();
     try {
       conn = daoUtil.getConnection();
       stmt = daoUtil.initialisationRequetePreparee(conn, "SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id LIMIT ? OFFSET ? ;", false);
@@ -210,7 +211,7 @@ public class ComputerDAO implements IComputerDAO {
       rs = stmt.executeQuery();
       rs.next();
       while (rs.next()) {
-        computers.add(MapperDAO.mapComputerDTO(rs));
+        computers.add(MapperDAO.mapComputer(rs));
       }
       daoUtil.close(rs, stmt, conn);
       return computers;
@@ -251,11 +252,11 @@ public class ComputerDAO implements IComputerDAO {
    * @param limit the limit
    * @return the array list
    */
-  public ArrayList<ComputerDTO> filter(String string, final long offset, final int limit) {
+  public ArrayList<Computer> filter(String string, final long offset, final int limit) {
     Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    final ArrayList<ComputerDTO> computers = new ArrayList<>();
+    final ArrayList<Computer> computers = new ArrayList<>();
     try {
       conn = daoUtil.getConnection();
       stmt = daoUtil.initialisationRequetePreparee(conn, "SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id WHERE computer.name LIKE ?  LIMIT ? OFFSET ? ;", false);
@@ -265,7 +266,7 @@ public class ComputerDAO implements IComputerDAO {
       rs = stmt.executeQuery();
       rs.next();
       while (rs.next()) {
-        computers.add(MapperDAO.mapComputerDTO(rs));
+        computers.add(MapperDAO.mapComputer(rs));
       }
       daoUtil.close(rs, stmt, conn);
       return computers;

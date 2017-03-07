@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
+import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
@@ -25,17 +26,17 @@ public class CompanyDAO implements ICompanyDAO {
    * Return companies.
    * @return ArrayList<CompanyDTO> the list of companies.
    */
-  @Override public ArrayList<CompanyDTO> getCompanies() {
+  @Override public ArrayList<Company> getCompanies() {
     Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    final ArrayList<CompanyDTO> companies = new ArrayList<>();
+    final ArrayList<Company> companies = new ArrayList<>();
     try {
       conn = daoUtil.getConnection();
       stmt = daoUtil.initialisationRequetePreparee(conn, sql, false);
       rs = stmt.executeQuery();
       while (rs.next()) {
-        companies.add(MapperDAO.mapCompanyDTO(rs));
+        companies.add(MapperDAO.mapCompany(rs));
       }
     } catch (final SQLException e) {
       e.printStackTrace();

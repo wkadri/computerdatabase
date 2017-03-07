@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
    * Instantiates a new computer DTO.
    */
   public ComputerDTO() {
-
+    company = new CompanyDTO();
   }
 
   /**

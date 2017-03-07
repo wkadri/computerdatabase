@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -21,49 +24,14 @@ public enum DAOUtil {
   /**
    * Instantiates a new DAO util.
    */
-
+  private Logger log = LoggerFactory.getLogger(DAOUtil.class);
   private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/src/main/resources/hikari.properties";
-  private static final String PROPERTY_URL = "url";
-  private static final String PROPERTY_DRIVER = "driver";
-  private static final String PROPERTY_USERNAME = "username";
-  private static final String PROPERTY_PASSWORD = "password";
-
-  private static String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
-  private static String username = "admincdb";
-  private static String driver = "com.mysql.jdbc.Driver";
-  private static String password = "qwerty1234";
   private static HikariConfig config;
   private static HikariDataSource ds;
   static {
-//    try {
     config = new HikariConfig(FILE_PROPERTIES);
     ds = new HikariDataSource(config);
     ds.setMaximumPoolSize(10);
-    //setProperties();
-    //Class.forName(driver);
-//   } catch (ClassNotFoundException e) {
-//      e.printStackTrace();
-//    }
-  }
-
-  /**
-   * Sets the properties.
-   * @throws DAOException the DAO exception
-   */
-  private static void setProperties() throws DAOException {
-    try {
-      final Properties properties = new Properties();
-      //HikariConfig balabla = new HikariConfig();
-      // final File file = new File(FILE_PROPERTIES);
-      final InputStream fileStream = DAOUtil.class.getClassLoader().getResourceAsStream(FILE_PROPERTIES);
-      properties.load(fileStream);
-      url = properties.getProperty(PROPERTY_URL);
-      driver = properties.getProperty(PROPERTY_DRIVER);
-      username = properties.getProperty(PROPERTY_USERNAME);
-      password = properties.getProperty(PROPERTY_PASSWORD);
-    } catch (final IOException e) {
-      throw new DAOException("Impossible de charger le fichier properties " + FILE_PROPERTIES);
-    }
   }
 
   /**
@@ -86,7 +54,7 @@ public enum DAOUtil {
       try {
         resultSet.close();
       } catch (final SQLException e) {
-        System.out.println("Échec de la fermeture du ResultSet : " + e.getMessage());
+        log.error("Échec de la fermeture du ResultSet : " + e.getMessage());
       }
     }
   }
@@ -100,7 +68,7 @@ public enum DAOUtil {
       try {
         statement.close();
       } catch (final SQLException e) {
-        System.out.println("Échec de la fermeture du Statement : " + e.getMessage());
+        log.error("Échec de la fermeture du Statement : " + e.getMessage());
       }
     }
   }
@@ -114,7 +82,7 @@ public enum DAOUtil {
       try {
         connexion.close();
       } catch (final SQLException e) {
-        System.out.println("Échec de la fermeture de la connexion : " + e.getMessage());
+        log.error("Échec de la fermeture de la connexion : " + e.getMessage());
       }
     }
   }

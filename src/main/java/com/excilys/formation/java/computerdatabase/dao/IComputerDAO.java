@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
+import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
@@ -17,7 +18,7 @@ public interface IComputerDAO {
    * Gets the computers.
    * @return the computers
    */
-  ArrayList<ComputerDTO> getComputers();
+  ArrayList<Computer> getComputers();
 
   /**
    * Gets the by id.
@@ -25,7 +26,7 @@ public interface IComputerDAO {
    * @return the by id
    * @throws DAOException the DAO exception
    */
-  Optional<ComputerDTO> getById(long id) throws DAOException;
+  Optional<Computer> getById(long id) throws DAOException;
 
   /**
    * Delete computer.
@@ -41,7 +42,7 @@ public interface IComputerDAO {
    * @return the optional
    * @throws DAOException the DAO exception
    */
-  Optional<ComputerDTO> addComputer(String name, String... introduced) throws DAOException;
+  Optional<Computer> addComputer(String name, String... introduced) throws DAOException;
 
   /**
    * Gets the computers page.
@@ -50,7 +51,7 @@ public interface IComputerDAO {
    * @return the computers page
    * @throws DAOException the DAO exception
    */
-  ArrayList<ComputerDTO> getComputersPage(long offset, int limit) throws DAOException;
+  ArrayList<Computer> getComputersPage(long offset, int limit) throws DAOException;
 
   /**
    * Gets the number instances.
@@ -75,5 +76,5 @@ public interface IComputerDAO {
    * @param limit the limit
    * @return the array list
    */
-  ArrayList<ComputerDTO> filter(String string, final long offset, final int limit);
+  ArrayList<Computer> filter(String string, final long offset, final int limit);
 }

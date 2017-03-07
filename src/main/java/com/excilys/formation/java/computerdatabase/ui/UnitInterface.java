@@ -38,7 +38,7 @@ public class UnitInterface {
         String name = "";
         switch (i) {
           case 1:
-            final ComputerPages pages = new ComputerPages(computerService.getComputers(), sc);
+            //final ComputerPages pages = new ComputerPages(computerService.getComputers(), sc);
             break;
           case 2:
             companyService.getCompanies();
