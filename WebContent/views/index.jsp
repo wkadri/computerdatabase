@@ -52,10 +52,10 @@
 					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
 
-					<th class="editMode" style="width: 60px; height: 22px;"><input
-						type="checkbox" id="selectall" name="action" value="delete" /> <span
-						style="vertical-align: top;"> - <a id="deleteSelected"
-							onclick="$.fn.deleteSelected();"> <i
+					<th class="editMode" style="width: 60px; height: 22px;" ><input
+						type="checkbox" id="selectall" name="action" value="delete"
+						 /> <span style="vertical-align: top;"> - <a
+							id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
@@ -74,8 +74,8 @@
 
 				<c:forEach items="${allComputers}" var="computer">
 					<tr>
-						<td class="editMode"><input type="checkbox" class="cb" /><a
-							href="Servlet?computerID=${computer.id}" onclick=""></a></td>
+						<td class="editMode"><input type="checkbox" class="cb"
+							name="cb" value="${computer.id}" /></td>
 						<td><a href="EditComputerServlet?id=${computer.id}"
 							onclick="">${computer.id}</a></td>
 						<td><a href="EditComputerServlet?id=${computer.id}"

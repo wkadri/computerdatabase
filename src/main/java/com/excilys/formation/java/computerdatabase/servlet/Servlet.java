@@ -51,17 +51,20 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
     int id = 0;
     int nb = 10;
 
-    id = getParameterInt(req.getParameter("id"), req);
-    nb = getParameterInt(req.getParameter("nb"), req);
+    id = getParameterInt(req.getParameter("id"));
+    nb = getParameterInt(req.getParameter("nb"));
     //nb = getParameterInt("nb", req);
     pagination(id, nb, req);
 
     String action = req.getParameter("action");
-    if (action != null && action.contains("delete")) {
-      System.out.println("DELETE");
-      long computerID = (long) getParameterInt("computerID", req);
-      service.deleteComputer(computerID);
-    } else if (action != null && action.contains("Filter")) {
+
+    String selection = req.getParameter("selection");
+    if (selection != null) {
+      System.out.println("DELETE" + selection);
+      //selection.split(C3);
+      //service.deleteComputer(computerID + 1);
+    }
+    if (action != null && action.contains("Filter")) {
       filter(req);
     } else {
       req.setAttribute("nbInstances", service.getNumberInstances());
@@ -115,7 +118,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    * @param req the req
    * @return the parameter int
    */
-  private int getParameterInt(String value, HttpServletRequest req) {
+  private int getParameterInt(String value) {
     int id = 10;
     if (value != null && !value.equals("")) {
       id = Integer.parseInt(value);
