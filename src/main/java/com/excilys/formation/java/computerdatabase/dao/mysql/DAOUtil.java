@@ -28,10 +28,10 @@ public enum DAOUtil {
   private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/src/main/resources/hikari.properties";
   private static HikariConfig config;
   private static HikariDataSource ds;
+  private ThreadLocal<Connection> myThreadLocal = new ThreadLocal<Connection>();
   static {
     config = new HikariConfig(FILE_PROPERTIES);
     ds = new HikariDataSource(config);
-    ds.setMaximumPoolSize(10);
   }
 
   /**
@@ -40,8 +40,13 @@ public enum DAOUtil {
    * @throws SQLException the SQL exception
    */
   public Connection getConnection() throws SQLException {
-    Connection conn = ds.getConnection();
-    conn.setAutoCommit(false);
+    Connection conn = myThreadLocal.get();
+    if (conn == null) {
+      conn = ds.getConnection();
+      conn.setAutoCommit(false);
+      myThreadLocal.set(conn);
+    }
+
     return conn;
   }
 
@@ -77,10 +82,12 @@ public enum DAOUtil {
    * Close the connection.
    * @param connexion the connection
    */
-  public void close(final Connection connexion) {
+  public void close() {
+    Connection connexion = myThreadLocal.get();
     if (connexion != null) {
       try {
         connexion.close();
+        myThreadLocal.set(null);
       } catch (final SQLException e) {
         log.error("Échec de la fermeture de la connexion : " + e.getMessage());
       }
@@ -94,7 +101,7 @@ public enum DAOUtil {
    */
   public void close(final Statement statement, final Connection connexion) {
     close(statement);
-    close(connexion);
+    close();
   }
 
   /**
@@ -107,7 +114,7 @@ public enum DAOUtil {
   public void close(final ResultSet resultSet, final Statement statement, final Connection connexion) {
     close(resultSet);
     close(statement);
-    close(connexion);
+    close();
   }
 
   /**

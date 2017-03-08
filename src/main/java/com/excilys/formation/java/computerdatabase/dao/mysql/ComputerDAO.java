@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
+import com.sun.jna.platform.win32.Sspi.TimeStamp;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -70,8 +72,9 @@ public class ComputerDAO implements IComputerDAO {
    * return the computer with the specified id.
    * @param id of the computer
    * @return the by id
+   * @throws DAOException
    */
-  @Override public Optional<Computer> getById(final long id) {
+  @Override public Optional<Computer> getById(final long id) throws DAOException {
     Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
@@ -87,7 +90,9 @@ public class ComputerDAO implements IComputerDAO {
         computer.toString();
       } else {
         log.error("Error: Wrong ID");
+        throw new DAOException("Error: Wrong ID");
       }
+
       daoUtil.close(rs, stmt, conn);
     } catch (final SQLException e) {
       e.printStackTrace();
@@ -104,37 +109,41 @@ public class ComputerDAO implements IComputerDAO {
    * @return the optional
    * @throws DAOException if wrong id
    */
-  @Override public Optional<Computer> addComputer(final String name, final String... entries) throws DAOException {
+  @Override public Optional<Computer> addComputer(Computer computer) throws DAOException {
 
     Connection conn = null;
     PreparedStatement stmt = null;
-    final Computer computer = new Computer.ComputerBuilder("computer").build();
     try {
       conn = daoUtil.getConnection();
-
-      stmt = daoUtil.initialisationRequetePreparee(conn, "INSERT INTO computer (name,introduced,company_id) values  (  ?,?,? );", false);
-      stmt.setString(1, name);
-      if (entries.length == 2) {
-        stmt.setString(2, entries[0]);
-        stmt.setString(3, entries[1]);
-      } else if (entries.length == 1) {
-        stmt.setString(2, entries[0]);
-        stmt.setString(3, "null");
+      conn.setAutoCommit(true);
+      stmt = daoUtil.initialisationRequetePreparee(conn, "INSERT INTO computer (name,introduced,company_id)  values  (  ?,?,? );", false);
+      stmt.setString(1, computer.getName());
+      if (computer.getIntroduced() != null)
+        stmt.setString(2, computer.getIntroduced().toString());
+      else {
+        stmt.setString(2, null);
       }
+      if (computer.getCompany() != null) {
 
+        stmt.setLong(3, computer.getCompany().getId());
+      } else {
+        stmt.setString(3, null);
+      }
+      log.info("computer added" + computer);
       final int status = stmt.executeUpdate();
       if (status != 0) {
         final long lastid = (getComputers().get(getComputers().size() - 1)).getId();
         computer.setId(lastid);
-        computer.setName(name);
+        computer.setName(computer.getName());
       }
-      conn.commit();
+      // conn.commit();
       daoUtil.close(stmt, conn);
     } catch (final SQLException e) {
-      rollbackConnection(conn);
+      //rollbackConnection(conn);
       e.printStackTrace();
+      log.error(e.getMessage());
     }
-
+    // daoUtil.close(stmt, conn);
     return Optional.of(computer);
   }
 

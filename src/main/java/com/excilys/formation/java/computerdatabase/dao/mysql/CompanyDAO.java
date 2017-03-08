@@ -45,4 +45,24 @@ public class CompanyDAO implements ICompanyDAO {
     return companies;
   }
 
+  @Override public Company getCompanyByID(int id) {
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    Company company= new Company(0);
+    try {
+      conn = daoUtil.getConnection();
+      stmt = daoUtil.initialisationRequetePreparee(conn, "Select * from company where id=?", false);
+      stmt.setInt(1, id);
+      rs = stmt.executeQuery();
+      while (rs.next()) {
+       company=MapperDAO.mapCompany(rs);
+       
+      }
+    } catch (final SQLException e) {
+      e.printStackTrace();
+    }
+    return company;
+  }
+
 }

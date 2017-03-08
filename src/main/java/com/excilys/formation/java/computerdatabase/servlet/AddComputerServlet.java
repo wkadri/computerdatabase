@@ -67,8 +67,12 @@ public class AddComputerServlet extends HttpServlet {
       ComputerDTO computer = new ComputerDTO();
       computer.setName(name);
       //TODO 
-      computer.setIntroduced(LocalDate.parse(introduced));
-      computer.setCompany(new CompanyDTO(companyID));
+      if (introduced != null || introduced == "null") {
+        computer.setIntroduced(LocalDate.parse(introduced));
+      }
+      int id=Integer.valueOf(companyID);
+      computer.setCompany(new CompanyDTO(id,companyService.getCompanyName(id)));
+      
       serviceComputer.createComputer(MapperDTO.map(computer));
     }
     doGet(request, response);

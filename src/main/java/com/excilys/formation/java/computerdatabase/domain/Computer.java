@@ -144,6 +144,21 @@ public class Computer {
     }
   }
 
- 
+  /**
+   * @see java.lang.Object#toString()
+   * @return string
+   */
+  //TODO plus clean
+  @Override public String toString() {
+    if (company != null && introduced != null) {
+      return "Computer ID: " + id + "  name: " + name + " made by  " + company.getName() + " introduced the " + introduced;
+    } else if (introduced != null & company == null) {
+      return "Computer ID: " + id + "  name: " + name + "  introduced the " + introduced;
+    } else if (company != null & introduced == null) {
+      return "Computer ID: " + id + "  name: " + name + " made by  " + company.getName();
+    } else {
+      return "Computer ID: " + id + "  name: " + name;
+    }
+  }
 
 }

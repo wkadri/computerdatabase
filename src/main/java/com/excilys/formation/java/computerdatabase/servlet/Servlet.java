@@ -76,7 +76,6 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
     log.info("appel doPost de la servlet Servlet");
     String selection = req.getParameter("selection");
     if (selection != null) {
-      System.out.println("DELETE" + selection);
       String[] delete = selection.split(",");
       int i = 0;
       while (i < delete.length) {

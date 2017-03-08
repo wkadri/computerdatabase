@@ -1,5 +1,6 @@
 package com.excilys.formation.java.computerdatabase.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
+import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
@@ -71,18 +73,13 @@ public class ComputerService {
 
     final String name = computer.getName();
     //TODO refactoring
-    final String[] entries = { String.valueOf(computer.getIntroduced()), String.valueOf(computer.getCompany().getId()) };
-
     try {
-      if (name.isEmpty()) {
-        log.warn("Name empty");
-        computerDAO.addComputer("computer", entries[0], entries[1]);
-        log.info("Computer ( with default name : computer )added");
-      } else {
-        computer = (computerDAO.addComputer(name.trim(), entries)).get();
-        log.info("Computer " + computer + " added");
-      }
-    } catch (final DAOException e) {
+      computerDAO.addComputer(computer);
+      log.info("Computer " + computer + " added");
+
+    } catch (
+
+    final DAOException e) {
       log.error("Can't create the computer-Reason:");
       log.error(e.getMessage());
     }

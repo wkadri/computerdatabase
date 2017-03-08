@@ -42,7 +42,7 @@ public interface IComputerDAO {
    * @return the optional
    * @throws DAOException the DAO exception
    */
-  Optional<Computer> addComputer(String name, String... introduced) throws DAOException;
+  //Optional<Computer> addComputer(String name, String... introduced) throws DAOException;
 
   /**
    * Gets the computers page.
@@ -77,4 +77,6 @@ public interface IComputerDAO {
    * @return the array list
    */
   ArrayList<Computer> filter(String string, final long offset, final int limit);
+
+  Optional<Computer> addComputer(Computer computer) throws DAOException;
 }

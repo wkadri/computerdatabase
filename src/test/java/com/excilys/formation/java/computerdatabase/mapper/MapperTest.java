@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 /**
@@ -35,7 +36,6 @@ public class MapperTest {
   /** The result set. */
   private ResultSet resultSet;
 
-
   /**
    * Inits the before each test.
    * @throws SQLException the SQL exception
@@ -56,7 +56,7 @@ public class MapperTest {
    */
   @Test public void resultSetToComputer() throws SQLException {
 
-    final ComputerDTO computer = MapperDAO.mapComputerDTO(resultSet);
+    final Computer computer = MapperDAO.mapComputer(resultSet);
     if (computer != null) {
       Assert.assertEquals(2, computer.getId());
       Assert.assertEquals("Name", computer.getName());
@@ -71,7 +71,7 @@ public class MapperTest {
    */
   @Test public void introducedNullMap() throws SQLException {
     Mockito.when(resultSet.getString(COLUMN_INTRODUCED)).thenReturn("0000-00-00");
-    final ComputerDTO computer = MapperDAO.mapComputerDTO(resultSet);
+    final Computer computer = MapperDAO.mapComputer(resultSet);
     if (computer != null) {
       Assert.assertEquals(computer.getId(), 2);
       Assert.assertEquals(computer.getName(), "Name");

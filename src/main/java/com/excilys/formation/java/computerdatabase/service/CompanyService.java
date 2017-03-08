@@ -37,4 +37,9 @@ public class CompanyService {
     //companyDAO.getCompanies().forEach(t -> log.info(t.toString()));
     return companyDAO.getCompanies();
   }
+
+  public String getCompanyName(int id) {
+    Company company = companyDAO.getCompanyByID(id);
+    return company.getName();
+  }
 }

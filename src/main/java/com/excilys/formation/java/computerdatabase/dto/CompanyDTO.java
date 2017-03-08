@@ -36,6 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     this.name = name;
   }
 
+  public CompanyDTO(int companyID) {
+    this.id = companyID;
+  }
+
   /**
    * Gets the name.
    * @return the name

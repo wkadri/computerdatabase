@@ -34,6 +34,11 @@ public class Company {
     this.name = name;
   }
 
+  public Company(int i) {
+    super();
+    id=i;
+  }
+
   /** The id. */
   private long id;
   /** The name. */
@@ -51,5 +56,11 @@ public class Company {
   public long getId() {
     return id;
   }
-
+  /**
+   * @see java.lang.Object#toString()
+   * @return string describing the instance
+   */
+  @Override public String toString() {
+    return "Company ID: " + id + "  name: " + name;
+  }
 }

@@ -54,7 +54,7 @@ public class UnitInterface {
             name = sc.nextLine();
             System.out.println("Saisissez la date d'introduction(facultatif format yyyy-mm-dd)");
             final String date = sc.nextLine();
-            computerService.createComputer(name, date);
+            //computerService.createComputer(name, date);
             break;
           case 5:
             String newIntroduced = "";
