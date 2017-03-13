@@ -6,6 +6,10 @@ package com.excilys.formation.java.computerdatabase.dao.mysql;
  */
 public class DAOException extends Exception {
   /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  /**
    * Specific Message.
    */
   private final String messEx;

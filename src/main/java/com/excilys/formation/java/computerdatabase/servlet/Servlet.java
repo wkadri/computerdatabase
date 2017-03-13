@@ -73,7 +73,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
   }
 
   @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    log.info("appel doPost de la servlet Servlet");
+    //log.info("appel doPost de la servlet Servlet");
     String selection = req.getParameter("selection");
     if (selection != null) {
       String[] delete = selection.split(",");

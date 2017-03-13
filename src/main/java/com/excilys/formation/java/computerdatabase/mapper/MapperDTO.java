@@ -19,16 +19,17 @@ public class MapperDTO {
    */
   public static ComputerDTO map(final Computer computer) {
     final ComputerDTO computerDTO = new ComputerDTO();
-    computerDTO.setId(computer.getId());
-    computerDTO.setName(computer.getName());
+    if (computer != null) {
+      computerDTO.setId(computer.getId());
+      computerDTO.setName(computer.getName());
+    }
     if (computer.getIntroduced() != null) {
       if (!computer.getIntroduced().toString().contains("0000-00-00")) {
         computerDTO.setIntroduced(computer.getIntroduced());
       }
     }
-    if (computer.getCompany()!=null) {
+    if (computer.getCompany() != null) {
       computerDTO.setCompany(new CompanyDTO(computer.getCompany().getId(), computer.getCompany().getName()));
-
     }
     return computerDTO;
   }
