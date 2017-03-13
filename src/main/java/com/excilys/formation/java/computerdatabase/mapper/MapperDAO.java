@@ -6,8 +6,6 @@ import java.time.LocalDate;
 
 import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
-import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
-import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 /**
  * The Class MapperDAO.

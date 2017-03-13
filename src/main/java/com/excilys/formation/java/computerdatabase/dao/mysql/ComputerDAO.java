@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -13,9 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
-import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
-import com.sun.jna.platform.win32.Sspi.TimeStamp;
 
 // TODO: Auto-generated Javadoc
 /**

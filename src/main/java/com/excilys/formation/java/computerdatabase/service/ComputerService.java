@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdatabase.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -9,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
-import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
-import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**
