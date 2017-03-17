@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+   db_prod:
+     image: mysql:8.0.0
+     ports:
+       - "3307:3306"
+     container_name: mysql_for_cdb_prod
+     volumes:
+       - ./config/db/.:/docker-entrypoint-initdb.d
+     environment:  
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DATABASE: computer-database-db
+       MYSQL_USER: admincdb
+       MYSQL_PASSWORD: qwerty1234

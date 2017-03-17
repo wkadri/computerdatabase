@@ -1,0 +1,1 @@
+SELECT * FROM `computer-database-db`.computer LEFT JOIN `computer-database-db`.company on `computer-database-db`.computer.company_id=`computer-database-db`.company.id WHERE `computer-database-db`.computer.name LIKE '%oui' LIMIT 10 OFFSET 10
