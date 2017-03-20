@@ -10,6 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "company") public class CompanyDTO implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -4553645858293342650L;
+
   /** The id. */
   private long id;
 

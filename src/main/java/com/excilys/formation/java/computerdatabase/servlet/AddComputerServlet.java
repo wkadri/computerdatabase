@@ -56,14 +56,15 @@ public class AddComputerServlet extends HttpServlet {
    *      javax.servlet.http.HttpServletResponse)
    */
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String action = request.getParameter("action");
     String name = request.getParameter("computerName");
     String introduced = request.getParameter("introduced");
+  
     if (introduced == "") {
       introduced = null;
     }
-    String companyID = request.getParameter("companyID");
-    if (action != null && action.contains("Add")) {
+    String companyID = request.getParameter("companyId");
+   // if (action != null && action.contains("Add")) {
+
       ComputerDTO computer = new ComputerDTO();
       computer.setName(name);
       //TODO 
@@ -74,7 +75,7 @@ public class AddComputerServlet extends HttpServlet {
       computer.setCompany(new CompanyDTO(id,companyService.getCompanyName(id)));
       
       serviceComputer.createComputer(MapperDTO.map(computer));
-    }
+    //}
     doGet(request, response);
   }
 

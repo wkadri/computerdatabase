@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.excilys.formation.java.computerdatabase.dto.Pages;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
@@ -30,7 +27,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
   /** The pages. */
   private Pages pages = new Pages(new ArrayList<>());
 
-  private Logger log = LoggerFactory.getLogger(Servlet.class);
+  //private Logger log = LoggerFactory.getLogger(Servlet.class);
 
   /**
    * Inits the.
@@ -40,7 +37,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    */
   @Override public void init(final ServletConfig config) throws ServletException {
     super.init(config);
-    log.info("initialisation de la servlet TestServlet");
+    //log.info("initialisation de la servlet Servlet");
   }
 
   /**
@@ -53,7 +50,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    *      javax.servlet.http.HttpServletResponse)
    */
   @Override public void doGet(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
-    log.info("appel doGet de la servlet Servlet");
+    // log.info("appel doGet de la servlet Servlet");
     int id = getParameterInt(req.getParameter("id"), 1);
     int nb = getParameterInt(req.getParameter("nb"), 10);
     pagination(id, nb, req);
@@ -75,11 +72,17 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
   @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     //log.info("appel doPost de la servlet Servlet");
     String selection = req.getParameter("selection");
+    String deleted = req.getParameter("delete");
+    if (deleted != null) {
+      service.deleteComputer(Integer.valueOf(deleted));
+    }
     if (selection != null) {
       String[] delete = selection.split(",");
       int i = 0;
       while (i < delete.length) {
-        service.deleteComputer(Integer.valueOf(delete[i]));
+        if (delete[i] != "") {
+          service.deleteComputer(Integer.valueOf(delete[i]));
+        }
         i++;
       }
     }
@@ -120,6 +123,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    */
   private void filter(HttpServletRequest req) {
     String filtre = req.getParameter("search");
+
     req.setAttribute("allComputers", service.filter(filtre, 0, 200));
     req.setAttribute("nbInstances", service.filter(filtre, 0, 200).size());
   }

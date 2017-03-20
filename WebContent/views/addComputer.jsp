@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1>Add Computer</h1>
-				<form id="addComputer" method="post">
+				<form method="POST">
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
@@ -42,8 +42,8 @@
 								placeholder="Discontinued date">
 						</div>
 						<div class="form-group">
-							<label for="companyId">Company</label> <select
-								class="form-control" id="companyId" name="companyId">
+							<label>Company</label> <select class="form-control"
+								name="companyId">
 
 								<c:forEach items="${companies}" var="company">
 									<option value="${company.id}">${company.name}</option>

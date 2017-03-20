@@ -89,16 +89,16 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
     if (idStr != null && !idStr.equals("")) {
       id = Integer.parseInt(idStr);
     }
-    String companyID = request.getParameter("companyID");
-    String action = request.getParameter("action");
-    if (action != null && action.contains("Edit")) {
+    String companyID = request.getParameter("companyId");
+    //String action = request.getParameter("action");
+  //  if (action != null && action.contains("Edit")) {
       //TODO
       serviceComputer.updateComputer(id, name, introduced, companyID);
 
       response.sendRedirect("/computerdatabase/Servlet");
-    } else {
-      doGet(request, response);
-    }
+   // } else {
+      //doGet(request, response);
+    //}
   }
 
 }

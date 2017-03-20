@@ -129,8 +129,8 @@ public class ComputerDAO implements IComputerDAO {
       log.info("computer added" + computer);
       final int status = stmt.executeUpdate();
       if (status != 0) {
-        final long lastid = (getComputers().get(getComputers().size() - 1)).getId();
-        computer.setId(lastid);
+        //final long lastid = (getComputers().get(getComputers().size() - 1)).getId();
+       // computer.setId(lastid);
         computer.setName(computer.getName());
       }
       // conn.commit();
@@ -264,17 +264,20 @@ public class ComputerDAO implements IComputerDAO {
     ResultSet rs = null;
     final ArrayList<Computer> computers = new ArrayList<>();
     try {
+    
       conn = daoUtil.getConnection();
-      stmt = daoUtil.initialisationRequetePreparee(conn, "SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id WHERE computer.name LIKE ?  LIMIT ? OFFSET ? ;", false);
-      stmt.setString(1, "%" + string + "%");
-      stmt.setInt(2, limit);
-      stmt.setLong(3, offset);
+      stmt = daoUtil.initialisationRequetePreparee(conn, "SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id  WHERE computer.name LIKE ?  ;", false);
+      
+      stmt.setString(1, "%"+string.trim()+"%");
+
+    
       rs = stmt.executeQuery();
-      rs.next();
+      //rs.next();
       while (rs.next()) {
         computers.add(MapperDAO.mapComputer(rs));
       }
       daoUtil.close(rs, stmt, conn);
+     // System.out.println(computers.get(0));
       return computers;
     } catch (final SQLException e) {
       e.printStackTrace();

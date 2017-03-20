@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.domain.Company;
-import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
 /**

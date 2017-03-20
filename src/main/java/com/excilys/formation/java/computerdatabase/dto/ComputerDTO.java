@@ -11,6 +11,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "computer") public class ComputerDTO implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 8353717455299508169L;
   /** The name. */
   private String name;
   /** ID string. */

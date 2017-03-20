@@ -67,8 +67,6 @@ public class ComputerService {
    * @param entries the entries
    */
   public void createComputer(Computer computer) {
-
-    final String name = computer.getName();
     //TODO refactoring
     try {
       computerDAO.addComputer(computer);
@@ -106,6 +104,7 @@ public class ComputerService {
   public void deleteComputer(final long l) {
     try {
       computerDAO.deleteComputer(l);
+      log.info("Computer id "+l+" deleted");
     } catch (final DAOException e) {
       log.error("Can't delete the computer-Reason:");
       log.error(e.getMessage());

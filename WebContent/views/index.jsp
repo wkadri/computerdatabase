@@ -42,7 +42,7 @@
 	</div>
 
 	<form id="deleteForm" method="POST">
-		<input type="hidden" name="selection" value="">
+		<input type="hidden" name="delete" value="computerId">
 	</form>
 
 	<div class="container" style="margin-top: 10px;">
@@ -52,10 +52,10 @@
 					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
 
-					<th class="editMode" style="width: 60px; height: 22px;" ><input
-						type="checkbox" id="selectall" method="post" name="action" value="delete"
-						 /> <span style="vertical-align: top;"> - <a
-							id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
+					<th class="editMode" style="width: 60px; height: 22px;"><input
+						type="checkbox" id="selectall" method="post" name="action"
+						value="delete" /> <span style="vertical-align: top;">
+							- <a id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
