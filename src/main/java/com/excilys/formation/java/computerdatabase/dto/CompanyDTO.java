@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+// TODO: Auto-generated Javadoc
 /**
  * DTO Class for the object company.
  * @author Walid KADRI
  */
-@XmlRootElement(name = "company") public class CompanyDTO implements Serializable {
+@XmlRootElement(name = "company")
+public class CompanyDTO implements Serializable {
 
-  /**
-   * 
-   */
+  /** The Constant serialVersionUID. */
   private static final long serialVersionUID = -4553645858293342650L;
 
   /** The id. */
@@ -36,11 +36,20 @@ import javax.xml.bind.annotation.XmlRootElement;
     this.name = name;
   }
 
+  /**
+   * Instantiates a new company DTO.
+   * @param id the id
+   * @param name the name
+   */
   public CompanyDTO(long id, String name) {
     this.id = id;
     this.name = name;
   }
 
+  /**
+   * Instantiates a new company DTO.
+   * @param companyID the company ID
+   */
   public CompanyDTO(int companyID) {
     this.id = companyID;
   }
@@ -78,10 +87,12 @@ import javax.xml.bind.annotation.XmlRootElement;
   }
 
   /**
-   * @see java.lang.Object#toString()
+   * To String.
    * @return string describing the instance
+   * @see java.lang.Object#toString()
    */
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "Company ID: " + id + "  name: " + name;
   }
 }

@@ -16,8 +16,9 @@ public interface IComputerDAO {
   /**
    * Gets the computers.
    * @return the computers
+   * @throws DAOException 
    */
-  ArrayList<Computer> getComputers();
+  ArrayList<Computer> getComputers() throws DAOException;
 
   /**
    * Gets the by id.
@@ -28,20 +29,19 @@ public interface IComputerDAO {
   Optional<Computer> getById(long id) throws DAOException;
 
   /**
+   * Adds the computer.
+   * @param computer the computer
+   * @return the optional
+   * @throws DAOException the DAO exception
+   */
+  Optional<Computer> addComputer(Computer computer) throws DAOException;
+
+  /**
    * Delete computer.
    * @param id the id
    * @throws DAOException the DAO exception
    */
   void deleteComputer(long id) throws DAOException;
-
-  /**
-   * Adds the computer.
-   * @param name the name
-   * @param introduced the introduced
-   * @return the optional
-   * @throws DAOException the DAO exception
-   */
-  //Optional<Computer> addComputer(String name, String... introduced) throws DAOException;
 
   /**
    * Gets the computers page.
@@ -55,18 +55,9 @@ public interface IComputerDAO {
   /**
    * Gets the number instances.
    * @return the number instances
+   * @throws DAOException 
    */
-  int getNumberInstances();
-
-  /**
-   * Update computer.
-   * @param id the id
-   * @param newName the new name
-   * @param newIntroduced the new introduced
-   * @param companyId the company id
-   * @throws DAOException the DAO exception
-   */
-  void updateComputer(long id, String newName, String newIntroduced, String companyId) throws DAOException;
+  int getNumberInstances() throws DAOException;
 
   /**
    * Filter.
@@ -74,8 +65,10 @@ public interface IComputerDAO {
    * @param offset the offset
    * @param limit the limit
    * @return the array list
+   * @throws DAOException 
    */
-  ArrayList<Computer> filter(String string, final long offset, final int limit);
+  ArrayList<Computer> filter(String string, final long offset, final int limit) throws DAOException;
 
-  Optional<Computer> addComputer(Computer computer) throws DAOException;
+  void updateComputer(Computer computer) throws DAOException;
+
 }

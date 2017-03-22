@@ -34,7 +34,6 @@ public class Pages {
    * @param currentPage the new current page
    */
   public void setCurrentPage(int currentPage) {
-    System.out.println("MAXSIZE" + pageMaxSize);
     this.currentPage = currentPage;
   }
 

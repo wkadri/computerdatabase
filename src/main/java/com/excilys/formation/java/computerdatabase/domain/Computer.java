@@ -9,49 +9,6 @@ import java.time.LocalDate;
  */
 public class Computer {
 
-  /** The id. */
-  private long id;
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(final long l) {
-    this.id = l;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
-
-  public LocalDate getIntroduced() {
-    return introduced;
-  }
-
-  public void setIntroduced(final LocalDate intoduced) {
-    this.introduced = intoduced;
-  }
-
-  public LocalDate getDiscontinued() {
-    return discontinued;
-  }
-
-  public void setDiscontinued(final LocalDate discontinued) {
-    this.discontinued = discontinued;
-  }
-
-  public Company getCompany() {
-    return company;
-  }
-
-  public void setCompany(final Company company) {
-    this.company = company;
-  }
-
   /** The name. */
   private String name;
 
@@ -69,7 +26,6 @@ public class Computer {
    * @param builder the builder
    */
   private Computer(final ComputerBuilder builder) {
-
     id = builder.id;
     name = builder.name;
     introduced = builder.introduced;
@@ -144,18 +100,70 @@ public class Computer {
     }
   }
 
+  /** The id. */
+  private long id;
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(final long l) {
+    this.id = l;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(final String name) {
+    this.name = name;
+  }
+
+  public LocalDate getIntroduced() {
+    return introduced;
+  }
+
+  public void setIntroduced(final LocalDate intoduced) {
+    this.introduced = intoduced;
+  }
+
+  public LocalDate getDiscontinued() {
+    return discontinued;
+  }
+
+  public void setDiscontinued(final LocalDate discontinued) {
+    this.discontinued = discontinued;
+  }
+
+  public Company getCompany() {
+    return company;
+  }
+
+  public void setCompany(final Company company) {
+    this.company = company;
+  }
+
   /**
+   * To String.
    * @see java.lang.Object#toString()
    * @return string
    */
-  //TODO plus clean
-  @Override public String toString() {
-    if (company != null && introduced != null) {
+  //TODO refcto:trop compliqué
+  @Override
+  public String toString() {
+
+    if (company != null && introduced != null && discontinued == null) {
       return "Computer ID: " + id + "  name: " + name + " made by  " + company.getName() + " introduced the " + introduced;
     } else if (introduced != null & company == null) {
       return "Computer ID: " + id + "  name: " + name + "  introduced the " + introduced;
     } else if (company != null & introduced == null) {
       return "Computer ID: " + id + "  name: " + name + " made by  " + company.getName();
+    } else if (discontinued != null && introduced != null) {
+      if (company != null) {
+        return "Computer ID: " + id + "  name: " + name + " made by  " + company.getName() + " introduced the " + introduced + " discontinued the " + discontinued;
+      } else {
+        return "Computer ID: " + id + "  name: " + name + " introduced the " + introduced + " discontinued the " + discontinued;
+      }
     } else {
       return "Computer ID: " + id + "  name: " + name;
     }

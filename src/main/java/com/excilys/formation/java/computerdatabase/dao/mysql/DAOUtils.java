@@ -1,5 +1,6 @@
 package com.excilys.formation.java.computerdatabase.dao.mysql;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,9 @@ import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -15,21 +19,39 @@ import com.zaxxer.hikari.HikariDataSource;
 /**
  * The Class DAOUtil.
  */
-public enum DAOUtil {
+@Repository
+//@ComponentScan({ "com.excilys.formation.java.computerdatabase.dao" })
+//@Scope("singleton")
+public class DAOUtils {
 
-  INSTANCE;
   /**
    * Instantiates a new DAO util.
    */
-  private Logger log = LoggerFactory.getLogger(DAOUtil.class);
+  private Logger log = LoggerFactory.getLogger(DAOUtils.class);
+
+  /** The Constant FILE_PROPERTIES. */
   private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/src/main/resources/hikari.properties";
+
+  /** The config. */
   private static HikariConfig config;
-  private static HikariDataSource ds;
+
+  /** The ds. */
+  private static HikariDataSource ds; 
+  /** The my thread local. */
   private ThreadLocal<Connection> myThreadLocal = new ThreadLocal<Connection>();
-  static {
+
+  public DAOUtils() {
     config = new HikariConfig(FILE_PROPERTIES);
     ds = new HikariDataSource(config);
   }
+  /*
+  private static DAOUtils instance;
+  public static DAOUtils getInstances() {
+    if (instance == null) {
+      instance = new DAOUtils();
+    }
+    return instance;
+  }*/
 
   /**
    * Gets the connection.
@@ -43,7 +65,6 @@ public enum DAOUtil {
       conn.setAutoCommit(false);
       myThreadLocal.set(conn);
     }
-
     return conn;
   }
 
@@ -77,7 +98,6 @@ public enum DAOUtil {
 
   /**
    * Close the connection.
-   * @param connexion the connection
    */
   public void close() {
     Connection connexion = myThreadLocal.get();
@@ -86,13 +106,13 @@ public enum DAOUtil {
         connexion.close();
         myThreadLocal.set(null);
       } catch (final SQLException e) {
-        log.error("Échec de la fermeture de la connexion : " + e.getMessage());
+        log.error("Stop the connection : " + e.getMessage());
       }
     }
   }
 
   /**
-   * Close the statement and the connexion .
+   * Close the statement and the connection .
    * @param statement statement
    * @param connexion connexion
    */
@@ -115,7 +135,7 @@ public enum DAOUtil {
   }
 
   /**
-   * Initialisation requete preparee.
+   * Initialize the request.
    * @param connexion the connexion
    * @param sql the sql
    * @param returnGeneratedKeys the return generated keys
@@ -124,11 +144,12 @@ public enum DAOUtil {
    * @throws SQLException the SQL exception
    */
 
-  public PreparedStatement initialisationRequetePreparee(final Connection connexion, final String sql, final boolean returnGeneratedKeys, final Object... objets) throws SQLException {
+  public PreparedStatement initRequest(final Connection connexion, final String sql, final boolean returnGeneratedKeys, final Object... objets) throws SQLException {
     final PreparedStatement preparedStatement = connexion.prepareStatement(sql, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
     for (int i = 0; i < objets.length; i++) {
       preparedStatement.setObject(i + 1, objets[i]);
     }
     return preparedStatement;
   }
+
 }

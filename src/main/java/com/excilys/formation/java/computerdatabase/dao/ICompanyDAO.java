@@ -17,7 +17,10 @@ public interface ICompanyDAO {
    */
   ArrayList<Company> getCompanies();
 
-
-
+  /**
+   * Gets the company by ID.
+   * @param id the id
+   * @return the company by ID
+   */
   Company getCompanyByID(int id);
 }

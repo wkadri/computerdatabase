@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdatabase.domain;
 
-
 /**
  * Business Class representing a company.
  * Class where the intelligence'll be implemented.
@@ -34,9 +33,13 @@ public class Company {
     this.name = name;
   }
 
+  /**
+   * Instantiates a new company.
+   * @param i the i
+   */
   public Company(int i) {
     super();
-    id=i;
+    id = i;
   }
 
   /** The id. */
@@ -53,14 +56,21 @@ public class Company {
     return name;
   }
 
+  /**
+   * Gets the id.
+   * @return the id
+   */
   public long getId() {
     return id;
   }
+
   /**
-   * @see java.lang.Object#toString()
+   * To string.
    * @return string describing the instance
+   * @see java.lang.Object#toString()
    */
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "Company ID: " + id + "  name: " + name;
   }
 }

@@ -6,7 +6,7 @@ package com.excilys.formation.java.computerdatabase.dao.mysql;
  */
 public class DAOException extends Exception {
   /**
-   * 
+   * Serial Version UID.
    */
   private static final long serialVersionUID = 1L;
   /**
@@ -27,7 +27,8 @@ public class DAOException extends Exception {
    * Get the message of the DAOException.
    * @return String, the specific message plus exception message
    */
-  @Override public String getMessage() {
+  @Override
+  public String getMessage() {
     if (super.getMessage() != null) {
       return messEx + "  because " + super.getMessage();
     } else {

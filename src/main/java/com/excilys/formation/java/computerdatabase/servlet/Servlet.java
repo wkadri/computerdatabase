@@ -54,12 +54,8 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
     int id = getParameterInt(req.getParameter("id"), 1);
     int nb = getParameterInt(req.getParameter("nb"), 10);
     pagination(id, nb, req);
-
     String action = req.getParameter("action");
-
-    if (action != null && action.contains("Filter"))
-
-    {
+    if (action != null && action.contains("Filter")) {
       filter(req);
     } else {
       req.setAttribute("nbInstances", service.getNumberInstances());
@@ -69,6 +65,15 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
     req.getRequestDispatcher("views/index.jsp").forward(req, res);
   }
 
+  /**
+   * Do Post method.
+   * @param req the req
+   * @param resp the resp
+   * @throws ServletException the servlet exception
+   * @throws IOException Signals that an I/O exception has occurred.
+   * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+   *      javax.servlet.http.HttpServletResponse)
+   */
   @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     //log.info("appel doPost de la servlet Servlet");
     String selection = req.getParameter("selection");
@@ -131,7 +136,7 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
   /**
    * Gets the parameter int.
    * @param value the value
-   * @param req the req
+   * @param initialValue the initial value
    * @return the parameter int
    */
   //TODO

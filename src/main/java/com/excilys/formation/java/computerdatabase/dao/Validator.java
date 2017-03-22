@@ -1,14 +1,24 @@
 package com.excilys.formation.java.computerdatabase.dao;
 
-public  class Validator {
+/**
+ * The Class Validator.
+ */
+public class Validator {
 
-  private Validator(){}
+  /**
+   * Instantiates a new validator.
+   */
+  private Validator() { }
+
+  /**
+   * Checks if is valid date.
+   * @param date the date
+   * @return true, if is valid date
+   */
   public static boolean isValidDate(String date) {
-    
-    
+
     return true;
-    
-    
+
   }
 
 }

@@ -58,25 +58,26 @@ public class AddComputerServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String name = request.getParameter("computerName");
     String introduced = request.getParameter("introduced");
-  
+    String discontinued = request.getParameter("discontinued");
     if (introduced == "") {
       introduced = null;
     }
     String companyID = request.getParameter("companyId");
-   // if (action != null && action.contains("Add")) {
+    ComputerDTO computerDto = new ComputerDTO();
+    computerDto.setName(name);
+    //TODO refactore
+    if (introduced != null || introduced == "null") {
+      computerDto.setIntroduced(introduced);
+    }
+    //TODO changer les vérif
+    if (discontinued != null || discontinued == "null") {
+      computerDto.setDiscontinued(discontinued);
+    }
+    int id = Integer.valueOf(companyID);
+    computerDto.setCompany(new CompanyDTO(id, companyService.getCompanyName(id)));
 
-      ComputerDTO computer = new ComputerDTO();
-      computer.setName(name);
-      //TODO 
-      if (introduced != null || introduced == "null") {
-        computer.setIntroduced(LocalDate.parse(introduced));
-      }
-      int id=Integer.valueOf(companyID);
-      computer.setCompany(new CompanyDTO(id,companyService.getCompanyName(id)));
-      
-      serviceComputer.createComputer(MapperDTO.map(computer));
-    //}
-    doGet(request, response);
+    serviceComputer.createComputer(MapperDTO.map(computerDto));
+    request.getRequestDispatcher("Servlet").forward(request, response);
   }
 
 }

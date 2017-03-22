@@ -45,7 +45,7 @@
 						</div>
 						<div class="form-group">
 							<label for="discontinued">Discontinued date</label> <input
-								type="date" class="form-control" id="discontinued"
+								type="date" class="form-control" id="discontinued" name="discontinued" 
 								placeholder="Discontinued date">
 						</div>
 						<div class="form-group">

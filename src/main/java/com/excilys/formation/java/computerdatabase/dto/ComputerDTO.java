@@ -1,18 +1,20 @@
 package com.excilys.formation.java.computerdatabase.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.excilys.formation.java.computerdatabase.domain.Computer;
+import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
 
 /**
  * DTO for computer Class.
  * @author Walid KADRI
  */
-@XmlRootElement(name = "computer") public class ComputerDTO implements Serializable {
+@XmlRootElement(name = "computer")
+public class ComputerDTO implements Serializable {
 
   /**
-   * 
    */
   private static final long serialVersionUID = 8353717455299508169L;
   /** The name. */
@@ -21,7 +23,18 @@ import javax.xml.bind.annotation.XmlRootElement;
   private long id;
 
   /** The introduced. */
-  private LocalDate introduced;
+  private String introduced;
+
+  /** The introduced. */
+  private String discontinued;
+
+  public String getDiscontinued() {
+    return discontinued;
+  }
+
+  public void setDiscontinued(String discontinued) {
+    this.discontinued = discontinued;
+  }
 
   /** The company. */
   private CompanyDTO company;
@@ -70,23 +83,17 @@ import javax.xml.bind.annotation.XmlRootElement;
    * @return string
    */
   //TODO plus clean
-  @Override public String toString() {
-    if (company != null && introduced != null) {
-      return "Computer ID: " + id + "  name: " + name + " made by  " + company.getName() + " introduced the " + introduced;
-    } else if (introduced != null & company == null) {
-      return "Computer ID: " + id + "  name: " + name + "  introduced the " + introduced;
-    } else if (company != null & introduced == null) {
-      return "Computer ID: " + id + "  name: " + name + " made by  " + company.getName();
-    } else {
-      return "Computer ID: " + id + "  name: " + name;
-    }
+  @Override
+  public String toString() {
+    Computer comp = MapperDTO.map(this);
+    return comp.toString();
   }
 
   /**
    * Gets the introduced.
    * @return the introduced
    */
-  public LocalDate getIntroduced() {
+  public String getIntroduced() {
     return introduced;
   }
 
@@ -94,7 +101,7 @@ import javax.xml.bind.annotation.XmlRootElement;
    * Sets the introduced.
    * @param introduced the new introduced
    */
-  public void setIntroduced(final LocalDate introduced) {
+  public void setIntroduced(final String introduced) {
     this.introduced = introduced;
   }
 

@@ -54,8 +54,8 @@
 
 					<th class="editMode" style="width: 60px; height: 22px;"><input
 						type="checkbox" id="selectall" method="post" name="action"
-						value="delete" /> <span style="vertical-align: top;">
-							- <a id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
+						value="delete" /> <span style="vertical-align: top;"> - <a
+							id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
@@ -81,7 +81,7 @@
 						<td><a href="EditComputerServlet?id=${computer.id}"
 							onclick="">${computer.name}</a></td>
 						<td>${computer.introduced}</td>
-						<td></td>
+							<td>${computer.discontinued}</td>
 						<td>${computer.company.name}</td>
 					</tr>
 				</c:forEach>

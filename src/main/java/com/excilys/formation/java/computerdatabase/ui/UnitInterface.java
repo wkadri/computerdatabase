@@ -1,9 +1,14 @@
 package com.excilys.formation.java.computerdatabase.ui;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
+import com.excilys.formation.java.computerdatabase.domain.Computer;
+import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
@@ -27,8 +32,8 @@ public class UnitInterface {
         System.out.println(" ");
         System.out.println("Bienvenue sur Computer DataBase");
         System.out.println("Tapez la commande de votre choix :");
-        System.out.println("1 . Recuperer l'ensemble des ordinateurs présent dans la base de donnée");
-        System.out.println("2 . Recuperer l'ensemble des compagnies de la base de donnée");
+        System.out.println("1 . Recuperer l'ensemble des ordinateurs présent dans la base de données");
+        System.out.println("2 . Recuperer l'ensemble des compagnies de la base de données");
         System.out.println("3 . Recuperer les informations d'un ordinateur en fonction de son id");
         System.out.println("4 . Ajouter un ordinateur à la base de donnée (avec seulement le nom)");
         System.out.println("5 . Modifier le nom d'un ordinateur");
@@ -36,9 +41,11 @@ public class UnitInterface {
         final int i = sc.nextInt();
         int id = 0;
         String name = "";
+        ArrayList<ComputerDTO> computersDTO;
         switch (i) {
           case 1:
-            //final ComputerPages pages = new ComputerPages(computerService.getComputers(), sc);
+            computersDTO = MapperDTO.map(computerService.getComputers());
+            final ComputerPages pages = new ComputerPages(computersDTO, sc);
             break;
           case 2:
             companyService.getCompanies();
@@ -53,8 +60,8 @@ public class UnitInterface {
             sc.nextLine();
             name = sc.nextLine();
             System.out.println("Saisissez la date d'introduction(facultatif format yyyy-mm-dd)");
-            //final String date = sc.nextLine();
-            //computerService.createComputer(name, date);
+            final String date = sc.nextLine();
+            computerService.createComputer(new Computer.ComputerBuilder(name).introduced(LocalDate.parse(date)).build());
             break;
           case 5:
             String newIntroduced = "";
@@ -68,7 +75,7 @@ public class UnitInterface {
             while (newIntroduced.isEmpty()) {
               newIntroduced = sc.nextLine();
             }
-            computerService.updateComputer(id, name, newIntroduced, null);
+            //TODO computerService.updateComputer(id, name, newIntroduced, null);
             break;
           case 6:
             System.out.println("Saisissez l'id de l'ordinateur à supprimer");
@@ -81,7 +88,6 @@ public class UnitInterface {
         System.out.println("Recommencez");
         sc.nextLine();
       }
-      Thread.sleep(100);
     } while (true);
   }
 }
