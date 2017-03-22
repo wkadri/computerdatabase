@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+import com.excilys.formation.java.computerdatabase.AppContext;
+import com.excilys.formation.java.computerdatabase.dao.mysql.DAOUtils;
 import com.excilys.formation.java.computerdatabase.dto.Pages;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
@@ -18,16 +23,18 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
 /**
  * Servlet implementation.
  */
-@WebServlet("/Servlet") public class Servlet extends HttpServlet {
+@WebServlet("/Servlet")
+public class Servlet extends HttpServlet {
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
   /** The service. */
-  ComputerService service = new ComputerService();
+
+  ComputerService service;
 
   /** The pages. */
   private Pages pages = new Pages(new ArrayList<>());
 
-  //private Logger log = LoggerFactory.getLogger(Servlet.class);
+  private Logger log = LoggerFactory.getLogger(Servlet.class);
 
   /**
    * Inits the.
@@ -35,8 +42,11 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    * @throws ServletException the servlet exception
    * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
    */
-  @Override public void init(final ServletConfig config) throws ServletException {
+  @Override
+  public void init(final ServletConfig config) throws ServletException {
     super.init(config);
+    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
+    service = (ComputerService) context.getBean(ComputerService.class);
     //log.info("initialisation de la servlet Servlet");
   }
 
@@ -49,7 +59,8 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
    *      javax.servlet.http.HttpServletResponse)
    */
-  @Override public void doGet(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
+  @Override
+  public void doGet(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
     // log.info("appel doGet de la servlet Servlet");
     int id = getParameterInt(req.getParameter("id"), 1);
     int nb = getParameterInt(req.getParameter("nb"), 10);
@@ -74,7 +85,8 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
    * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
    *      javax.servlet.http.HttpServletResponse)
    */
-  @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     //log.info("appel doPost de la servlet Servlet");
     String selection = req.getParameter("selection");
     String deleted = req.getParameter("delete");

@@ -20,8 +20,6 @@ import com.zaxxer.hikari.HikariDataSource;
  * The Class DAOUtil.
  */
 @Repository
-//@ComponentScan({ "com.excilys.formation.java.computerdatabase.dao" })
-//@Scope("singleton")
 public class DAOUtils {
 
   /**
@@ -44,14 +42,7 @@ public class DAOUtils {
     config = new HikariConfig(FILE_PROPERTIES);
     ds = new HikariDataSource(config);
   }
-  /*
-  private static DAOUtils instance;
-  public static DAOUtils getInstances() {
-    if (instance == null) {
-      instance = new DAOUtils();
-    }
-    return instance;
-  }*/
+
 
   /**
    * Gets the connection.

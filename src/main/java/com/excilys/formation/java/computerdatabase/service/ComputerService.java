@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
-import com.excilys.formation.java.computerdatabase.dao.AppContextDAO;
+import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
@@ -22,22 +22,14 @@ import com.excilys.formation.java.computerdatabase.domain.Computer;
 @Service
 public class ComputerService implements IComputerService {
   /** Computer DAO. */
-  // @Autowired
-  private final IComputerDAO computerDAO;
+  @Autowired
+  private IComputerDAO computerDAO;
   /** The log. */
-  private final Logger log;
-
-  /**
-   * Instantiates a new computer service.
-   */
+  private final static Logger log = LoggerFactory.getLogger(ComputerService.class);
+ 
   public ComputerService() {
-    // ApplicationContext context = new AnnotationConfigApplicationContext(AppContextDAO.class);
-
-    //computerDAO = (ComputerDAO) context.getBean(ComputerDAO.class);
-    computerDAO = new ComputerDAO();
-    log = LoggerFactory.getLogger(ComputerService.class);
+    
   }
-
   /**
    * Gets the computers.
    * @return the computers

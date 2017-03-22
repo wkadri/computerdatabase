@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
-import com.excilys.formation.java.computerdatabase.dao.AppContextDAO;
+import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.CompanyDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.DAOUtils;
@@ -23,7 +23,7 @@ import com.excilys.formation.java.computerdatabase.domain.Company;
 public class CompanyService implements ICompanyService {
 
   /** The company DAO. */
-  //@Autowired
+  @Autowired
   private final ICompanyDAO companyDAO;
 
   /** The log. */

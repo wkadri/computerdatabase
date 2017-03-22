@@ -11,7 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.excilys.formation.java.computerdatabase.dao.AppContextDAO;
+import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
@@ -31,8 +31,7 @@ public class CompanyDAO implements ICompanyDAO {
 
   public CompanyDAO() {
     //ApplicationContext context = new AnnotationConfigApplicationContext(DAOUtils.class);
-    AbstractApplicationContext  context = new AnnotationConfigApplicationContext(AppContextDAO.class);
-     daoUtils = (DAOUtils) context.getBean(DAOUtils.class);
+  
   }
 
   /**

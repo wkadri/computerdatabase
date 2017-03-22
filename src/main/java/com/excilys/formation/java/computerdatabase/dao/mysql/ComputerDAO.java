@@ -13,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.excilys.formation.java.computerdatabase.dao.AppContextDAO;
+import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
@@ -26,7 +25,6 @@ import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
  * @author Walid KADRI
  */
 @Repository
-@Scope("singleton")
 public class ComputerDAO implements IComputerDAO {
 
   /** Max number of instances. */
@@ -37,9 +35,7 @@ public class ComputerDAO implements IComputerDAO {
   private Logger log = LoggerFactory.getLogger(CompanyDAO.class);
 
   public ComputerDAO() {
-// ApplicationContext context = new AnnotationConfigApplicationContext(DAOUtils.class);
-    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContextDAO.class);
-    daoUtils = (DAOUtils) context.getBean(DAOUtils.class);
+
   }
 
   /**
