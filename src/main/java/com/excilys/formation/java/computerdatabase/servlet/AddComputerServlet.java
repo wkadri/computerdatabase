@@ -32,18 +32,19 @@ public class AddComputerServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   /** The service computer. */
-  @Autowired
+
   private ComputerService serviceComputer;
 
   /** The company service. */
-  @Autowired
+
   private CompanyService companyService;
 
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
     AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
-
+    serviceComputer= (ComputerService) context.getBean(ComputerService.class);
+    companyService = (CompanyService) context.getBean(CompanyService.class);
     //SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
   }
 
