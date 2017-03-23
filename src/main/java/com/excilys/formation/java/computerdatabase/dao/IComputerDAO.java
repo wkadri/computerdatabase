@@ -1,9 +1,9 @@
 package com.excilys.formation.java.computerdatabase.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 
 // TODO: Auto-generated Javadoc
@@ -16,9 +16,9 @@ public interface IComputerDAO {
   /**
    * Gets the computers.
    * @return the computers
-   * @throws DAOException 
+   * @throws DAOException
    */
-  ArrayList<Computer> getComputers() throws DAOException;
+  List<Computer> getComputers() throws DAOException;
 
   /**
    * Gets the by id.
@@ -50,12 +50,12 @@ public interface IComputerDAO {
    * @return the computers page
    * @throws DAOException the DAO exception
    */
-  ArrayList<Computer> getComputersPage(long offset, int limit) throws DAOException;
+  List<Computer> getComputersPage(long offset, int limit) throws DAOException;
 
   /**
    * Gets the number instances.
    * @return the number instances
-   * @throws DAOException 
+   * @throws DAOException
    */
   int getNumberInstances() throws DAOException;
 
@@ -65,9 +65,9 @@ public interface IComputerDAO {
    * @param offset the offset
    * @param limit the limit
    * @return the array list
-   * @throws DAOException 
+   * @throws DAOException
    */
-  ArrayList<Computer> filter(String string, final long offset, final int limit) throws DAOException;
+  List<Computer> filter(String string, final long offset, final int limit) throws DAOException;
 
   void updateComputer(Computer computer) throws DAOException;
 

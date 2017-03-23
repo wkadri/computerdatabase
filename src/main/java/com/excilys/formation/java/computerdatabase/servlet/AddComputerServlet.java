@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
@@ -18,18 +23,27 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
 /**
  * The Class ServletComputer.
  */
-@WebServlet("/ServletComputer")
-
+@WebServlet("/add-computer")
 public class AddComputerServlet extends HttpServlet {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
 
   /** The service computer. */
-  private ComputerService serviceComputer = new ComputerService();
+  @Autowired
+  private ComputerService serviceComputer;
 
   /** The company service. */
-  private CompanyService companyService = new CompanyService();
+  @Autowired
+  private CompanyService companyService;
+
+  @Override
+  public void init() throws ServletException {
+    super.init();
+    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
+    serviceComputer = (ComputerService) context.getBean(ComputerService.class);
+    companyService = (CompanyService) context.getBean(CompanyService.class);
+  }
 
   /**
    * doGet.
@@ -77,7 +91,7 @@ public class AddComputerServlet extends HttpServlet {
     computerDto.setCompany(new CompanyDTO(id, companyService.getCompanyName(id)));
 
     serviceComputer.createComputer(MapperDTO.map(computerDto));
-    request.getRequestDispatcher("Servlet").forward(request, response);
+    request.getRequestDispatcher("computers").forward(request, response);
   }
 
 }

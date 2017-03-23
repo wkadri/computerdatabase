@@ -1,48 +1,39 @@
 package com.excilys.formation.java.computerdatabase.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Service;
 
-import com.excilys.formation.java.computerdatabase.AppContext;
-import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.dao.mysql.CompanyDAO;
-import com.excilys.formation.java.computerdatabase.dao.mysql.DAOUtils;
 import com.excilys.formation.java.computerdatabase.domain.Company;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CompanyService.
  * @author Walid Kadri
  */
+@Service
 public class CompanyService implements ICompanyService {
 
   /** The company DAO. */
   @Autowired
-  private final ICompanyDAO companyDAO;
+  private CompanyDAO companyDAO;
 
   /** The log. */
-  private final Logger log = LoggerFactory.getLogger(CompanyService.class);
+  private final static Logger log = LoggerFactory.getLogger(CompanyService.class);
 
   /**
    * Instantiates a new company service.
    */
-  public CompanyService() {
-    companyDAO = new CompanyDAO();
-    //ApplicationContext context = new AnnotationConfigApplicationContext(AppContextDAO.class);
-    //companyDAO = (ICompanyDAO) context.getBean(ICompanyDAO.class);
-  }
+  public CompanyService() {}
 
   /**
    * Gets the companies.
    * @return the companies
    */
-  public ArrayList<Company> getCompanies() {
+  public List<Company> getCompanies() {
     return companyDAO.getCompanies();
   }
 

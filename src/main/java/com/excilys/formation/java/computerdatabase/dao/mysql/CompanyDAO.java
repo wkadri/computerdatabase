@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.domain.Company;
-import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
 /**
  * The Class CompanyDAO.
@@ -53,6 +52,8 @@ public class CompanyDAO implements ICompanyDAO {
       }
     } catch (final SQLException e) {
       e.printStackTrace();
+    } finally {
+      daoUtils.close(rs,stmt);
     }
 
     return companies;

@@ -10,15 +10,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Repository;
 
-import com.excilys.formation.java.computerdatabase.AppContext;
+import com.excilys.formation.java.computerdatabase.dao.DAOException;
 import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
-import com.excilys.formation.java.computerdatabase.mapper.MapperDAO;
 
 /**
  * Access to the table Computers.
@@ -60,9 +56,10 @@ public class ComputerDAO implements IComputerDAO {
       }
     } catch (final SQLException e) {
       throw new DAOException("Error :" + e.getMessage());
+    } finally {
+      daoUtils.close(rs, stmt);
     }
 
-    daoUtils.close(rs, stmt, conn);
     return computers;
   }
 
@@ -105,9 +102,10 @@ public class ComputerDAO implements IComputerDAO {
         throw new DAOException("Error: Wrong ID");
       }
 
-      daoUtils.close(rs, stmt, conn);
     } catch (final SQLException e) {
       throw new DAOException("Error :" + e.getMessage());
+    } finally {
+      daoUtils.close(rs, stmt);
     }
     return Optional.of(computer);
   }
@@ -153,8 +151,9 @@ public class ComputerDAO implements IComputerDAO {
       rollbackConnection(conn);
       log.error(e.getMessage());
       throw new DAOException("Error :" + e.getMessage());
+    } finally {
+      daoUtils.close(stmt);
     }
-    daoUtils.close(stmt, conn);
     return Optional.of(computer);
   }
 
@@ -174,9 +173,10 @@ public class ComputerDAO implements IComputerDAO {
       stmt.setLong(1, id);
       stmt.executeUpdate();
       conn.commit();
-      daoUtils.close(stmt, conn);
     } catch (final SQLException e) {
       throw new DAOException("Error :" + e.getMessage());
+    } finally {
+      daoUtils.close(stmt);
     }
   }
 
@@ -204,10 +204,11 @@ public class ComputerDAO implements IComputerDAO {
       while (rs.next()) {
         computers.add(MapperDAO.mapComputer(rs));
       }
-      daoUtils.close(rs, stmt, conn);
       return computers;
     } catch (final SQLException e) {
       throw new DAOException("Error :" + e.getMessage());
+    } finally {
+      daoUtils.close(rs, stmt);
     }
 
   }
@@ -230,10 +231,11 @@ public class ComputerDAO implements IComputerDAO {
       int i = 0;
       rs.next();
       i = rs.getInt(1);
-      daoUtils.close(rs, stmt, conn);
       return i;
     } catch (final SQLException e) {
       throw new DAOException("Error :" + e.getMessage());
+    } finally {
+      daoUtils.close(rs, stmt);
     }
 
   }
@@ -259,10 +261,11 @@ public class ComputerDAO implements IComputerDAO {
       while (rs.next()) {
         computers.add(MapperDAO.mapComputer(rs));
       }
-      daoUtils.close(rs, stmt, conn);
       return computers;
     } catch (final SQLException e) {
       throw new DAOException("Error :" + e.getMessage());
+    } finally {
+      daoUtils.close(rs, stmt);
     }
   }
 
@@ -286,7 +289,8 @@ public class ComputerDAO implements IComputerDAO {
     } catch (final SQLException e) {
       rollbackConnection(conn);
       throw new DAOException("error on update :" + e.getMessage());
+    } finally {
+      daoUtils.close(rs, stmt);
     }
-    daoUtils.close(rs, stmt, conn);
   }
 }

@@ -15,7 +15,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="Servlet"> Application - Computer
+		<a class="navbar-brand" href="computers"> Application - Computer
 			Database </a>
 	</div>
 	</header>
@@ -34,7 +34,7 @@
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="ServletComputer">Add
+				<a class="btn btn-success" id="addComputer" href="add-computer">Add
 					Computer</a> <a class="btn btn-default" id="editComputer"
 					onclick="$.fn.toggleEditMode();">Edit</a>
 			</div>
@@ -76,9 +76,9 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" class="cb"
 							name="cb" value="${computer.id}" /></td>
-						<td><a href="EditComputerServlet?id=${computer.id}"
+						<td><a href="edit-computer?id=${computer.id}"
 							onclick="">${computer.id}</a></td>
-						<td><a href="EditComputerServlet?id=${computer.id}"
+						<td><a href="edit-computer?id=${computer.id}"
 							onclick="">${computer.name}</a></td>
 						<td>${computer.introduced}</td>
 							<td>${computer.discontinued}</td>
@@ -94,24 +94,24 @@
 	<footer class="navbar-fixed-bottom">
 	<div class="container text-center">
 		<ul class="pagination">
-			<li><a href="Servlet?id=${precedent}&&nb=${nb}"
+			<li><a href="computers?id=${precedent}&&nb=${nb}"
 				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 			</a></li>
 			<c:forEach items="${allPages}" var="page">
-				<li><a href="Servlet?id=${page}&&nb=${nb}">${page+1}</a></li>
+				<li><a href="computers?id=${page}&&nb=${nb}">${page+1}</a></li>
 
 			</c:forEach>
-			<li><a href="Servlet?id=${suivant}&&nb=${nb}" aria-label="Next">
+			<li><a href="computers?id=${suivant}&&nb=${nb}" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<a href="Servlet?id=${id}&&nb=10">
+			<a href="computers?id=${id}&&nb=10">
 				<button type="button" class="btn btn-default">10</button>
-			</a> <a href="Servlet?id=${id}&&nb=50"><button type="button"
+			</a> <a href="computers?id=${id}&&nb=50"><button type="button"
 					class="btn btn-default">50</button></a> <a
-				href="Servlet?id=${id}&&nb=100"><button type="button"
+				href="computers?id=${id}&&nb=100"><button type="button"
 					class="btn btn-default">100</button></a>
 		</div>
 	</div>

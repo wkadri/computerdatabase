@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.dao.mysql;
+package com.excilys.formation.java.computerdatabase.dao;
 
 /**
  * Class that manage exceptions in DAOs.

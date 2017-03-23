@@ -1,18 +1,15 @@
 package com.excilys.formation.java.computerdatabase.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
-import com.excilys.formation.java.computerdatabase.AppContext;
-import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
+import com.excilys.formation.java.computerdatabase.dao.DAOException;
 import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
-import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 
 /**
@@ -23,20 +20,21 @@ import com.excilys.formation.java.computerdatabase.domain.Computer;
 public class ComputerService implements IComputerService {
   /** Computer DAO. */
   @Autowired
-  private IComputerDAO computerDAO;
+  private ComputerDAO computerDAO;
   /** The log. */
   private final static Logger log = LoggerFactory.getLogger(ComputerService.class);
- 
+
   public ComputerService() {
-    
+
   }
+
   /**
    * Gets the computers.
    * @return the computers
    */
-  public ArrayList<Computer> getComputers() {
+  public List<Computer> getComputers() {
     try {
-      final ArrayList<Computer> computers = computerDAO.getComputers();
+      final ArrayList<Computer> computers = (ArrayList<Computer>) computerDAO.getComputers();
       return computers;
     } catch (final DAOException e) {
       log.error("Can't update the computer-Reason:");
@@ -102,7 +100,7 @@ public class ComputerService implements IComputerService {
    * @param nb the nb
    * @return the computers page
    */
-  public ArrayList<Computer> getComputersPage(long l, int nb) {
+  public List<Computer> getComputersPage(long l, int nb) {
     try {
       return computerDAO.getComputersPage(l, nb);
     } catch (DAOException e) {
@@ -133,7 +131,7 @@ public class ComputerService implements IComputerService {
    * @param limit the limit
    * @return the array list
    */
-  public ArrayList<Computer> filter(String filtre, long offset, int limit) {
+  public List<Computer> filter(String filtre, long offset, int limit) {
     try {
       return computerDAO.filter(filtre, offset, limit);
     } catch (final DAOException e) {
@@ -156,4 +154,11 @@ public class ComputerService implements IComputerService {
     }
   }
 
+  //@Transactional
+  public void deleteComputers(int... ids) {
+    for (int id : ids) {
+      deleteComputer(id);
+    }
+
+  }
 }

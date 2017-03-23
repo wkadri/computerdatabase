@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdatabase.dao.mysql;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,17 +8,13 @@ import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Repository;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * The Class DAOUtil.
  */
-@Repository
+@Component("daoUtils")
 public class DAOUtils {
 
   /**
@@ -28,21 +23,24 @@ public class DAOUtils {
   private Logger log = LoggerFactory.getLogger(DAOUtils.class);
 
   /** The Constant FILE_PROPERTIES. */
-  private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/src/main/resources/hikari.properties";
+  private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/src/main/resources/computerdatabase.properties";
 
-  /** The config. */
-  private static HikariConfig config;
+  @Autowired
+  private static DataSource ds;
 
-  /** The ds. */
-  private static HikariDataSource ds; 
-  /** The my thread local. */
-  private ThreadLocal<Connection> myThreadLocal = new ThreadLocal<Connection>();
-
-  public DAOUtils() {
-    config = new HikariConfig(FILE_PROPERTIES);
-    ds = new HikariDataSource(config);
+  private Connection connexion;
+/**
+  static {
+    ds = new DriverManagerDataSource();
+    ds.setDriverClassName("com.mysql.jdbc.Driver");
+    ds.setUrl("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull");
+    ds.setUsername("admincdb");
+    ds.setPassword("qwerty1234");
   }
-
+*/
+  public DAOUtils() {
+  
+  }
 
   /**
    * Gets the connection.
@@ -50,13 +48,9 @@ public class DAOUtils {
    * @throws SQLException the SQL exception
    */
   public Connection getConnection() throws SQLException {
-    Connection conn = myThreadLocal.get();
-    if (conn == null) {
-      conn = ds.getConnection();
-      conn.setAutoCommit(false);
-      myThreadLocal.set(conn);
-    }
-    return conn;
+    connexion = ds.getConnection();
+    connexion.setAutoCommit(false);
+    return connexion;
   }
 
   /**
@@ -91,11 +85,11 @@ public class DAOUtils {
    * Close the connection.
    */
   public void close() {
-    Connection connexion = myThreadLocal.get();
+
     if (connexion != null) {
       try {
         connexion.close();
-        myThreadLocal.set(null);
+
       } catch (final SQLException e) {
         log.error("Stop the connection : " + e.getMessage());
       }
@@ -119,7 +113,7 @@ public class DAOUtils {
    * @param connexion the connection
    */
 
-  public void close(final ResultSet resultSet, final Statement statement, final Connection connexion) {
+  public void close(final ResultSet resultSet, final Statement statement) {
     close(resultSet);
     close(statement);
     close();

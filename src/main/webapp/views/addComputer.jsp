@@ -14,7 +14,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="Servlet"> Application - Computer
+		<a class="navbar-brand" href="computers"> Application - Computer
 			Database </a>
 	</div>
 	</header>

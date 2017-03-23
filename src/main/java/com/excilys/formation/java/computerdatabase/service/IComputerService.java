@@ -1,6 +1,7 @@
 package com.excilys.formation.java.computerdatabase.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 
@@ -13,7 +14,7 @@ public interface IComputerService {
    * Gets the computers.
    * @return the computers
    */
-  ArrayList<Computer> getComputers();
+  List<Computer> getComputers();
 
   /**
    * Describe computer by ID.
@@ -28,7 +29,6 @@ public interface IComputerService {
    */
   void createComputer(Computer computer);
 
-
   /**
    * Delete computer.
    * @param l the l
@@ -41,7 +41,7 @@ public interface IComputerService {
    * @param nb the nb
    * @return the computers page
    */
-  ArrayList<Computer> getComputersPage(long l, int nb);
+  List<Computer> getComputersPage(long l, int nb);
 
   /**
    * Gets the number instances.
@@ -56,7 +56,7 @@ public interface IComputerService {
    * @param limit the limit
    * @return the array list
    */
-  ArrayList<Computer> filter(String filtre, long offset, int limit);
+  List<Computer> filter(String filtre, long offset, int limit);
 
   void updateComputer(Computer computer);
 

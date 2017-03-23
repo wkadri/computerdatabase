@@ -2,6 +2,7 @@ package com.excilys.formation.java.computerdatabase.mapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
@@ -12,6 +13,8 @@ import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
  * The Class MapperDTO.
  */
 public class MapperDTO {
+
+  private MapperDTO() {}
 
   /**
    * Map computer DTO.
@@ -74,7 +77,7 @@ public class MapperDTO {
    * @param computers the computers
    * @return the array list
    */
-  public static ArrayList<ComputerDTO> map(final ArrayList<Computer> computers) {
+  public static List<ComputerDTO> map(final List<Computer> computers) {
     ArrayList<ComputerDTO> listComputer = new ArrayList<>();
     for (Computer comp : computers) {
       listComputer.add(MapperDTO.map(comp));

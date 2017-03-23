@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+import com.excilys.formation.java.computerdatabase.AppContext;
+import com.excilys.formation.java.computerdatabase.dao.DAOException;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
@@ -24,8 +28,12 @@ public class UnitInterface {
    * @throws DAOException exception
    */
   public static void main(final String[] args) throws InterruptedException, DAOException {
-    final CompanyService companyService = new CompanyService();
-    final ComputerService computerService = new ComputerService();
+    final CompanyService companyService ;
+    final ComputerService computerService;
+    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
+    computerService = (ComputerService) context.getBean(ComputerService.class);
+    companyService = (CompanyService) context.getBean(CompanyService.class);
+  
     final Scanner sc = new Scanner(System.in);
     do {
       try {
@@ -44,7 +52,7 @@ public class UnitInterface {
         ArrayList<ComputerDTO> computersDTO;
         switch (i) {
           case 1:
-            computersDTO = MapperDTO.map(computerService.getComputers());
+            computersDTO = (ArrayList<ComputerDTO>) MapperDTO.map(computerService.getComputers());
             final ComputerPages pages = new ComputerPages(computersDTO, sc);
             break;
           case 2:

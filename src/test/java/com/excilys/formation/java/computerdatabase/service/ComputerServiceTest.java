@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.excilys.formation.java.computerdatabase.dao.DAOException;
 import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
-import com.excilys.formation.java.computerdatabase.dao.mysql.DAOException;
 import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 

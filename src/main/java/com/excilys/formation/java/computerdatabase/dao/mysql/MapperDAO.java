@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.mapper;
+package com.excilys.formation.java.computerdatabase.dao.mysql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +11,10 @@ import com.excilys.formation.java.computerdatabase.domain.Computer;
  * The Class MapperDAO.
  */
 public class MapperDAO {
+
+  private MapperDAO() {
+
+  }
 
   /**
    * Map computer DTO.

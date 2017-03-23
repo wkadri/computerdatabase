@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.excilys.formation.java.computerdatabase.dao.mysql.MapperDAO;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 
 /**

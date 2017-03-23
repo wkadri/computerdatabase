@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
@@ -20,17 +24,17 @@ import com.excilys.formation.java.computerdatabase.service.IComputerService;
 /**
  * Servlet implementation class EditComputerServlet.
  */
-@WebServlet("/EditComputerServlet")
+@WebServlet("/edit-computer")
 public class EditComputerServlet extends HttpServlet {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
 
   /** The service computer. */
-  private IComputerService serviceComputer = new ComputerService();
+  private IComputerService serviceComputer;
 
   /** The company service. */
-  private ICompanyService companyService = new CompanyService();
+  private ICompanyService companyService;
 
   /**
    * Instantiates a new edits the computer servlet.
@@ -38,6 +42,14 @@ public class EditComputerServlet extends HttpServlet {
    */
   public EditComputerServlet() {
     super();
+  }
+
+  @Override
+  public void init() throws ServletException {
+    super.init();
+    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
+    serviceComputer= (ComputerService) context.getBean(ComputerService.class);
+    companyService = (CompanyService) context.getBean(CompanyService.class);
   }
 
   /**
@@ -55,10 +67,7 @@ public class EditComputerServlet extends HttpServlet {
       id = Integer.parseInt(idStr);
     }
     Computer computer = serviceComputer.describeComputerByID(id);
-
     ComputerDTO computerDTO = MapperDTO.map(computer);
-    //TODO
-
     request.setAttribute("computerName", computer.getName());
     if (computer.getIntroduced() != null) {
 
@@ -97,7 +106,6 @@ public class EditComputerServlet extends HttpServlet {
       id = Integer.parseInt(idStr);
     }
     String companyID = request.getParameter("companyId");
-    //TODO
     ComputerDTO computerDTO = new ComputerDTO();
     computerDTO.setId(id);
     computerDTO.setName(name);
@@ -109,9 +117,7 @@ public class EditComputerServlet extends HttpServlet {
     computerDTO.setCompany(companyDTO);
     Computer computer = MapperDTO.map(computerDTO);
     serviceComputer.updateComputer(computer);
-
-    response.sendRedirect("/computerdatabase/Servlet");
-
+    response.sendRedirect("/computerdatabase/computers");
   }
 
 }
