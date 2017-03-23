@@ -77,11 +77,12 @@ public class MapperDTO {
    * @param computers the computers
    * @return the array list
    */
-  public static List<ComputerDTO> map(final List<Computer> computers) {
+  public static ArrayList<ComputerDTO> map(final List<Computer> computers) {
     ArrayList<ComputerDTO> listComputer = new ArrayList<>();
     for (Computer comp : computers) {
       listComputer.add(MapperDTO.map(comp));
     }
     return listComputer;
   }
+
 }

@@ -9,6 +9,7 @@ import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,21 +26,17 @@ public class DAOUtils {
   /** The Constant FILE_PROPERTIES. */
   private static final String FILE_PROPERTIES = "/home/excilys/Documents/Cdb/computerdatabase/src/main/resources/computerdatabase.properties";
 
-  @Autowired
-  private static DataSource ds;
+ @Autowired
+  private  DataManager ds;
 
   private Connection connexion;
-/**
-  static {
-    ds = new DriverManagerDataSource();
+
+  public DAOUtils() {
+  /*  ds = new DriverManagerDataSource();
     ds.setDriverClassName("com.mysql.jdbc.Driver");
     ds.setUrl("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull");
     ds.setUsername("admincdb");
-    ds.setPassword("qwerty1234");
-  }
-*/
-  public DAOUtils() {
-  
+    ds.setPassword("qwerty1234");*/
   }
 
   /**

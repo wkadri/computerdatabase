@@ -52,7 +52,7 @@ public class UnitInterface {
         ArrayList<ComputerDTO> computersDTO;
         switch (i) {
           case 1:
-            computersDTO = (ArrayList<ComputerDTO>) MapperDTO.map(computerService.getComputers());
+            computersDTO = (ArrayList<ComputerDTO>) MapperDTO.map( computerService.getComputers());
             final ComputerPages pages = new ComputerPages(computersDTO, sc);
             break;
           case 2:

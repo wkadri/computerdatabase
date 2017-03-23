@@ -14,42 +14,37 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.formation.java.computerdatabase.AppContext;
-import com.excilys.formation.java.computerdatabase.dao.mysql.DAOUtils;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.dto.Pages;
 import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
+import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
 /**
  * Servlet implementation.
  */
 @WebServlet("/computers")
-public class Servlet extends HttpServlet {
+public class Servlet extends ContextServlet {
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
   /** The service. */
-  @Autowired
+//@Autowired
   private ComputerService service;
   /** The pages. */
   private Pages pages = new Pages(new ArrayList<>());
   private static Logger log = LoggerFactory.getLogger(Servlet.class);
 
-  /**
-   * Inits the Servlet.
-   * @param config the config
-   * @throws ServletException the servlet exception
-   * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
-   */
   @Override
-  public void init(final ServletConfig config) throws ServletException {
+  public void init(ServletConfig config) throws ServletException {
     super.init(config);
     AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
-    //service = (ComputerService) context.getBean(ComputerService.class);
-    //log.info("initialisation de la servlet Servlet");
+    service = (ComputerService) context.getBean(ComputerService.class);
+
+    //SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
   }
 
   /**
@@ -94,7 +89,7 @@ public class Servlet extends HttpServlet {
     String selection = req.getParameter("selection");
     String deleted = req.getParameter("delete");
     if (deleted != null) {
-        service.deleteComputer(Integer.valueOf(deleted));
+      service.deleteComputer(Integer.valueOf(deleted));
     }
     if (selection != null) {
       String[] delete = selection.split(",");
@@ -118,7 +113,7 @@ public class Servlet extends HttpServlet {
   private void pagination(int id, int nb, HttpServletRequest req) {
     int nbrpage = (int) (service.getNumberInstances() / nb) + 1;
     if (0 < id && id <= nbrpage) {
-      pages.getEns().add((ArrayList<ComputerDTO>) MapperDTO.map(service.getComputersPage((long) (id * nb - nb), nb)));
+      pages.getEns().add(MapperDTO.map(service.getComputersPage((long) (id * nb - nb), nb)));
     } else if (id <= 0) {
       id = 1;
       pages.getEns().set(0, (ArrayList<ComputerDTO>) MapperDTO.map(service.getComputersPage((long) (id * nb - nb), nb)));

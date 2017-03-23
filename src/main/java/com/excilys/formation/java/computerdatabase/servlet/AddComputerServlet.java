@@ -3,6 +3,7 @@ package com.excilys.formation.java.computerdatabase.servlet;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
@@ -38,11 +40,11 @@ public class AddComputerServlet extends HttpServlet {
   private CompanyService companyService;
 
   @Override
-  public void init() throws ServletException {
-    super.init();
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
     AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
-    serviceComputer = (ComputerService) context.getBean(ComputerService.class);
-    companyService = (CompanyService) context.getBean(CompanyService.class);
+
+    //SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
   }
 
   /**

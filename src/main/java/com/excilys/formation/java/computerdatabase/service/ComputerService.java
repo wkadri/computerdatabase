@@ -100,7 +100,7 @@ public class ComputerService implements IComputerService {
    * @param nb the nb
    * @return the computers page
    */
-  public List<Computer> getComputersPage(long l, int nb) {
+  public ArrayList<Computer> getComputersPage(long l, int nb) {
     try {
       return computerDAO.getComputersPage(l, nb);
     } catch (DAOException e) {

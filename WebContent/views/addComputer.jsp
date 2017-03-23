@@ -18,40 +18,33 @@
 			Database </a>
 	</div>
 	</header>
+
 	<section id="main">
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
-				<div class="label label-default pull-right">id:
-					${computeur.id}</div>
-				<h1>Edit Computer</h1>
-
+				<h1>Add Computer</h1>
 				<form method="POST">
-					<input type="hidden" name="computer_id" value="${computeur.id}"
-						id="computer_id" />
-					<!-- TODO: Change this value with the computer id -->
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
-								type="text" class="form-control" name="computerName"
-								id="computerName" placeholder="Computer name"
-								value="${computeur.name}">
+								type="text" name="computerName" class="form-control"
+								id="computerName" placeholder="Computer name">
 						</div>
 						<div class="form-group">
 							<label for="introduced">Introduced date</label> <input
-								name="introduced" type="date" class="form-control"
-								id="introduced" placeholder="Introduced date"
-								value="${computeur.introduced}">
+								type="date" name="introduced" class="form-control"
+								id="introduced" placeholder="Introduced date">
 						</div>
 						<div class="form-group">
 							<label for="discontinued">Discontinued date</label> <input
 								type="date" class="form-control" id="discontinued"
-								name="discontinued" placeholder="Discontinued date">
+								placeholder="Discontinued date">
 						</div>
 						<div class="form-group">
-							<label for="companyId">Company</label> <select
-								class="form-control" id="companyId" name="companyId">
-								<option selected="selected" value="${computeur.company.id}">${computeur.company.name}</option>
+							<label>Company</label> <select class="form-control"
+								name="companyId">
+
 								<c:forEach items="${companies}" var="company">
 									<option value="${company.id}">${company.name}</option>
 								</c:forEach>
@@ -60,9 +53,9 @@
 						</div>
 					</fieldset>
 					<div class="actions pull-right">
-						<a href="computers"><input type="submit" name="action"
-							value="Edit" class="btn btn-primary"></a>or <a
-							href="computers" class="btn btn-default">Cancel</a>
+						<input type="submit" name="action" value="Add"
+							class="btn btn-primary"> or <a href="index.jsp"
+							class="btn btn-default">Cancel</a>
 					</div>
 				</form>
 			</div>
@@ -73,5 +66,4 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/dashboard.js"></script>
-<script src="js/addComputer.js"></script>
 </html>
