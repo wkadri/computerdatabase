@@ -42,6 +42,10 @@ public class Company {
     id = i;
   }
 
+  public Company() {
+
+  }
+
   /** The id. */
   private long id;
   /** The name. */

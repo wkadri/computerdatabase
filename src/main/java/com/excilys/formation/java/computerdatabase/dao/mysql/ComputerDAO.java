@@ -1,12 +1,12 @@
 package com.excilys.formation.java.computerdatabase.dao.mysql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,20 +27,19 @@ import com.excilys.formation.java.computerdatabase.domain.Computer;
 @Repository
 public class ComputerDAO implements IComputerDAO {
 
-  private DataManager ds;
-
   private JdbcTemplate jdbcTemplate;
+
+  @Autowired
+  public void setDataSource(DataSource dataSource) {
+    this.jdbcTemplate = new JdbcTemplate(dataSource);
+  }
 
   /** The log. */
   private Logger log = LoggerFactory.getLogger(CompanyDAO.class);
 
   public ComputerDAO() {
-    ds = new DataManager();
-    ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-    ds.setUrl("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull&&useSSL=false&&serverTimezone=Europe/Stockholm");
-    ds.setUsername("admincdb");
-    ds.setPassword("qwerty1234");
-    jdbcTemplate = new JdbcTemplate(ds);
+
+    jdbcTemplate = new JdbcTemplate();
 
   }
 
@@ -52,19 +51,6 @@ public class ComputerDAO implements IComputerDAO {
   @Override
   public ArrayList<Computer> getComputers() throws DAOException {
     return (ArrayList<Computer>) this.jdbcTemplate.query("select * from computer  LEFT JOIN company on computer.company_id=company.id", new ComputerMapper());
-  }
-
-  /**
-   * Rollback the connection.
-   * @param conn the conn
-   * @throws DAOException
-   */
-  private void rollbackConnection(Connection conn) throws DAOException {
-    try {
-      conn.rollback();
-    } catch (SQLException e1) {
-      throw new DAOException("Error :" + e1.getMessage());
-    }
   }
 
   /**
@@ -182,11 +168,13 @@ public class ComputerDAO implements IComputerDAO {
 
   @Override
   public void updateComputer(Computer computer) throws DAOException {
-    getById(computer.getId()); // check if the id is not wrong
-    int status = jdbcTemplate.update("UPDATE computer SET name = ?, introduced= ? ,discontinued= ? , company_id=? WHERE id = ? ", computer.getName(), computer.getIntroduced().toString(), computer.getDiscontinued().toString(), computer.getCompany().getId(), computer.getId());
-    //TODO status
-    if (status == 200) {
+    if (getById(computer.getId()).isPresent()) {
+      this.jdbcTemplate.update("UPDATE computer SET name = ?, introduced= ? , company_id=? WHERE id = ? ", computer.getName(), computer.getIntroduced().toString(),  computer.getCompany().getId(), computer.getId());
+      //TODO status
+      /*int status =
+       * if (status == 200) {
       throw new DAOException("error" + status);
+      }*/
     }
   }
 

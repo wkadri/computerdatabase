@@ -43,7 +43,9 @@ public class MapperDAO {
    * @throws SQLException the SQL exception
    */
   public static Company mapCompany(final ResultSet resultSet) throws SQLException {
-    final Company company = new Company(resultSet.getLong("id"), resultSet.getString("name"));
+    final Company company = new Company();
+    company.setId((int) resultSet.getLong("id"));
+    company.setName(resultSet.getString("name"));
     return company;
   }
 }

@@ -58,6 +58,7 @@ public class Computer {
      * @param name the name
      */
     public ComputerBuilder(final String name) {
+      company = new Company(1,"Apple");//TODO default value to counter Nullpointerexception
       this.name = name;
     }
 

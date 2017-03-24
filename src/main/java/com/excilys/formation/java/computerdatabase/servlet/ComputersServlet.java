@@ -15,6 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.formation.java.computerdatabase.AppContext;
@@ -27,8 +32,9 @@ import com.excilys.formation.java.computerdatabase.service.ComputerService;
 /**
  * Servlet implementation.
  */
-@WebServlet("/computers")
-public class Servlet extends ContextServlet {
+@Controller
+@RequestMapping("/computers")
+public class ComputersServlet {
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
   /** The service. */
@@ -36,16 +42,7 @@ public class Servlet extends ContextServlet {
   private ComputerService service;
   /** The pages. */
   private Pages pages = new Pages(new ArrayList<>());
-  private static Logger log = LoggerFactory.getLogger(Servlet.class);
-
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
-    service = (ComputerService) context.getBean(ComputerService.class);
-
-    //SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-  }
+  private static Logger log = LoggerFactory.getLogger(ComputersServlet.class);
 
   /**
    * Do get.
@@ -56,21 +53,22 @@ public class Servlet extends ContextServlet {
    * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
    *      javax.servlet.http.HttpServletResponse)
    */
-  @Override
-  public void doGet(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
+  @RequestMapping(method = RequestMethod.GET, params = { "id", "nb", "action" })
+  public String get(@RequestParam int id, @RequestParam int nb, @RequestParam String action, final HttpServletRequest req, final HttpServletResponse res, ModelMap model) throws ServletException, IOException {
     // log.info("appel doGet de la servlet Servlet");
-    int id = getParameterInt(req.getParameter("id"), 1);
-    int nb = getParameterInt(req.getParameter("nb"), 10);
-    pagination(id, nb, req);
-    String action = req.getParameter("action");
+    // int id = getParameterInt(req.getParameter("id"), 1);
+    //int nb = getParameterInt(req.getParameter("nb"), 10);
+
+    pagination(id, nb, model);
     if (action != null && action.contains("Filter")) {
       filter(req);
     } else {
-      req.setAttribute("nbInstances", service.getNumberInstances());
-      req.setAttribute("allComputers", pages.getEns().get(pages.getEns().size() - 1));
+      model.addAttribute("nbInstances", service.getNumberInstances());
+      model.addAttribute("allComputers", pages.getEns().get(pages.getEns().size() - 1));
     }
+    //return "get";
 
-    req.getRequestDispatcher("views/index.jsp").forward(req, res);
+    return "dashboard";
   }
 
   /**
@@ -82,13 +80,14 @@ public class Servlet extends ContextServlet {
    * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
    *      javax.servlet.http.HttpServletResponse)
    */
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  /*
+  @RequestMapping(method = RequestMethod.GET)
+  public String post(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     //log.info("appel doPost de la servlet Servlet");
-    //TODO delete à refaire à cause des changmeent effectué pour gatling
+    //TODO delete à refaire à cause des changement effectué pour gatling
     String selection = req.getParameter("selection");
     String deleted = req.getParameter("delete");
-    if (deleted != null) {
+    if (deleted != null && selection == "dqz") {
       service.deleteComputer(Integer.valueOf(deleted));
     }
     if (selection != null) {
@@ -101,8 +100,9 @@ public class Servlet extends ContextServlet {
         i++;
       }
     }
-    doGet(req, resp);
-  }
+    return "post";
+  
+  }*/
 
   /**
    * Pagination.
@@ -110,7 +110,7 @@ public class Servlet extends ContextServlet {
    * @param nb the nb
    * @param req the req
    */
-  private void pagination(int id, int nb, HttpServletRequest req) {
+  private void pagination(int id, int nb, ModelMap model) {
     int nbrpage = (int) (service.getNumberInstances() / nb) + 1;
     if (0 < id && id <= nbrpage) {
       pages.getEns().add(MapperDTO.map(service.getComputersPage((long) (id * nb - nb), nb)));
@@ -120,16 +120,16 @@ public class Servlet extends ContextServlet {
     } else {
       id = id % nbrpage;
     }
-    req.setAttribute("suivant", id + 1);
-    req.setAttribute("precedent", id - 1);
-    req.setAttribute("nb", nb);
-    req.setAttribute("id", id);
+    model.addAttribute("suivant", id + 1);
+    model.addAttribute("precedent", id - 1);
+    model.addAttribute("nb", nb);
+    model.addAttribute("id", id);
     ArrayList<Integer> numPage = new ArrayList<>();
     for (int i = -3; i < 3; i++) {
       numPage.add(id % pages.getEns().size() + i);
     }
     numPage.removeIf(t -> t < 0);
-    req.setAttribute("allPages", numPage);
+    model.addAttribute("allPages", numPage);
   }
 
   /**

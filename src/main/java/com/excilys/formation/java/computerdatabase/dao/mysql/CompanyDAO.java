@@ -1,36 +1,35 @@
 package com.excilys.formation.java.computerdatabase.dao.mysql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dao.ICompanyDAO;
 import com.excilys.formation.java.computerdatabase.domain.Company;
 
 /**
  * The Class CompanyDAO.
- */ 
+ */
 @Component
 public class CompanyDAO implements ICompanyDAO {
 
-  /** The sql. */
-  private final String sql = "Select * from company";
-
   /** The dao util. */
   @Autowired
-  DAOUtils daoUtils;
+  public void setDataSource(DataSource dataSource) {
+    this.jdbcTemplate = new JdbcTemplate(dataSource);
+  }
+
+  private JdbcTemplate jdbcTemplate;
 
   public CompanyDAO() {
-    //ApplicationContext context = new AnnotationConfigApplicationContext(DAOUtils.class);
-  
+    jdbcTemplate = new JdbcTemplate();
   }
 
   /**
@@ -39,23 +38,8 @@ public class CompanyDAO implements ICompanyDAO {
    */
   @Override
   public ArrayList<Company> getCompanies() {
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    final ArrayList<Company> companies = new ArrayList<>();
-    try {
-      conn = daoUtils.getConnection();
-      stmt = daoUtils.initRequest(conn, sql, false);
-      rs = stmt.executeQuery();
-      while (rs.next()) {
-        companies.add(MapperDAO.mapCompany(rs));
-      }
-    } catch (final SQLException e) {
-      e.printStackTrace();
-    } finally {
-      daoUtils.close(rs,stmt);
-    }
-
+    ArrayList<Company> companies = new ArrayList<>();
+    companies = (ArrayList<Company>) this.jdbcTemplate.query("Select * from company", new CompanyMapper());
     return companies;
   }
 
@@ -66,23 +50,22 @@ public class CompanyDAO implements ICompanyDAO {
    */
   @Override
   public Company getCompanyByID(int id) {
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    Company company = new Company(0);
-    try {
-      conn = daoUtils.getConnection();
-      stmt = daoUtils.initRequest(conn, "Select * from company where id=?", false);
-      stmt.setInt(1, id);
-      rs = stmt.executeQuery();
-      while (rs.next()) {
-        company = MapperDAO.mapCompany(rs);
-
-      }
-    } catch (final SQLException e) {
-      e.printStackTrace();
-    }
-    return company;
+    ArrayList<Company> companies = new ArrayList<>();
+    companies = (ArrayList<Company>) jdbcTemplate.query("Select * from company where id=?", new Object[] { id }, new CompanyMapper());
+    return companies.get(0);
   }
 
+  final class CompanyMapper implements RowMapper<Company> {
+
+    /**
+     * Map company DTO.
+     * @param resultSet the result to set
+     * @return the company DTO
+     * @throws SQLException the SQL exception
+     */
+    public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+      final Company company = new Company(resultSet.getLong("id"), resultSet.getString("name"));
+      return company;
+    }
+  }
 }

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
@@ -24,7 +26,8 @@ import com.excilys.formation.java.computerdatabase.service.IComputerService;
 /**
  * Servlet implementation class EditComputerServlet.
  */
-@WebServlet("/edit-computer")
+@Controller
+@RequestMapping("/edit-computer")
 public class EditComputerServlet extends HttpServlet {
 
   /** The Constant serialVersionUID. */
@@ -48,7 +51,7 @@ public class EditComputerServlet extends HttpServlet {
   public void init() throws ServletException {
     super.init();
     AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
-    serviceComputer= (ComputerService) context.getBean(ComputerService.class);
+    serviceComputer = (ComputerService) context.getBean(ComputerService.class);
     companyService = (CompanyService) context.getBean(CompanyService.class);
   }
 
@@ -96,11 +99,12 @@ public class EditComputerServlet extends HttpServlet {
     String discontinued = request.getParameter("discontinued");
     String idStr = request.getParameter("id");
     int id = 0;
+    //TODO
     if (introduced == "") {
       introduced = null;
     }
     if (discontinued == "") {
-      discontinued = "1198-11-11";
+      discontinued = null;
     }
     if (idStr != null && !idStr.equals("")) {
       id = Integer.parseInt(idStr);

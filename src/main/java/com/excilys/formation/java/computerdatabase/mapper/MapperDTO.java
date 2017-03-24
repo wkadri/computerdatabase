@@ -58,7 +58,6 @@ public class MapperDTO {
     }
     if (computerDTO.getDiscontinued() != null && computerDTO.getIntroduced() != null) {
       computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
-      System.out.println("1");
     }
     if (computerDTO.getIntroduced() == null && computerDTO.getDiscontinued() != null) {
       //Si introduced null et discontinued pas null, computer a introduced=discontinued
@@ -68,7 +67,6 @@ public class MapperDTO {
     if (computerDTO.getCompany() != null) {
       computer.setCompany(new Company(computerDTO.getCompany().getId(), computerDTO.getCompany().getName()));
     }
-    System.out.println(computer);
     return computer;
   }
 
