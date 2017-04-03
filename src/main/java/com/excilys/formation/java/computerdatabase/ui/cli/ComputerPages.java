@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.ui;
+package com.excilys.formation.java.computerdatabase.ui.cli;
 
 import java.util.ArrayList;
 import java.util.Scanner;

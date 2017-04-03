@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.servlet;
+package com.excilys.formation.java.computerdatabase.ui.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.formation.java.computerdatabase.AppContext;
@@ -24,32 +27,25 @@ import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
+import net.bytebuddy.asm.Advice.Return;
+
 /**
  * The Class ServletComputer.
  */
 @Controller
 @RequestMapping("/add-computer")
-public class AddComputerServlet extends HttpServlet {
+public class AddComputerServlet {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
 
   /** The service computer. */
-
+  @Autowired
   private ComputerService serviceComputer;
 
   /** The company service. */
-
+  @Autowired
   private CompanyService companyService;
-
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
-    serviceComputer = (ComputerService) context.getBean(ComputerService.class);
-    companyService = (CompanyService) context.getBean(CompanyService.class);
-    //SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-  }
 
   /**
    * doGet.
@@ -60,10 +56,10 @@ public class AddComputerServlet extends HttpServlet {
    * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
    *      javax.servlet.http.HttpServletResponse)
    */
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    request.setAttribute("companies", companyService.getCompanies());
-    request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
+  @RequestMapping(method = RequestMethod.GET)
+  public String getAdd(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    model.addAttribute("companies", companyService.getCompanies());
+    return "addComputer";
   }
 
   /**
@@ -75,29 +71,23 @@ public class AddComputerServlet extends HttpServlet {
    * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
    *      javax.servlet.http.HttpServletResponse)
    */
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String name = request.getParameter("computerName");
-    String introduced = request.getParameter("introduced");
-    String discontinued = request.getParameter("discontinued");
+  @RequestMapping(method = RequestMethod.POST)
+  public String postAdd(ModelMap model, @RequestParam(value = "companyId", defaultValue = "0") int companyID, @RequestParam(value = "computerName", defaultValue = "") String name, @RequestParam(value = "introduced", defaultValue = "") String introduced, @RequestParam(value = "discontinued", defaultValue = "") String discontinued, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (introduced == "") {
       introduced = null;
     }
-    String companyID = request.getParameter("companyId");
     ComputerDTO computerDto = new ComputerDTO();
     computerDto.setName(name);
     //TODO refactore
-    if (introduced != null || introduced == "null") {
+    if (!introduced.isEmpty()) {
       computerDto.setIntroduced(introduced);
     }
-    //TODO changer les vérif
-    if (discontinued != null || discontinued == "null") {
+    //TODO changer les vérifs
+    if (!discontinued.isEmpty()) {
       computerDto.setDiscontinued(discontinued);
     }
-    int id = Integer.valueOf(companyID);
-    computerDto.setCompany(new CompanyDTO(id, companyService.getCompanyName(id)));
-
+    computerDto.setCompany(new CompanyDTO(companyID, companyService.getCompanyName(companyID)));
     serviceComputer.createComputer(MapperDTO.map(computerDto));
-    request.getRequestDispatcher("computers").forward(request, response);
+    return "redirect:computers";
   }
-
 }

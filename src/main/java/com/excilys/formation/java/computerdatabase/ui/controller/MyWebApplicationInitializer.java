@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.servlet;
+package com.excilys.formation.java.computerdatabase.ui.controller;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,6 +18,6 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
     ctx.setServletContext(container);
     ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
     servlet.setLoadOnStartup(1);
-    servlet.addMapping("/");
+    servlet.addMapping("/computers");
   }
 }

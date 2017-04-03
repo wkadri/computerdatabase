@@ -53,13 +53,14 @@ public class MapperDTO {
     if (computerDTO.getId() != 0) {
       computer.setId(computerDTO.getId());
     }
-    if (computerDTO.getIntroduced() != null) {
+    if (computerDTO.getIntroduced()!=null && !computerDTO.getIntroduced().isEmpty()) {
       computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
     }
-    if (computerDTO.getDiscontinued() != null && computerDTO.getIntroduced() != null) {
+    //TODO a refaire
+    if (computerDTO.getIntroduced()!=null && computerDTO.getDiscontinued()!=null && !computerDTO.getDiscontinued().isEmpty() && !computerDTO.getIntroduced().isEmpty()) {
       computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
     }
-    if (computerDTO.getIntroduced() == null && computerDTO.getDiscontinued() != null) {
+    if (computerDTO.getIntroduced()!=null && computerDTO.getDiscontinued()!=null &&!computerDTO.getIntroduced().isEmpty() && !computerDTO.getDiscontinued().isEmpty()) {
       //Si introduced null et discontinued pas null, computer a introduced=discontinued
       computer.setIntroduced(LocalDate.parse(computerDTO.getDiscontinued()));
       computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));

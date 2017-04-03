@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.servlet;
+package com.excilys.formation.java.computerdatabase.ui.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class ComputersServlet {
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
   /** The service. */
-//@Autowired
+  @Autowired
   private ComputerService service;
   /** The pages. */
   private Pages pages = new Pages(new ArrayList<>());
@@ -53,22 +53,16 @@ public class ComputersServlet {
    * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
    *      javax.servlet.http.HttpServletResponse)
    */
-  @RequestMapping(method = RequestMethod.GET, params = { "id", "nb", "action" })
-  public String get(@RequestParam int id, @RequestParam int nb, @RequestParam String action, final HttpServletRequest req, final HttpServletResponse res, ModelMap model) throws ServletException, IOException {
-    // log.info("appel doGet de la servlet Servlet");
-    // int id = getParameterInt(req.getParameter("id"), 1);
-    //int nb = getParameterInt(req.getParameter("nb"), 10);
-
+  @RequestMapping(method = RequestMethod.GET)
+  public String get(ModelMap model, @RequestParam(value = "id", defaultValue = "1") int id, @RequestParam(value = "nb", defaultValue = "10") int nb, @RequestParam(value = "action", defaultValue = "") String action, @RequestParam(value = "search", defaultValue = "") String search, final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
     pagination(id, nb, model);
     if (action != null && action.contains("Filter")) {
-      filter(req);
+      filter(search, model);
     } else {
       model.addAttribute("nbInstances", service.getNumberInstances());
       model.addAttribute("allComputers", pages.getEns().get(pages.getEns().size() - 1));
     }
-    //return "get";
-
-    return "dashboard";
+    return "index";
   }
 
   /**
@@ -134,26 +128,12 @@ public class ComputersServlet {
 
   /**
    * Filter.
-   * @param req the req
+   * @param search
+   * @param model the req
    */
-  private void filter(HttpServletRequest req) {
-    String filtre = req.getParameter("search");
-    req.setAttribute("allComputers", service.filter(filtre, 0, 200));
-    req.setAttribute("nbInstances", service.filter(filtre, 0, 200).size());
-  }
-
-  /**
-   * Gets the parameter int.
-   * @param value the value
-   * @param initialValue the initial value
-   * @return the parameter int
-   */
-  private int getParameterInt(String value, int initialValue) {
-    int id = initialValue;
-    if (value != null && !value.equals("")) {
-      id = Integer.parseInt(value);
-    }
-    return id;
+  private void filter(String search, ModelMap model) {
+    model.addAttribute("allComputers", service.filter(search, 0, 200));
+    model.addAttribute("nbInstances", service.filter(search, 0, 200).size());
   }
 
 }

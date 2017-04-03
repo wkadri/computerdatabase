@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.servlet;
+package com.excilys.formation.java.computerdatabase.ui.controller;
 
 import java.io.IOException;
 
@@ -8,10 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
@@ -28,16 +32,18 @@ import com.excilys.formation.java.computerdatabase.service.IComputerService;
  */
 @Controller
 @RequestMapping("/edit-computer")
-public class EditComputerServlet extends HttpServlet {
+public class EditComputerServlet {
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = 1L;
 
   /** The service computer. */
-  private IComputerService serviceComputer;
+  @Autowired
+  private ComputerService serviceComputer;
 
   /** The company service. */
-  private ICompanyService companyService;
+  @Autowired
+  private CompanyService companyService;
 
   /**
    * Instantiates a new edits the computer servlet.
@@ -47,13 +53,7 @@ public class EditComputerServlet extends HttpServlet {
     super();
   }
 
-  @Override
-  public void init() throws ServletException {
-    super.init();
-    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
-    serviceComputer = (ComputerService) context.getBean(ComputerService.class);
-    companyService = (CompanyService) context.getBean(CompanyService.class);
-  }
+
 
   /**
    * Do get.
@@ -63,51 +63,43 @@ public class EditComputerServlet extends HttpServlet {
    * @throws IOException Signals that an I/O exception has occurred.
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String idStr = request.getParameter("id");
-    int id = 0;
-    if (idStr != null && !idStr.equals("")) {
-      id = Integer.parseInt(idStr);
-    }
+  @RequestMapping(method = RequestMethod.GET)
+  public String edit(ModelMap model,@RequestParam(value="id",defaultValue="0") int id ,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     Computer computer = serviceComputer.describeComputerByID(id);
     ComputerDTO computerDTO = MapperDTO.map(computer);
-    request.setAttribute("computerName", computer.getName());
+    model.addAttribute("computerName", computer.getName());
     if (computer.getIntroduced() != null) {
 
-      request.setAttribute("introduced", computer.getIntroduced().toString());
+      model.addAttribute("introduced", computer.getIntroduced().toString());
     }
 
     if (computer.getCompany() != null) {
-      request.setAttribute("companyID", computer.getCompany().getId());
+      model.addAttribute("companyID", computer.getCompany().getId());
     }
-    request.setAttribute("companies", companyService.getCompanies());
-    request.setAttribute("computeur", computerDTO);
-    request.getRequestDispatcher("views/editComputer.jsp").forward(request, response);
+    model.addAttribute("companies", companyService.getCompanies());
+    model.addAttribute("computeur", computerDTO);
+
+    return "editComputer";
   }
 
   /**
    * Do post.
    * @param request the request
    * @param response the response
+   * @return 
    * @throws ServletException the servlet exception
    * @throws IOException Signals that an I/O exception has occurred.
    * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
    */
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String name = request.getParameter("computerName");
-    String introduced = request.getParameter("introduced");
-    String discontinued = request.getParameter("discontinued");
-    String idStr = request.getParameter("id");
-    int id = 0;
+  @RequestMapping(method = RequestMethod.POST)
+  public String postEdit(ModelMap model,@RequestParam(value="id",defaultValue="0") int id ,@RequestParam(value="computerName",defaultValue="") String name,@RequestParam(value="introduced",defaultValue="") String introduced,@RequestParam(value="discontinued",defaultValue="") String discontinued,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     //TODO
     if (introduced == "") {
       introduced = null;
     }
     if (discontinued == "") {
       discontinued = null;
-    }
-    if (idStr != null && !idStr.equals("")) {
-      id = Integer.parseInt(idStr);
     }
     String companyID = request.getParameter("companyId");
     ComputerDTO computerDTO = new ComputerDTO();
@@ -121,7 +113,7 @@ public class EditComputerServlet extends HttpServlet {
     computerDTO.setCompany(companyDTO);
     Computer computer = MapperDTO.map(computerDTO);
     serviceComputer.updateComputer(computer);
-    response.sendRedirect("/computerdatabase/computers");
+    return "redirect:computers";
   }
 
 }

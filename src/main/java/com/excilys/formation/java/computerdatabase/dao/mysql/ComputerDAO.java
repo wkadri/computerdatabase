@@ -38,9 +38,7 @@ public class ComputerDAO implements IComputerDAO {
   private Logger log = LoggerFactory.getLogger(CompanyDAO.class);
 
   public ComputerDAO() {
-
     jdbcTemplate = new JdbcTemplate();
-
   }
 
   /**
@@ -116,16 +114,7 @@ public class ComputerDAO implements IComputerDAO {
    */
   @Override
   public ArrayList<Computer> getComputersPage(final long offset, final int limit) throws DAOException {
-
     return (ArrayList<Computer>) this.jdbcTemplate.query("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id LIMIT ? OFFSET ? ;", new Object[] { limit, offset }, new ComputerMapper());
-
-    /*
-    } catch (final SQLException e) {
-      throw new DAOException("Error :" + e.getMessage());
-    } finally {
-      daoUtils.close(rs, stmt);
-    }*/
-
   }
 
   /**
@@ -136,15 +125,7 @@ public class ComputerDAO implements IComputerDAO {
    */
   @Override
   public int getNumberInstances() throws DAOException {
-
     return this.jdbcTemplate.queryForObject("Select count(*) from computer;", Integer.class);
-    /*
-    } catch (final SQLException e) {
-     throw new DAOException("Error :" + e.getMessage());
-    } finally {
-     daoUtils.close(rs, stmt);
-    }*/
-
   }
 
   /**
@@ -156,25 +137,15 @@ public class ComputerDAO implements IComputerDAO {
    * @throws DAOException
    */
   public ArrayList<Computer> filter(String string, final long offset, final int limit) throws DAOException {
-
-    return (ArrayList<Computer>) this.jdbcTemplate.query("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id  WHERE computer.name LIKE ?  ;", new ComputerMapper());
-    /*
-    } catch (final SQLException e) {
-     throw new DAOException("Error :" + e.getMessage());
-    } finally {
-     daoUtils.close(rs, stmt);
-    }*/
+    String filtre="%"+string+"%";
+  
+    return (ArrayList<Computer>) this.jdbcTemplate.query("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id  WHERE computer.name LIKE ?  ;", new Object[] {filtre }, new ComputerMapper());
   }
 
   @Override
   public void updateComputer(Computer computer) throws DAOException {
     if (getById(computer.getId()).isPresent()) {
-      this.jdbcTemplate.update("UPDATE computer SET name = ?, introduced= ? , company_id=? WHERE id = ? ", computer.getName(), computer.getIntroduced().toString(),  computer.getCompany().getId(), computer.getId());
-      //TODO status
-      /*int status =
-       * if (status == 200) {
-      throw new DAOException("error" + status);
-      }*/
+      this.jdbcTemplate.update("UPDATE computer SET name = ?, introduced= ? , company_id=? WHERE id = ? ", computer.getName(), computer.getIntroduced().toString(), computer.getCompany().getId(), computer.getId());
     }
   }
 
