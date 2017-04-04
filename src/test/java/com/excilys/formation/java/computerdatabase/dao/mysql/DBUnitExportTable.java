@@ -34,28 +34,28 @@ public class DBUnitExportTable {
    */
   public void exportDBUnitTable() throws SQLException, DatabaseUnitException, FileNotFoundException, IOException {
     // database connection
-    Connection jdbcConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull", "admincdb", "qwerty1234");
-    IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
+    final Connection jdbcConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull", "admincdb", "qwerty1234");
+    final IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
 
-    String fileNameExport = "data";
+    final String fileNameExport = "data";
 
     // Requêtes de sélection des jeux de données
-    QueryDataSet queryDataSet = new QueryDataSet(connection);
+    final QueryDataSet queryDataSet = new QueryDataSet(connection);
 
     // TODO Définir les requêtes de sélection des données
     queryDataSet.addTable("computer", "select * from computer limit 10");
     queryDataSet.addTable("company", "select * from company limit 10)");
 
     // Création du répertoire d'export
-    String dirExport = "target/generated";
+    final String dirExport = "target/generated";
     (new File(dirExport)).mkdirs();
     // Ordonner les tables par ordre de dépendances dans le fichier d'export XML
-    ITableFilter filter = new DatabaseSequenceFilter(connection);
-    IDataSet orderedDataSet = new FilteredDataSet(filter, queryDataSet);
+    final ITableFilter filter = new DatabaseSequenceFilter(connection);
+    final IDataSet orderedDataSet = new FilteredDataSet(filter, queryDataSet);
     // DTD
     FlatDtdDataSet.write(queryDataSet, new FileOutputStream(dirExport + "/" + fileNameExport + ".dtd"));
     // XML
-    FlatXmlWriter datasetWriter = new FlatXmlWriter(new FileOutputStream(dirExport + "/" + fileNameExport + ".xml"));
+    final FlatXmlWriter datasetWriter = new FlatXmlWriter(new FileOutputStream(dirExport + "/" + fileNameExport + ".xml"));
     datasetWriter.setDocType(fileNameExport + ".dtd");
     datasetWriter.write(orderedDataSet);
   }

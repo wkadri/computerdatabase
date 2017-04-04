@@ -8,10 +8,10 @@ public class DataManager extends DriverManagerDataSource {
 
   public DataManager() {
     super();
-    this.setDriverClassName("com.mysql.cj.jdbc.Driver");
-    this.setUrl("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull&&useSSL=false&&serverTimezone=Europe/Stockholm");
-    this.setUsername("admincdb");
-    this.setPassword("qwerty1234");
- 
+    setDriverClassName("com.mysql.cj.jdbc.Driver");
+    setUrl("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull&&useSSL=false&&serverTimezone=Europe/Stockholm");
+    setUsername("admincdb");
+    setPassword("qwerty1234");
+
   }
 }

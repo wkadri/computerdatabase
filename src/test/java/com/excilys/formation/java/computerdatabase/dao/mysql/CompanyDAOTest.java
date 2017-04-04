@@ -12,14 +12,16 @@ public class CompanyDAOTest {
   /**
    * Before.
    */
-  @Before public void before() {
+  @Before
+  public void before() {
 
   }
 
   /**
    * Dao test.
    */
-  @Test public void daoTest() {
+  @Test
+  public void daoTest() {
     final CompanyDAO companyDAO = new CompanyDAO();
     companyDAO.getCompanies();
   }

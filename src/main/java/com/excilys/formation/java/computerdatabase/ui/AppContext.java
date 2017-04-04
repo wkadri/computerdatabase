@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase;
+package com.excilys.formation.java.computerdatabase.ui;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,7 +12,8 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.excilys.formation.java.computerdatabase")
+
+@ComponentScan(basePackages = { "com.excilys.formation.java.computerdatabase.ui.controller" })
 public class AppContext extends WebMvcConfigurerAdapter {
 
   @Override
@@ -22,7 +23,7 @@ public class AppContext extends WebMvcConfigurerAdapter {
 
   @Bean
   public ViewResolver viewResolver() {
-    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+    final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
     viewResolver.setViewClass(JstlView.class);
     viewResolver.setPrefix("/WEB-INF/views/");
     viewResolver.setSuffix(".jsp");

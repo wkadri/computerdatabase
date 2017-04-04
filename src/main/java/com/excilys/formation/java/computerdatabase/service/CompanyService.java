@@ -33,6 +33,7 @@ public class CompanyService implements ICompanyService {
    * Gets the companies.
    * @return the companies
    */
+  @Override
   public List<Company> getCompanies() {
     return companyDAO.getCompanies();
   }
@@ -42,8 +43,9 @@ public class CompanyService implements ICompanyService {
    * @param id the id
    * @return the company name
    */
-  public String getCompanyName(int id) {
-    Company company = companyDAO.getCompanyByID(id);
+  @Override
+  public String getCompanyName(final int id) {
+    final Company company = companyDAO.getCompanyByID(id);
     log.info(company.toString());
     return company.getName();
   }

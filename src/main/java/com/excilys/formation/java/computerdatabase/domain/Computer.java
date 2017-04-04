@@ -2,20 +2,28 @@ package com.excilys.formation.java.computerdatabase.domain;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Business Class representing a computer.
  * Class where the intelligence'll be implemented.
  * Follow a Builder Pattern
  */
+@Entity
+@Table(name = "computer")
 public class Computer {
-
   /** The name. */
+  @Column(name = "name")
   private String name;
 
   /** The intoduced. */
+  @Column(name = "introduced")
   private LocalDate introduced;
 
   /** The discontinued. */
+  @Column(name = "discontinued")
   private LocalDate discontinued;
 
   /** The company. */
@@ -46,10 +54,10 @@ public class Computer {
     private final String name;
 
     /** The introduced. */
-    private LocalDate introduced;
+    private LocalDate introduced=null;
 
     /** The discontinued. */
-    private LocalDate discontinued;
+    private LocalDate discontinued=null;
     /** The company. */
     private Company company;
 
@@ -58,7 +66,8 @@ public class Computer {
      * @param name the name
      */
     public ComputerBuilder(final String name) {
-      company = new Company(1,"Apple");//TODO default value to counter Nullpointerexception
+      
+      company = new Company(1, "Apple");//TODO default value to counter Nullpointerexception
       this.name = name;
     }
 
@@ -109,7 +118,7 @@ public class Computer {
   }
 
   public void setId(final long l) {
-    this.id = l;
+    id = l;
   }
 
   public String getName() {
@@ -125,7 +134,7 @@ public class Computer {
   }
 
   public void setIntroduced(final LocalDate intoduced) {
-    this.introduced = intoduced;
+    introduced = intoduced;
   }
 
   public LocalDate getDiscontinued() {

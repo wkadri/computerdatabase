@@ -1,11 +1,11 @@
-package com.excilys.formation.java.computerdatabase.dto;
+package com.excilys.formation.java.computerdatabase.ui.dto;
 
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.excilys.formation.java.computerdatabase.domain.Computer;
-import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
+import com.excilys.formation.java.computerdatabase.ui.dto.mapper.MapperDTO;
 
 /**
  * DTO for computer Class.
@@ -32,7 +32,7 @@ public class ComputerDTO implements Serializable {
     return discontinued;
   }
 
-  public void setDiscontinued(String discontinued) {
+  public void setDiscontinued(final String discontinued) {
     this.discontinued = discontinued;
   }
 
@@ -85,7 +85,7 @@ public class ComputerDTO implements Serializable {
   //TODO plus clean
   @Override
   public String toString() {
-    Computer comp = MapperDTO.map(this);
+    final Computer comp = MapperDTO.map(this);
     return comp.toString();
   }
 

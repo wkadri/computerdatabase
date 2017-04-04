@@ -9,7 +9,8 @@ public class CompanyServiceTest {
   /**
    * Gets the display test.
    */
-  @Test public void getDisplayTest() {
+  @Test
+  public void getDisplayTest() {
     final CompanyService service = new CompanyService();
     service.getCompanies();
   }

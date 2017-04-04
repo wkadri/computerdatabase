@@ -22,8 +22,8 @@ public class CompanyDAO implements ICompanyDAO {
 
   /** The dao util. */
   @Autowired
-  public void setDataSource(DataSource dataSource) {
-    this.jdbcTemplate = new JdbcTemplate(dataSource);
+  public void setDataSource(final DataSource dataSource) {
+    jdbcTemplate = new JdbcTemplate(dataSource);
   }
 
   private JdbcTemplate jdbcTemplate;
@@ -39,7 +39,7 @@ public class CompanyDAO implements ICompanyDAO {
   @Override
   public ArrayList<Company> getCompanies() {
     ArrayList<Company> companies = new ArrayList<>();
-    companies = (ArrayList<Company>) this.jdbcTemplate.query("Select * from company", new CompanyMapper());
+    companies = (ArrayList<Company>) jdbcTemplate.query("Select * from company", new CompanyMapper());
     return companies;
   }
 
@@ -49,7 +49,7 @@ public class CompanyDAO implements ICompanyDAO {
    * @return the company by ID
    */
   @Override
-  public Company getCompanyByID(int id) {
+  public Company getCompanyByID(final int id) {
     ArrayList<Company> companies = new ArrayList<>();
     companies = (ArrayList<Company>) jdbcTemplate.query("Select * from company where id=?", new Object[] { id }, new CompanyMapper());
     return companies.get(0);
@@ -63,7 +63,8 @@ public class CompanyDAO implements ICompanyDAO {
      * @return the company DTO
      * @throws SQLException the SQL exception
      */
-    public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    @Override
+    public Company mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
       final Company company = new Company(resultSet.getLong("id"), resultSet.getString("name"));
       return company;
     }

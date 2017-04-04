@@ -40,7 +40,8 @@ public class MapperTest {
    * Inits the before each test.
    * @throws SQLException the SQL exception
    */
-  @Before public void initBeforeEachTest() throws SQLException {
+  @Before
+  public void initBeforeEachTest() throws SQLException {
     resultSet = Mockito.mock(ResultSet.class);
     Mockito.when(resultSet.getLong(COLUMN_ID)).thenReturn((long) 2);
     Mockito.when(resultSet.getString(COLUMN_NAME)).thenReturn("Name");
@@ -54,7 +55,8 @@ public class MapperTest {
    * Result set to computer.
    * @throws SQLException the SQL exception
    */
-  @Test public void resultSetToComputer() throws SQLException {
+  @Test
+  public void resultSetToComputer() throws SQLException {
 
     final Computer computer = MapperDAO.mapComputer(resultSet);
     if (computer != null) {
@@ -69,7 +71,8 @@ public class MapperTest {
    * Introduced null map.
    * @throws SQLException the SQL exception
    */
-  @Test public void introducedNullMap() throws SQLException {
+  @Test
+  public void introducedNullMap() throws SQLException {
     Mockito.when(resultSet.getString(COLUMN_INTRODUCED)).thenReturn("0000-00-00");
     final Computer computer = MapperDAO.mapComputer(resultSet);
     if (computer != null) {

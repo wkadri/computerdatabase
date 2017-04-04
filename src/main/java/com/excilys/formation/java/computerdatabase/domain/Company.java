@@ -37,7 +37,7 @@ public class Company {
    * Instantiates a new company.
    * @param i the i
    */
-  public Company(int i) {
+  public Company(final int i) {
     super();
     id = i;
   }

@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdatabase.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,6 +68,11 @@ public interface IComputerDAO {
    */
   List<Computer> filter(String string, final long offset, final int limit) throws DAOException;
 
+  /**
+   * Update computer.
+   * @param computer the computer
+   * @throws DAOException the DAO exception
+   */
   void updateComputer(Computer computer) throws DAOException;
 
 }

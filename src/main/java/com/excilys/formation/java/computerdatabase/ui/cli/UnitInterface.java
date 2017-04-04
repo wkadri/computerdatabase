@@ -5,21 +5,25 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.excilys.formation.java.computerdatabase.AppContext;
 import com.excilys.formation.java.computerdatabase.dao.DAOException;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
-import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
-import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
+import com.excilys.formation.java.computerdatabase.ui.dto.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.ui.dto.mapper.MapperDTO;
 
 /**
  * The Class UnitInterface.
  */
+
 public class UnitInterface {
+  //TODO Autowired pas bon
+  @Autowired
+  private CompanyService companyService;
+  @Autowired
+  private ComputerService computerService;
 
   /**
    * The main method.
@@ -27,13 +31,7 @@ public class UnitInterface {
    * @throws InterruptedException the interrupted exception
    * @throws DAOException exception
    */
-  public static void main(final String[] args) throws InterruptedException, DAOException {
-    final CompanyService companyService ;
-    final ComputerService computerService;
-    AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
-    computerService = (ComputerService) context.getBean(ComputerService.class);
-    companyService = (CompanyService) context.getBean(CompanyService.class);
-  
+  public void run() {
     final Scanner sc = new Scanner(System.in);
     do {
       try {
@@ -46,13 +44,14 @@ public class UnitInterface {
         System.out.println("4 . Ajouter un ordinateur à la base de donnée (avec seulement le nom)");
         System.out.println("5 . Modifier le nom d'un ordinateur");
         System.out.println("6 . Supprimer un ordinateur");
+
         final int i = sc.nextInt();
         int id = 0;
         String name = "";
         ArrayList<ComputerDTO> computersDTO;
         switch (i) {
           case 1:
-            computersDTO = (ArrayList<ComputerDTO>) MapperDTO.map( computerService.getComputers());
+            computersDTO = MapperDTO.map(computerService.getComputers());
             final ComputerPages pages = new ComputerPages(computersDTO, sc);
             break;
           case 2:
@@ -97,5 +96,11 @@ public class UnitInterface {
         sc.nextLine();
       }
     } while (true);
+  }
+
+  public static void main(final String[] args) throws InterruptedException, DAOException {
+
+    final UnitInterface ui = new UnitInterface();
+    ui.run();
   }
 }

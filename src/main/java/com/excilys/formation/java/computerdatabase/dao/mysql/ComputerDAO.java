@@ -30,12 +30,12 @@ public class ComputerDAO implements IComputerDAO {
   private JdbcTemplate jdbcTemplate;
 
   @Autowired
-  public void setDataSource(DataSource dataSource) {
-    this.jdbcTemplate = new JdbcTemplate(dataSource);
+  public void setDataSource(final DataSource dataSource) {
+    jdbcTemplate = new JdbcTemplate(dataSource);
   }
 
   /** The log. */
-  private Logger log = LoggerFactory.getLogger(CompanyDAO.class);
+  private final Logger log = LoggerFactory.getLogger(CompanyDAO.class);
 
   public ComputerDAO() {
     jdbcTemplate = new JdbcTemplate();
@@ -48,7 +48,7 @@ public class ComputerDAO implements IComputerDAO {
    */
   @Override
   public ArrayList<Computer> getComputers() throws DAOException {
-    return (ArrayList<Computer>) this.jdbcTemplate.query("select * from computer  LEFT JOIN company on computer.company_id=company.id", new ComputerMapper());
+    return (ArrayList<Computer>) jdbcTemplate.query("select * from computer  LEFT JOIN company on computer.company_id=company.id", new ComputerMapper());
   }
 
   /**
@@ -59,7 +59,7 @@ public class ComputerDAO implements IComputerDAO {
    */
   @Override
   public Optional<Computer> getById(final long id) throws DAOException {
-    Computer comp = (Computer) this.jdbcTemplate.queryForObject("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id WHERE computer.id= ? ;", new Object[] { id }, new ComputerMapper());
+    final Computer comp = jdbcTemplate.queryForObject("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id WHERE computer.id= ? ;", new Object[] { id }, new ComputerMapper());
     if (comp == null) {
       throw new DAOException("Error: Wrong ID");
     } else {
@@ -76,9 +76,9 @@ public class ComputerDAO implements IComputerDAO {
    * @throws DAOException if wrong id
    */
   @Override
-  public Optional<Computer> addComputer(Computer computer) throws DAOException {
+  public Optional<Computer> addComputer(final Computer computer) throws DAOException {
 //TODO wrong id on log
-    int status = jdbcTemplate.update("INSERT INTO computer (name,introduced,company_id)  values  (  ?,?,? );", computer.getName(), computer.getIntroduced(), computer.getCompany().getId());
+    final int status = jdbcTemplate.update("INSERT INTO computer (name,introduced,company_id)  values  (  ?,?,? );", computer.getName(), computer.getIntroduced(), computer.getCompany().getId());
     log.info("computer added" + computer);
     //TODO status
     if (status == 200) {
@@ -96,8 +96,7 @@ public class ComputerDAO implements IComputerDAO {
   @Override
   public void deleteComputer(final long id) throws DAOException {
     getById(id); // check if the id is not wrong
-
-    int status = jdbcTemplate.update("DELETE FROM computer WHERE id = ?;", false);
+    final int status = jdbcTemplate.update("DELETE FROM computer WHERE id = ?;", false);
     //TODO status
     if (status == 200) {
       throw new DAOException("Error " + status);
@@ -114,7 +113,7 @@ public class ComputerDAO implements IComputerDAO {
    */
   @Override
   public ArrayList<Computer> getComputersPage(final long offset, final int limit) throws DAOException {
-    return (ArrayList<Computer>) this.jdbcTemplate.query("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id LIMIT ? OFFSET ? ;", new Object[] { limit, offset }, new ComputerMapper());
+    return (ArrayList<Computer>) jdbcTemplate.query("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id LIMIT ? OFFSET ? ;", new Object[] { limit, offset }, new ComputerMapper());
   }
 
   /**
@@ -125,7 +124,7 @@ public class ComputerDAO implements IComputerDAO {
    */
   @Override
   public int getNumberInstances() throws DAOException {
-    return this.jdbcTemplate.queryForObject("Select count(*) from computer;", Integer.class);
+    return jdbcTemplate.queryForObject("Select count(*) from computer;", Integer.class);
   }
 
   /**
@@ -136,28 +135,31 @@ public class ComputerDAO implements IComputerDAO {
    * @return the array list
    * @throws DAOException
    */
-  public ArrayList<Computer> filter(String string, final long offset, final int limit) throws DAOException {
-    String filtre="%"+string+"%";
-  
-    return (ArrayList<Computer>) this.jdbcTemplate.query("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id  WHERE computer.name LIKE ?  ;", new Object[] {filtre }, new ComputerMapper());
+  @Override
+  public ArrayList<Computer> filter(final String string, final long offset, final int limit) throws DAOException {
+    final String filtre = "%" + string + "%";
+    return (ArrayList<Computer>) jdbcTemplate.query("SELECT * FROM computer  LEFT JOIN company on computer.company_id=company.id  WHERE computer.name LIKE ?  ;", new Object[] { filtre }, new ComputerMapper());
   }
 
   @Override
-  public void updateComputer(Computer computer) throws DAOException {
+  public void updateComputer(final Computer computer) throws DAOException {
     if (getById(computer.getId()).isPresent()) {
-      this.jdbcTemplate.update("UPDATE computer SET name = ?, introduced= ? , company_id=? WHERE id = ? ", computer.getName(), computer.getIntroduced().toString(), computer.getCompany().getId(), computer.getId());
+      jdbcTemplate.update("UPDATE computer SET name = ?, introduced= ? , company_id=? WHERE id = ? ;", computer.getName(), computer.getIntroduced(), computer.getCompany().getId(), computer.getId());
     }
   }
 
   final class ComputerMapper implements RowMapper<Computer> {
 
-    public Computer mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    @Override
+    public Computer mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
       final Computer computer = new Computer.ComputerBuilder(resultSet.getString("name")).build();
       computer.setId(resultSet.getLong("id"));
       if (resultSet.getString("introduced") != null) {
         if (!resultSet.getString("introduced").contains("0000-00-00")) {
           computer.setIntroduced(LocalDate.parse(((resultSet.getString("introduced").substring(0, 10)))));
         }
+      } else {
+        computer.setIntroduced(null);
       }
       if (resultSet.getString("company.name") != null) {
         computer.setCompany(new Company(resultSet.getLong("company.id"), resultSet.getString("company.name")));

@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.dto;
+package com.excilys.formation.java.computerdatabase.ui.dto;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class Pages {
     return ens;
   }
 
-  public void setEns(ArrayList<ArrayList<ComputerDTO>> ens) {
+  public void setEns(final ArrayList<ArrayList<ComputerDTO>> ens) {
     this.ens = ens;
   }
 
@@ -33,7 +33,7 @@ public class Pages {
    * Sets the current page.
    * @param currentPage the new current page
    */
-  public void setCurrentPage(int currentPage) {
+  public void setCurrentPage(final int currentPage) {
     this.currentPage = currentPage;
   }
 
@@ -44,7 +44,7 @@ public class Pages {
    * Sets the page max size.
    * @param max the new page max size
    */
-  public void setPageMaxSize(int max) {
+  public void setPageMaxSize(final int max) {
     pageMaxSize = max;
   }
 
@@ -61,7 +61,7 @@ public class Pages {
    * @param entree the entree
    * @param max the max
    */
-  public Pages(final ArrayList<ComputerDTO> entree, int max) {
+  public Pages(final ArrayList<ComputerDTO> entree, final int max) {
     int i = 0;
     currentPage = 0;
     pageMaxSize = max;
@@ -79,7 +79,7 @@ public class Pages {
    * Instantiates a new pages.
    * @param computersPage the computers page
    */
-  public Pages(ArrayList<ComputerDTO> computersPage) {
+  public Pages(final ArrayList<ComputerDTO> computersPage) {
     currentPage = 0;
     //pageMaxSize = computersPage.size() + 1;
     ens.add(computersPage);
@@ -90,7 +90,7 @@ public class Pages {
    * @param id the id
    * @return the array list
    */
-  public ArrayList<ComputerDTO> currentPage(int id) {
+  public ArrayList<ComputerDTO> currentPage(final int id) {
     currentPage = id;
     return ens.get(currentPage);
   }
@@ -108,7 +108,7 @@ public class Pages {
    * @param computersPage the computers page
    * @return the array list
    */
-  public ArrayList<ComputerDTO> nextPage(ArrayList<ComputerDTO> computersPage) {
+  public ArrayList<ComputerDTO> nextPage(final ArrayList<ComputerDTO> computersPage) {
     currentPage++;
     ens.add(currentPage, computersPage);
     return currentPage();
@@ -119,7 +119,7 @@ public class Pages {
    * @param computersPage the computers page
    * @return the array list
    */
-  public ArrayList<ComputerDTO> previousPage(ArrayList<ComputerDTO> computersPage) {
+  public ArrayList<ComputerDTO> previousPage(final ArrayList<ComputerDTO> computersPage) {
     currentPage--;
     ens.add(currentPage, computersPage);
     return currentPage();

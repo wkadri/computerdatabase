@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.dto;
+package com.excilys.formation.java.computerdatabase.ui.dto;
 
 import java.io.Serializable;
 
@@ -41,7 +41,7 @@ public class CompanyDTO implements Serializable {
    * @param id the id
    * @param name the name
    */
-  public CompanyDTO(long id, String name) {
+  public CompanyDTO(final long id, final String name) {
     this.id = id;
     this.name = name;
   }
@@ -50,8 +50,8 @@ public class CompanyDTO implements Serializable {
    * Instantiates a new company DTO.
    * @param companyID the company ID
    */
-  public CompanyDTO(int companyID) {
-    this.id = companyID;
+  public CompanyDTO(final int companyID) {
+    id = companyID;
   }
 
   /**

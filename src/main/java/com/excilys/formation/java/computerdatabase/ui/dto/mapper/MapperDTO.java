@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.mapper;
+package com.excilys.formation.java.computerdatabase.ui.dto.mapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
-import com.excilys.formation.java.computerdatabase.dto.CompanyDTO;
-import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.ui.dto.CompanyDTO;
+import com.excilys.formation.java.computerdatabase.ui.dto.ComputerDTO;
 
 /**
  * The Class MapperDTO.
@@ -53,14 +53,14 @@ public class MapperDTO {
     if (computerDTO.getId() != 0) {
       computer.setId(computerDTO.getId());
     }
-    if (computerDTO.getIntroduced()!=null && !computerDTO.getIntroduced().isEmpty()) {
+    if (computerDTO.getIntroduced() != null && !computerDTO.getIntroduced().isEmpty()) {
       computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
     }
     //TODO a refaire
-    if (computerDTO.getIntroduced()!=null && computerDTO.getDiscontinued()!=null && !computerDTO.getDiscontinued().isEmpty() && !computerDTO.getIntroduced().isEmpty()) {
+    if (computerDTO.getIntroduced() != null && computerDTO.getDiscontinued() != null && !computerDTO.getDiscontinued().isEmpty() && !computerDTO.getIntroduced().isEmpty()) {
       computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
     }
-    if (computerDTO.getIntroduced()!=null && computerDTO.getDiscontinued()!=null &&!computerDTO.getIntroduced().isEmpty() && !computerDTO.getDiscontinued().isEmpty()) {
+    if (computerDTO.getIntroduced() != null && computerDTO.getDiscontinued() != null && !computerDTO.getIntroduced().isEmpty() && !computerDTO.getDiscontinued().isEmpty()) {
       //Si introduced null et discontinued pas null, computer a introduced=discontinued
       computer.setIntroduced(LocalDate.parse(computerDTO.getDiscontinued()));
       computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
@@ -77,8 +77,8 @@ public class MapperDTO {
    * @return the array list
    */
   public static ArrayList<ComputerDTO> map(final List<Computer> computers) {
-    ArrayList<ComputerDTO> listComputer = new ArrayList<>();
-    for (Computer comp : computers) {
+    final ArrayList<ComputerDTO> listComputer = new ArrayList<>();
+    for (final Computer comp : computers) {
       listComputer.add(MapperDTO.map(comp));
     }
     return listComputer;

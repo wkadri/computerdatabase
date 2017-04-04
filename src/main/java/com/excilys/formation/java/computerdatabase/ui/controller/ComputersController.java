@@ -1,60 +1,44 @@
 package com.excilys.formation.java.computerdatabase.ui.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.excilys.formation.java.computerdatabase.AppContext;
-import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
-import com.excilys.formation.java.computerdatabase.dto.Pages;
-import com.excilys.formation.java.computerdatabase.mapper.MapperDTO;
-import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
+import com.excilys.formation.java.computerdatabase.ui.dto.Pages;
+import com.excilys.formation.java.computerdatabase.ui.dto.mapper.MapperDTO;
 
 /**
  * Servlet implementation.
  */
 @Controller
 @RequestMapping("/computers")
-public class ComputersServlet {
-  /** The Constant serialVersionUID. */
-  private static final long serialVersionUID = 1L;
+public class ComputersController {
   /** The service. */
   @Autowired
   private ComputerService service;
   /** The pages. */
-  private Pages pages = new Pages(new ArrayList<>());
-  private static Logger log = LoggerFactory.getLogger(ComputersServlet.class);
+  private final Pages pages = new Pages(new ArrayList<>());
+  private static Logger log = LoggerFactory.getLogger(ComputersController.class);
 
   /**
    * Do get.
    * @param req the req
    * @param res the res
-   * @throws ServletException the servlet exception
-   * @throws IOException Signals that an I/O exception has occurred.
-   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
-   *      javax.servlet.http.HttpServletResponse)
    */
   @RequestMapping(method = RequestMethod.GET)
-  public String get(ModelMap model, @RequestParam(value = "id", defaultValue = "1") int id, @RequestParam(value = "nb", defaultValue = "10") int nb, @RequestParam(value = "action", defaultValue = "") String action, @RequestParam(value = "search", defaultValue = "") String search, final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
+  public String get(final ModelMap model, @RequestParam(value = "id", defaultValue = "1")
+  final int id, @RequestParam(value = "nb", defaultValue = "10")
+  final int nb, @RequestParam(value = "action", defaultValue = "")
+  final String action, @RequestParam(value = "search", defaultValue = "")
+  final String search) {
     pagination(id, nb, model);
     if (action != null && action.contains("Filter")) {
       filter(search, model);
@@ -104,13 +88,13 @@ public class ComputersServlet {
    * @param nb the nb
    * @param req the req
    */
-  private void pagination(int id, int nb, ModelMap model) {
-    int nbrpage = (int) (service.getNumberInstances() / nb) + 1;
+  private void pagination(int id, final int nb, final ModelMap model) {
+    final int nbrpage = service.getNumberInstances() / nb + 1;
     if (0 < id && id <= nbrpage) {
-      pages.getEns().add(MapperDTO.map(service.getComputersPage((long) (id * nb - nb), nb)));
+      pages.getEns().add(MapperDTO.map(service.getComputersPage(id * nb - nb, nb)));
     } else if (id <= 0) {
       id = 1;
-      pages.getEns().set(0, (ArrayList<ComputerDTO>) MapperDTO.map(service.getComputersPage((long) (id * nb - nb), nb)));
+      pages.getEns().set(0, MapperDTO.map(service.getComputersPage(id * nb - nb, nb)));
     } else {
       id = id % nbrpage;
     }
@@ -118,7 +102,7 @@ public class ComputersServlet {
     model.addAttribute("precedent", id - 1);
     model.addAttribute("nb", nb);
     model.addAttribute("id", id);
-    ArrayList<Integer> numPage = new ArrayList<>();
+    final ArrayList<Integer> numPage = new ArrayList<>();
     for (int i = -3; i < 3; i++) {
       numPage.add(id % pages.getEns().size() + i);
     }
@@ -131,7 +115,7 @@ public class ComputersServlet {
    * @param search
    * @param model the req
    */
-  private void filter(String search, ModelMap model) {
+  private void filter(final String search, final ModelMap model) {
     model.addAttribute("allComputers", service.filter(search, 0, 200));
     model.addAttribute("nbInstances", service.filter(search, 0, 200).size());
   }

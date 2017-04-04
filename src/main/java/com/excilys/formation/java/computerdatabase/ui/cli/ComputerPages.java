@@ -3,8 +3,7 @@ package com.excilys.formation.java.computerdatabase.ui.cli;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.excilys.formation.java.computerdatabase.domain.Computer;
-import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.ui.dto.ComputerDTO;
 
 /**
  * Computer Page.
