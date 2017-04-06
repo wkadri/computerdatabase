@@ -2,6 +2,8 @@ package com.excilys.formation.java.computerdatabase.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 
 /**
@@ -25,8 +27,9 @@ public interface IComputerService {
   /**
    * Creates the computer.
    * @param computer the computer
+   * @return
    */
-  void createComputer(Computer computer);
+  Computer createComputer(Computer computer);
 
   /**
    * Delete computer.
@@ -40,7 +43,7 @@ public interface IComputerService {
    * @param nb the nb
    * @return the computers page
    */
-  List<Computer> getComputersPage(long l, int nb);
+  Page<Computer> getComputersPage(long l, int nb);
 
   /**
    * Gets the number instances.
@@ -57,6 +60,6 @@ public interface IComputerService {
    */
   List<Computer> filter(String filtre, long offset, int limit);
 
-  void updateComputer(Computer computer);
+  Computer updateComputer(Computer computer);
 
 }

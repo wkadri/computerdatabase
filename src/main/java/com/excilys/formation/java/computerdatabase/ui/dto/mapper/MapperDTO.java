@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.ui.dto.CompanyDTO;
@@ -76,6 +78,14 @@ public class MapperDTO {
    * @param computers the computers
    * @return the array list
    */
+  public static ArrayList<ComputerDTO> map(final Page<Computer> computers) {
+    final ArrayList<ComputerDTO> listComputer = new ArrayList<>();
+    for (final Computer comp : computers) {
+      listComputer.add(MapperDTO.map(comp));
+    }
+    return listComputer;
+  }
+
   public static ArrayList<ComputerDTO> map(final List<Computer> computers) {
     final ArrayList<ComputerDTO> listComputer = new ArrayList<>();
     for (final Computer comp : computers) {

@@ -21,4 +21,6 @@ public interface ICompanyService {
    * @return the company name
    */
   String getCompanyName(int id);
+
+  public void deleteCompany(int id);
 }

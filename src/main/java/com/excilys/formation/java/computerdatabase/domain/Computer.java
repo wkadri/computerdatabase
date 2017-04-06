@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -14,6 +16,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "computer")
 public class Computer {
+
+  /** The id. */
+  @Id
+  private long id;
   /** The name. */
   @Column(name = "name")
   private String name;
@@ -27,7 +33,12 @@ public class Computer {
   private LocalDate discontinued;
 
   /** The company. */
+  @ManyToOne(targetEntity = Company.class)//Many company sur one computer
   private Company company;
+
+  public Computer() {
+    // TODO Auto-generated constructor stub
+  }
 
   /**
    * Instantiates a new computer.
@@ -54,10 +65,10 @@ public class Computer {
     private final String name;
 
     /** The introduced. */
-    private LocalDate introduced=null;
+    private LocalDate introduced = null;
 
     /** The discontinued. */
-    private LocalDate discontinued=null;
+    private LocalDate discontinued = null;
     /** The company. */
     private Company company;
 
@@ -66,7 +77,7 @@ public class Computer {
      * @param name the name
      */
     public ComputerBuilder(final String name) {
-      
+
       company = new Company(1, "Apple");//TODO default value to counter Nullpointerexception
       this.name = name;
     }
@@ -109,9 +120,6 @@ public class Computer {
       return new Computer(this);
     }
   }
-
-  /** The id. */
-  private long id;
 
   public long getId() {
     return id;

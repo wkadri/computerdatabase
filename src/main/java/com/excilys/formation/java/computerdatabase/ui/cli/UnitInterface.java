@@ -6,8 +6,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
-import com.excilys.formation.java.computerdatabase.dao.DAOException;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
@@ -24,6 +25,12 @@ public class UnitInterface {
   private CompanyService companyService;
   @Autowired
   private ComputerService computerService;
+
+  {   //ApplicationContext context = new AnnotationConfigApplicationContext(DAOUtils.class);
+    final AbstractApplicationContext context = new AnnotationConfigApplicationContext(ConsoleContext.class);
+    computerService = context.getBean(ComputerService.class);
+    companyService = context.getBean(CompanyService.class);
+  }
 
   /**
    * The main method.
@@ -98,7 +105,7 @@ public class UnitInterface {
     } while (true);
   }
 
-  public static void main(final String[] args) throws InterruptedException, DAOException {
+  public static void main(final String[] args) throws InterruptedException {
 
     final UnitInterface ui = new UnitInterface();
     ui.run();

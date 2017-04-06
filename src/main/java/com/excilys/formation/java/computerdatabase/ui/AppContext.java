@@ -12,7 +12,6 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-
 @ComponentScan(basePackages = { "com.excilys.formation.java.computerdatabase.ui.controller" })
 public class AppContext extends WebMvcConfigurerAdapter {
 

@@ -3,6 +3,9 @@ package com.excilys.formation.java.computerdatabase.ui.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
-import com.excilys.formation.java.computerdatabase.ui.dto.CompanyDTO;
 import com.excilys.formation.java.computerdatabase.ui.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.ui.dto.mapper.MapperDTO;
 
@@ -49,8 +51,7 @@ public class EditComputerController {
       model.addAttribute("companyID", computer.getCompany().getId());
     }
     model.addAttribute("companies", companyService.getCompanies());
-    model.addAttribute("computeur", computerDTO);
-
+    model.addAttribute("computer", computerDTO);
     return "editComputer";
   }
 
@@ -59,27 +60,19 @@ public class EditComputerController {
    * @param request the request
    * @param response the response
    * @return
+   * @return
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String postEdit(final ModelMap model, @RequestParam(value = "id", defaultValue = "0")
-  final int id, @RequestParam(value = "companyId", defaultValue = "1")
-  final int companyID, @RequestParam(value = "computerName", defaultValue = "")
-  final String name, @RequestParam(value = "introduced", defaultValue = "")
-  final String introduced, @RequestParam(value = "discontinued", defaultValue = "")
-  final String discontinued) {
-    //TODO
-    final ComputerDTO computerDTO = new ComputerDTO();
-    computerDTO.setId(id);
-    computerDTO.setName(name);
-    computerDTO.setIntroduced(introduced);
-    computerDTO.setDiscontinued(discontinued);
-    final CompanyDTO companyDTO = new CompanyDTO();
-    companyDTO.setId(companyID);
-    companyDTO.setName(companyService.getCompanyName(companyID));//TODO verif company
-    computerDTO.setCompany(companyDTO);
+  public String postComp(@Validated
+  @ModelAttribute("computer")
+  final ComputerDTO computerDTO, final BindingResult result, final ModelMap model) {
+    if (result.hasErrors()) {
+      return "error";
+    }
     final Computer computer = MapperDTO.map(computerDTO);
     serviceComputer.updateComputer(computer);
     return "redirect:computers";
+
   }
 
 }

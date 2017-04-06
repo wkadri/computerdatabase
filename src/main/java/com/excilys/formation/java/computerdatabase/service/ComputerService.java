@@ -3,14 +3,15 @@ package com.excilys.formation.java.computerdatabase.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.formation.java.computerdatabase.dao.DAOException;
-import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
+import com.excilys.formation.java.computerdatabase.dao.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 
 /**
@@ -20,8 +21,8 @@ import com.excilys.formation.java.computerdatabase.domain.Computer;
 @Service
 public class ComputerService implements IComputerService {
   /** Computer DAO. */
-  @Autowired
-  private ComputerDAO computerDAO;
+  @Resource
+  private IComputerDAO computerDAO;
   /** The log. */
   private final static Logger log = LoggerFactory.getLogger(ComputerService.class);
 
@@ -35,16 +36,9 @@ public class ComputerService implements IComputerService {
    */
   @Override
   public List<Computer> getComputers() {
-    ArrayList<Computer> computers = new ArrayList<>();
-    try {
-      computers = computerDAO.getComputers();
-      return computers;
-    } catch (final DAOException e) {
-      log.error("Can't update the computer-Reason:");
-      log.error(e.getMessage());
-    }
+    List<Computer> computers = new ArrayList<>();
+    computers = (List<Computer>) computerDAO.findAll();
     return computers;
-
   }
 
   /**
@@ -54,30 +48,20 @@ public class ComputerService implements IComputerService {
    */
   @Override
   public Computer describeComputerByID(final long id) {
-    Computer computer = null;
-    try {
-      computer = (computerDAO.getById(id)).get();
-      log.info(computer.toString());
-    } catch (final DAOException e) {
-      log.error("Computer not in the database - Reason:");
-      log.error(e.getMessage());
-    }
-    return computer;
+
+    return computerDAO.findOne(id);
   }
 
   /**
    * Creates the computer.
    * @param computer the computer
+   * @return
    */
   @Override
-  public void createComputer(final Computer computer) {
-    try {
-      computerDAO.addComputer(computer);
-      log.info("Computer " + computer + " added");
-    } catch (final DAOException e) {
-      log.error("Can't create the computer-Reason:");
-      log.error(e.getMessage());
-    }
+  public Computer createComputer(final Computer computer) {
+    log.info(computer + " added");
+    return computerDAO.save(computer);
+
   }
 
   /**
@@ -86,14 +70,8 @@ public class ComputerService implements IComputerService {
    */
   @Override
   public void deleteComputer(final long l) {
-    try {
-      computerDAO.deleteComputer(l);
-      log.info("Computer id " + l + " deleted");
-    } catch (final DAOException e) {
-      log.error("Can't delete the computer-Reason:");
-      log.error(e.getMessage());
-    }
-
+    final Computer comp = computerDAO.findOne(l);
+    computerDAO.delete(comp);
   }
 
   /**
@@ -102,15 +80,12 @@ public class ComputerService implements IComputerService {
    * @param nb the nb
    * @return the computers page
    */
+
   @Override
-  public ArrayList<Computer> getComputersPage(final long l, final int nb) {
-    ArrayList<Computer> computers = new ArrayList<>();
-    try {
-      computers = computerDAO.getComputersPage(l, nb);
-    } catch (final DAOException e) {
-      log.error("Can't get the computer page-Reason:");
-      log.error(e.getMessage());
-    }
+  public Page<Computer> getComputersPage(final long l, final int nb) {
+    final PageRequest page = new PageRequest((int) l, nb);
+    final Page<Computer> computers = computerDAO.findAll(page);
+
     return computers;
   }
 
@@ -120,14 +95,7 @@ public class ComputerService implements IComputerService {
    */
   @Override
   public int getNumberInstances() {
-    int size = 0;
-    try {
-      size = computerDAO.getNumberInstances();
-    } catch (final DAOException e) {
-      log.error("Can't update the computer-Reason:");
-      log.error(e.getMessage());
-    }
-    return size;
+    return (int) computerDAO.count();
   }
 
   /**
@@ -140,11 +108,7 @@ public class ComputerService implements IComputerService {
   @Override
   public List<Computer> filter(final String filtre, final long offset, final int limit) {
     ArrayList<Computer> computers = new ArrayList<>();
-    try {
-      computers = computerDAO.filter(filtre, offset, limit);
-    } catch (final DAOException e) {
-      log.error(e.getMessage());
-    }
+    computers = computerDAO.filter(filtre, offset, limit);
     return computers;
   }
 
@@ -153,22 +117,18 @@ public class ComputerService implements IComputerService {
    * @param computer the computer
    */
   @Override
-  public void updateComputer(final Computer computer) {
-    try {
-      computerDAO.updateComputer(computer);
-      log.info("Computer :" + computer + " modified");
-    } catch (final DAOException e) {
-      log.error("Can't update the computer-Reason:");
-      log.error(e.getMessage());
-    }
+  public Computer updateComputer(final Computer computer) {
+    computerDAO.save(computer);
+    return computer;
   }
 
   //TODO
-  @Transactional
+  //@Transactional
   public void deleteComputers(final int... ids) {
     for (final int id : ids) {
       deleteComputer(id);
     }
 
   }
+
 }

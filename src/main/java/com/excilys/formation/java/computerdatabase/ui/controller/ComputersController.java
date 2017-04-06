@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
-import com.excilys.formation.java.computerdatabase.ui.dto.Pages;
 import com.excilys.formation.java.computerdatabase.ui.dto.mapper.MapperDTO;
 
 /**
@@ -24,8 +23,6 @@ public class ComputersController {
   /** The service. */
   @Autowired
   private ComputerService service;
-  /** The pages. */
-  private final Pages pages = new Pages(new ArrayList<>());
   private static Logger log = LoggerFactory.getLogger(ComputersController.class);
 
   /**
@@ -44,7 +41,7 @@ public class ComputersController {
       filter(search, model);
     } else {
       model.addAttribute("nbInstances", service.getNumberInstances());
-      model.addAttribute("allComputers", pages.getEns().get(pages.getEns().size() - 1));
+      model.addAttribute("allComputers", MapperDTO.map(service.getComputersPage(id, nb)));
     }
     return "index";
   }
@@ -90,11 +87,8 @@ public class ComputersController {
    */
   private void pagination(int id, final int nb, final ModelMap model) {
     final int nbrpage = service.getNumberInstances() / nb + 1;
-    if (0 < id && id <= nbrpage) {
-      pages.getEns().add(MapperDTO.map(service.getComputersPage(id * nb - nb, nb)));
-    } else if (id <= 0) {
+    if (0 < id && id <= nbrpage) {} else if (id <= 0) {
       id = 1;
-      pages.getEns().set(0, MapperDTO.map(service.getComputersPage(id * nb - nb, nb)));
     } else {
       id = id % nbrpage;
     }
@@ -104,7 +98,7 @@ public class ComputersController {
     model.addAttribute("id", id);
     final ArrayList<Integer> numPage = new ArrayList<>();
     for (int i = -3; i < 3; i++) {
-      numPage.add(id % pages.getEns().size() + i);
+      numPage.add(id % nbrpage + i);
     }
     numPage.removeIf(t -> t < 0);
     model.addAttribute("allPages", numPage);
@@ -116,8 +110,10 @@ public class ComputersController {
    * @param model the req
    */
   private void filter(final String search, final ModelMap model) {
-    model.addAttribute("allComputers", service.filter(search, 0, 200));
-    model.addAttribute("nbInstances", service.filter(search, 0, 200).size());
+
+    //TODO offset limit pagination filter
+    model.addAttribute("allComputers", service.filter(search, 0, 1000));
+    model.addAttribute("nbInstances", service.filter(search, 0, 1000).size());
   }
 
 }

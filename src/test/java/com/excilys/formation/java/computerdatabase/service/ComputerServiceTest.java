@@ -2,13 +2,12 @@ package com.excilys.formation.java.computerdatabase.service;
 
 import java.time.LocalDate;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.excilys.formation.java.computerdatabase.dao.DAOException;
-import com.excilys.formation.java.computerdatabase.dao.mysql.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.domain.Company;
 import com.excilys.formation.java.computerdatabase.domain.Computer;
 
@@ -17,8 +16,9 @@ import com.excilys.formation.java.computerdatabase.domain.Computer;
  */
 public class ComputerServiceTest {
   /** The service. */
-  private final ComputerService service = new ComputerService();
-  ComputerDAO computerDAO = Mockito.mock(ComputerDAO.class);
+  @Autowired
+  private ComputerService service;
+  //IComputerDAO computerDAO = Mockito.mock(IComputerDAO.class);
   private Computer newComputer;
 
   /**
@@ -26,9 +26,11 @@ public class ComputerServiceTest {
    * @throws DAOException exception
    */
   @Before
-  public void mockInit() throws DAOException {
+  public void mockInit() {
     newComputer = new Computer.ComputerBuilder("MAC DO").introduced(LocalDate.parse("1991-10-10")).company(new Company(12)).build();
     // Mockito.when(computerDAO.addComputer("ordi", "", "")).thenReturn(Optional.of(new Computer.ComputerBuilder("ordi").build()));
+    System.out.println(service);
+    service.createComputer(newComputer);
   }
 
   /**
@@ -36,9 +38,9 @@ public class ComputerServiceTest {
    * @throws DAOException exception
    */
   @Test
-  public void createTest() throws DAOException {
+  public void createTest() {
     final int initSize = service.getComputers().size();
-    service.createComputer(newComputer);
+
     Assert.assertEquals(initSize + 1, service.getComputers().size());
   }
 
@@ -48,7 +50,7 @@ public class ComputerServiceTest {
    * @throws DAOException the DAO exception
    */
   @Test
-  public void deleteTest() throws NumberFormatException, DAOException {
+  public void deleteTest() throws NumberFormatException {
     final int initSize = service.getComputers().size();
     service.createComputer(newComputer);
     service.deleteComputer(service.getComputers().get(service.getComputers().size() - 1).getId());
@@ -60,7 +62,7 @@ public class ComputerServiceTest {
    * @throws DAOException the DAO exception
    */
   @Test
-  public void updateTest() throws DAOException {
+  public void updateTest() {
     final int id = 88; // or Integer.valueOf((int) (Math.random()*500)); but dirty for the db
     final Computer before = service.describeComputerByID(id);
     //service.updateComputer(id, "MacInTouch" + id, "1991-10-10", "12");
@@ -109,4 +111,7 @@ public class ComputerServiceTest {
   public void wrongTypeDateCreateTest() {
     //service.createComputer("oui", "oui");
   }
+
+  @After
+  public void fin() {}
 }

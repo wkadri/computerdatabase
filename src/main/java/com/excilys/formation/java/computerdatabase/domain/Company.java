@@ -1,10 +1,24 @@
 package com.excilys.formation.java.computerdatabase.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Business Class representing a company.
  * Class where the intelligence'll be implemented.
  */
+@Entity
+@Table(name = "company")
 public class Company {
+
+  /** The id. */
+  @Id
+  private long id;
+  /** The name. */
+  @Column(name = "name")
+  private String name;
 
   /**
    * Sets the id.
@@ -45,11 +59,6 @@ public class Company {
   public Company() {
 
   }
-
-  /** The id. */
-  private long id;
-  /** The name. */
-  private String name;
 
   /**
    * Gets the name.

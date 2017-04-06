@@ -3,6 +3,8 @@ package com.excilys.formation.java.computerdatabase.ui.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +38,7 @@ public class AddComputerController {
   @RequestMapping(method = RequestMethod.GET)
   public String getAdd(final ModelMap model) {
     model.addAttribute("companies", companyService.getCompanies());
+    model.addAttribute("computer");
     return "addComputer";
   }
 
@@ -45,25 +48,11 @@ public class AddComputerController {
    * @param response the response
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String postAdd(final ModelMap model, @RequestParam(value = "companyId", defaultValue = "0")
-  final int companyID, @RequestParam(value = "computerName", defaultValue = "")
-  final String name, @RequestParam(value = "introduced", defaultValue = "") String introduced, @RequestParam(value = "discontinued", defaultValue = "")
-  final String discontinued) {
-    if (introduced == "") {
-      introduced = null;
-    }
-    final ComputerDTO computerDto = new ComputerDTO();
-    computerDto.setName(name);
-    //TODO refactore
-    if (!introduced.isEmpty()) {
-      computerDto.setIntroduced(introduced);
-    }
-    //TODO changer les vérifs
-    if (!discontinued.isEmpty()) {
-      computerDto.setDiscontinued(discontinued);
-    }
-    computerDto.setCompany(new CompanyDTO(companyID, companyService.getCompanyName(companyID)));
-    serviceComputer.createComputer(MapperDTO.map(computerDto));
+  public String postAdd(@RequestParam(value = "companyId", defaultValue = "0")
+  final int companyID, @ModelAttribute("computer")
+  final ComputerDTO computerDTO, final BindingResult result, final ModelMap model) {
+    computerDTO.setCompany(new CompanyDTO(companyID, companyService.getCompanyName(companyID)));
+    serviceComputer.createComputer(MapperDTO.map(computerDTO));
     return "redirect:computers";
   }
 }

@@ -1,6 +1,6 @@
 package com.excilys.formation.java.computerdatabase.dao;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.excilys.formation.java.computerdatabase.domain.Company;
 
@@ -9,18 +9,6 @@ import com.excilys.formation.java.computerdatabase.domain.Company;
  * Allow to get the exhausted list of company.
  * @author Walid KADRI
  */
-public interface ICompanyDAO {
+public interface ICompanyDAO extends JpaRepository<Company, Long> {
 
-  /**
-   * Method to return the list of companies.
-   * @return the companies
-   */
-  List<Company> getCompanies();
-
-  /**
-   * Gets the company by ID.
-   * @param id the id
-   * @return the company by ID
-   */
-  Company getCompanyByID(int id);
 }
