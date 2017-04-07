@@ -1,0 +1,16 @@
+
+
+# Eclipse
+.classpath
+.project
+.settings/
+WebContent/
+
+# Maven
+log/
+target/
+/bin/
+
+#Divers
+Dockerfile
+docker-compose.yml
