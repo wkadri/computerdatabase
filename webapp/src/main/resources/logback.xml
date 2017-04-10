@@ -8,10 +8,12 @@
 		</layout>
 	</appender>
 	<!-- http://www.codingpedia.org/ama/how-to-log-in-spring-with-slf4j-and-logback/ -->
-	<logger name="org.springframework">
+	<logger name="org.springframework" additivity="false">
+    	    <level value="DEBUG" />
 		<appender-ref ref="STDOUT" />
 	</logger>
-		<logger name="org.hibernate">
+		<logger name="org.hibernate" additivity="false">
+    	    <level value="DEBUG" />
 		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="com.excilys.formation.java.computerdatabase">

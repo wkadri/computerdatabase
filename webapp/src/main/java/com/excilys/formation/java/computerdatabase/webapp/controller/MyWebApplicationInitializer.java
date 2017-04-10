@@ -1,6 +1,7 @@
 package com.excilys.formation.java.computerdatabase.webapp.controller;
 
 import javax.servlet.ServletContext;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
@@ -12,6 +13,7 @@ import com.excilys.formation.java.computerdatabase.persistence.HibernateConfigur
 import com.excilys.formation.java.computerdatabase.service.ServiceContext;
 import com.excilys.formation.java.computerdatabase.webapp.AppContext;
 
+
 public class MyWebApplicationInitializer implements WebApplicationInitializer {
 
   @Override
@@ -20,6 +22,7 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
     ctx.register(AppContext.class);
     ctx.register(HibernateConfiguration.class);
     ctx.register(ServiceContext.class);
+    ctx.register(SecurityConfig.class);
     ctx.setServletContext(container);
     final ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
     servlet.setLoadOnStartup(1);

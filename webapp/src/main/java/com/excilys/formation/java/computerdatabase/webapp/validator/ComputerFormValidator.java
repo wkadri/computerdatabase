@@ -26,7 +26,6 @@ public class ComputerFormValidator implements Validator {
 
     final ComputerDTO computer = (ComputerDTO) target;
     LOGGER.info("NotBeforeIntroduced.computerForm.discontinued");
-    System.out.println("ERROR");
     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "computerName", "NotEmpty.computerForm.name");
 
     final LocalDate introduced = LocalDate.parse(computer.getIntroduced());
