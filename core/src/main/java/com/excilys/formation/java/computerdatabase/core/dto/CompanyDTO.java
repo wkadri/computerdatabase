@@ -50,7 +50,7 @@ public class CompanyDTO implements Serializable {
    * Instantiates a new company DTO.
    * @param companyID the company ID
    */
-  public CompanyDTO(final int companyID) {
+  public CompanyDTO(final long companyID) {
     id = companyID;
   }
 

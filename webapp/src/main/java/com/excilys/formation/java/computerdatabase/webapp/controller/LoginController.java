@@ -13,20 +13,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+//TODO
 @Controller
-@RequestMapping(value = "/login")
+@RequestMapping(value = "/")
 public class LoginController {
 
-  
-  @Controller
-  @RequestMapping("/")
-  public class DefaultController {
       
       @GetMapping
       public ModelAndView goToDashboard(){
-          return new ModelAndView("redirect:/computers");
+          return new ModelAndView("login");
       }
       
       
@@ -86,4 +84,4 @@ public class LoginController {
       }
       
   }
-}
+

@@ -20,7 +20,9 @@ public interface ICompanyService {
    * @param id the id
    * @return the company name
    */
-  String getCompanyName(int id);
+ 
+  String getCompanyName(long id);
+  void deleteCompany(Long id);
 
-  public void deleteCompany(int id);
+  
 }

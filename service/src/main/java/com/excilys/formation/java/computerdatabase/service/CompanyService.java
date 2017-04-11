@@ -50,8 +50,8 @@ public class CompanyService implements ICompanyService {
    * @return the company name
    */
   @Override
-  public String getCompanyName(final int id) {
-    final Company company = companyDAO.findOne((long) id);
+  public String getCompanyName(final long id) {
+    final Company company = companyDAO.findOne( id);
     log.info(company.toString());
     return company.getName();
   }
@@ -59,12 +59,17 @@ public class CompanyService implements ICompanyService {
 //TODO à refacto
   @Override
   @Transactional
-  public void deleteCompany(final int id) {
+  public void deleteCompany(final Long id) {
     for (final Computer comp : computerService.getComputers()) {
       if (comp.getCompany() != null && comp.getCompany().getId() == id) {
         computerService.deleteComputer(comp.getId());
       }
     }
-    companyDAO.delete((long) id);
+    companyDAO.delete(id);
+  }
+
+  public Company getCompany(Long id) {
+
+    return companyDAO.findOne(id);
   }
 }

@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
-    http.authorizeRequests().antMatchers("/add-computer","/edit-computer")
+    http.authorizeRequests().antMatchers("/computers","/add-computer","/edit-computer")
     .access("hasRole('ROLE_ADMIN')")
     .and().formLogin().loginPage("/login")
     .usernameParameter("username").passwordParameter("password")

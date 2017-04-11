@@ -11,6 +11,7 @@
     <module>persistence</module>
     <module>service</module>
     <module>console</module>
+<module>webservice</module>
     <module>webapp</module>
   </modules>
   <!-- Properties -->
@@ -31,8 +32,10 @@
     <mysql-version>6.0.2</mysql-version>
     <spring-jpa-version>1.11.1.RELEASE</spring-jpa-version>
     <project.version>2.0.0-RELEASE</project.version>
+    	<jackson.version>2.7.5</jackson.version>
   </properties>
-  <!-- Dependencies  <dependencyManagement>-->
+  <!-- Dependencies  -->
+  <dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>mysql</groupId>
@@ -81,6 +84,11 @@
       <artifactId>maven-taglib-plugin</artifactId>
       <version>1.4.2</version>
     </dependency>
+    		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
     <!-- Spring -->
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -236,6 +244,7 @@
       <version>1.6</version>
     </dependency>
   </dependencies>
+  </dependencyManagement>
   <build>
     <plugins>
       <!--  Compilateur JDK Java -->
