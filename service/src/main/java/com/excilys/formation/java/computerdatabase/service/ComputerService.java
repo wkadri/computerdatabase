@@ -10,9 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.formation.java.computerdatabase.persistence.IComputerDAO;
 import com.excilys.formation.java.computerdatabase.core.Computer;
+import com.excilys.formation.java.computerdatabase.persistence.IComputerDAO;
 
 /**
  * The Class ComputerService.
@@ -123,7 +124,7 @@ public class ComputerService implements IComputerService {
   }
 
   //TODO
-  //@Transactional
+  @Transactional
   public void deleteComputers(final int... ids) {
     for (final int id : ids) {
       deleteComputer(id);

@@ -15,6 +15,9 @@ import com.excilys.formation.java.computerdatabase.core.dto.mapper.MapperDTO;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
+
+
+
 /**
  * The Class UnitInterface.
  */
@@ -25,6 +28,8 @@ public class UnitInterface {
   private CompanyService companyService;
   @Autowired
   private ComputerService computerService;
+  
+  
 
   {   //ApplicationContext context = new AnnotationConfigApplicationContext(DAOUtils.class);
     final AbstractApplicationContext context = new AnnotationConfigApplicationContext(ConsoleContext.class);
