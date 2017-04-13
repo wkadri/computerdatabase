@@ -33,7 +33,6 @@ public class ComputerRESTController {
     if (computer == null) {
       return new ResponseEntity<Computer>(HttpStatus.NOT_FOUND);
     }
-
     return new ResponseEntity<Computer>(computer, HttpStatus.OK);
   }
 
@@ -49,21 +48,16 @@ public class ComputerRESTController {
 
   @PostMapping(value = "/computers")
   public ResponseEntity<Computer> createCustomer(@RequestBody Computer computer) {
-
     computerService.createComputer(computer);
-
     return new ResponseEntity<Computer>(computer, HttpStatus.OK);
   }
 
   @DeleteMapping("/computers/{id}")
   public ResponseEntity<Computer> deleteCustomer(@PathVariable Long id) {
-
     if (null == computerService.describeComputerByID(id)) {
       return new ResponseEntity<Computer>(HttpStatus.NOT_FOUND);
     }
     computerService.deleteComputer(id);
     return new ResponseEntity<Computer>(HttpStatus.OK);
-
   }
-
 }

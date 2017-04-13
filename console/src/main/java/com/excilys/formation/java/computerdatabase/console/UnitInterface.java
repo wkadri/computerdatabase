@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.client.Entity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -29,12 +36,16 @@ public class UnitInterface {
   @Autowired
   private ComputerService computerService;
   
+  private Client client = ClientBuilder.newClient();
+  private WebTarget target = client.target("http://localhost:8080").path("webservice").path("computers");
+  
   
 
   {   //ApplicationContext context = new AnnotationConfigApplicationContext(DAOUtils.class);
     final AbstractApplicationContext context = new AnnotationConfigApplicationContext(ConsoleContext.class);
     computerService = context.getBean(ComputerService.class);
     companyService = context.getBean(CompanyService.class);
+    
   }
 
   /**
@@ -63,6 +74,7 @@ public class UnitInterface {
         ArrayList<ComputerDTO> computersDTO;
         switch (i) {
           case 1:
+    
             computersDTO = MapperDTO.map(computerService.getComputers());
             final ComputerPages pages = new ComputerPages(computersDTO, sc);
             break;
@@ -72,7 +84,8 @@ public class UnitInterface {
           case 3:
             System.out.println("Saisissez l'id de l'ordinateur");
             id = sc.nextInt();
-            computerService.describeComputerByID(id);
+            System.out.println(target.path("count").request(MediaType.APPLICATION_JSON).get());
+            System.out.println(target.path(""+id).request(MediaType.APPLICATION_JSON).get(Computer.class));
             break;
           case 4:
             System.out.println("Saisissez le nom du nouvel ordinateur");
